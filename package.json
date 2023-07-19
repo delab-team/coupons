@@ -2,6 +2,7 @@
   "name": "wallet",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://delab-team.github.io/coupons",
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
