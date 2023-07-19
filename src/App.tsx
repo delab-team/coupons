@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Address, TonClient } from 'ton';
 import { DeLabModal, DeLabButton, DeLabConnect } from '@delab-team/connect';
 
 import {
@@ -31,15 +32,24 @@ export const App: FC<AppProps> = ({}) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [address, setAddress] = useState<DeLabAddress>(undefined);
   const [network, setNetwork] = useState<DeLabNetwork>('testnet');
+  const [balance, setBalance] = useState<string | undefined>(undefined);
+  console.log('🚀 ~ file: App.tsx:36 ~ balance:', balance);
   const [typeConnect, setTypeConnect] = useState<DeLabTypeConnect>(undefined);
 
   function listenDeLab() {
-    DeLabConnector.on('connect', (data: DeLabEvent) => {
+    DeLabConnector.on('connect', async (data: DeLabEvent) => {
       setIsConnected(true);
       const connectConfig: DeLabConnecting = data.data;
       setAddress(connectConfig.address);
       setTypeConnect(connectConfig.typeConnect);
       setNetwork(connectConfig.network);
+
+      if (connectConfig.address) {
+        const client = new TonClient({ endpoint: 'https://testnet.tonhubapi.com/jsonRPC' });
+        const bl = await client.getBalance(Address.parse(connectConfig.address));
+
+        setBalance(bl.toString());
+      }
     });
     DeLabConnector.on('disconnect', () => {
       setIsConnected(false);
@@ -94,7 +104,7 @@ export const App: FC<AppProps> = ({}) => {
       <Routes>
         <Route element={<Layout />}>
           <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage />} />
-          <Route path={ROUTES.CREATE_CHECK} element={<CreateCheckPage />} />
+          <Route path={ROUTES.CREATE_CHECK} element={<CreateCheckPage balance={balance} />} />
           <Route path={ROUTES.QR_SCANNER} element={<QrScannerPage />} />
           <Route
             path={ROUTES.SETTINGS}

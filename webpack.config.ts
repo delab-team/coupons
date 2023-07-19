@@ -20,6 +20,9 @@ const config: Configuration = {
             'Access-Control-Allow-Methods': '*'
         },
         historyApiFallback: true,
+        client: {
+            overlay: false,
+        }
     },
     module: {
         rules: [

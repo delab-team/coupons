@@ -1,12 +1,16 @@
-import { FC, useState, FormEvent } from 'react';
+import { FC, useState, FormEvent, useEffect } from 'react';
 
 import { MainTitle } from '../../components/main-title';
 import { Select } from '../../components/ui/select';
 import { Button } from '../../components/ui/button';
 
 import s from './create-check-page.module.scss';
+import TokenPriceHook from '../../hooks/token-price-hook';
+import { fixAmount } from '../../utils/fix-amount';
 
-interface CreateCheckPageProps {}
+interface CreateCheckPageProps {
+  balance: string | undefined;
+}
 
 interface FormValues {
   typeCheck: string;
@@ -15,7 +19,7 @@ interface FormValues {
   address: string;
 }
 
-export const CreateCheckPage: FC<CreateCheckPageProps> = ({}) => {
+export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance }) => {
   const [values, setValues] = useState<FormValues>({
     typeCheck: '',
     amount: '',
@@ -60,7 +64,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({}) => {
             value={values.amount}
             onChange={(e) => setValues({ ...values, amount: e.target.value })}
           />
-          <div className={s.formSubtext}>balance: 0.358915035 TON (0.5$)</div>
+          <div className={s.formSubtext}>balance: {fixAmount(balance ?? '0')} TON ({balance ? <TokenPriceHook tokenAmount={Number(fixAmount(balance))} /> : 0})</div>
         </div>
         <div className={s.formBlock}>
           <label className={s.formLabel}>Set a password</label>
