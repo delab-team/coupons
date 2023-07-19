@@ -1,0 +1,26 @@
+.headerActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(100, 98, 98, 0.65);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  flex: 1 1 auto;
+}
+
+.headerTitle {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.51);
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+}
+
+.checkList {
+  overflow-y: auto;
+  height: calc(69vh - 67px);
+}

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import './button.scss';
 
-type ButtonVariant = 'small-button' | 'action-button' | 'primary-button' | 'black-button';
+type ButtonVariant = 'small-button' | 'action-button' | 'primary-button' | 'black-button' | 'white-button';
 
 interface ButtonProps
   extends React.DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
@@ -47,6 +47,9 @@ export const Button: FC<ButtonProps> = ({
     {
       blackButton: variant === 'black-button',
     },
+    {
+      whiteButton: variant === 'white-button'
+    }
   );
 
   return (

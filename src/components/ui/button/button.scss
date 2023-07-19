@@ -5,6 +5,7 @@
   transition: all 0.3s ease 0s;
   color: #fff;
   background: transparent;
+  cursor: pointer;
 }
 
 .smallButton {
@@ -45,8 +46,18 @@
 
 .primaryButton {
   width: 100%;
-  padding: .875rem .3125rem;
+  padding: 0.875rem 0.3125rem;
   font-size: 1.125rem;
-  border-radius: .625rem;
-  border: .125rem solid #1c1c1c;
+  border-radius: 0.625rem;
+  border: 0.125rem solid #1c1c1c;
+}
+
+.whiteButton {
+  font-size: 1.1325rem;
+  background: #ffffff;
+  color: #000;
+  width: 100%;
+  min-height: 3.5rem;
+  border-radius: 1.25rem;
+  font-weight: 500;
 }

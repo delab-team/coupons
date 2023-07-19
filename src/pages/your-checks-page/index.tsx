@@ -6,10 +6,11 @@ import { CheckCard } from '../../components/check-card';
 import { Check } from '../../components/check';
 import { Multichecks } from '../../components/multichecks';
 
+import { ROUTES } from '../../utils/router';
+
 import PLUS from '../../assets/images/your-checks/plus.svg';
 
-import s from './your-checks.module.scss';
-import { ROUTES } from '../../utils/router';
+import s from './your-checks-page.module.scss';
 
 interface YourChecksPageProps {}
 
@@ -34,7 +35,7 @@ const data = [
     notifications: 0,
     sum: 'Sum: 10 TON (17$)',
     type: 'check',
-  }
+  },
 ];
 
 export const YourChecksPage: FC<YourChecksPageProps> = ({}) => {
@@ -61,7 +62,11 @@ export const YourChecksPage: FC<YourChecksPageProps> = ({}) => {
       <div className="container">
         <div className={s.headerActions}>
           <h1 className={s.headerTitle}>Create Check</h1>
-          <Button variant="small-button" startIcon={PLUS} onClick={() => navigate(ROUTES.CREATE_CHECK)} />
+          <Button
+            variant="small-button"
+            startIcon={PLUS}
+            onClick={() => navigate(ROUTES.CREATE_CHECK)}
+          />
         </div>
         <h2 className={s.subtitle}>Your checks</h2>
         <ul className={s.checkList}>

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { DeLabConnect } from '@delab-team/connect';
 
 import { MainTitle } from '../../components/main-title';
 import { Link } from '../../components/link';
@@ -10,9 +11,12 @@ import LogOut from '../../assets/images/settings/log-out.svg';
 
 import s from './settings-page.module.scss';
 
-interface SettingsPageProps {}
+interface SettingsPageProps {
+  DeLabConnector: DeLabConnect;
+  isConnected: boolean;
+}
 
-export const SettingsPage: FC<SettingsPageProps> = ({}) => {
+export const SettingsPage: FC<SettingsPageProps> = ({ DeLabConnector, isConnected }) => {
   return (
     <section className={s.settings}>
       <MainTitle title="Settings" />
@@ -23,13 +27,16 @@ export const SettingsPage: FC<SettingsPageProps> = ({}) => {
           iconAlt="Telegram Logo"
           text="Telegram"
         />
-        <Link
-          href="https://github.com/"
-          icon={GithubLogo}
-          iconAlt="Github Logo"
-          text="Github"
-        />
-        <Button variant="black-button" endIcon={LogOut}>Sign out</Button>
+        <Link href="https://github.com/" icon={GithubLogo} iconAlt="Github Logo" text="Github" />
+        {isConnected && (
+          <Button
+            variant="black-button"
+            endIcon={LogOut}
+            onClick={() => DeLabConnector.disconnect()}
+          >
+            Sign out
+          </Button>
+        )}
       </div>
 
       <div className={s.settingsVersion}>v. 1.0</div>

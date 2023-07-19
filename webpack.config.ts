@@ -13,12 +13,13 @@ const config: Configuration = {
     devServer: {
         static: { directory: path.join(__dirname, 'public') },
         compress: true,
-        https: false,
+        https: true,
         port: 8080,
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': '*'
-        }
+        },
+        historyApiFallback: true,
     },
     module: {
         rules: [
@@ -46,7 +47,7 @@ const config: Configuration = {
                   }
                 }
               ]
-            }
+            },
         ]
     },
     ignoreWarnings: [/Failed to parse source map/],
