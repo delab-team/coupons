@@ -1,0 +1,57 @@
+.form {
+  &Label {
+    font-size: 1.125rem;
+    margin-bottom: 1.25rem;
+  }
+  &Block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+  }
+  &Input {
+    font-size: 1.125rem;
+    padding: 0.875rem 1.25rem;
+    border-radius: 0.625rem;
+    background: #1c1c1c;
+    color: #fff;
+    &::placeholder {
+      color: #4b4b4b;
+    }
+  }
+  &Subtext {
+    font-size: 0.75rem;
+    margin-top: 0.9375rem;
+    color: #999;
+  }
+  &Select {
+    &Block {
+      position: relative;
+      display: inline-block;
+    }
+    &Arrow {
+      position: absolute;
+      top: 50%;
+      right: .75rem;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+  }
+  &Option {
+    padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+    background: #1c1c1c;
+    &:hover {
+      background-color: #f2f2f2;
+      outline: none;
+    }
+    &:checked {
+      background-color: #e1f5fe;
+      font-weight: bold;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:checked::selection {
+      background-color: transparent;
+    }
+  }
+}

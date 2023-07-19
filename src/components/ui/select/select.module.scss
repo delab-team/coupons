@@ -1,0 +1,57 @@
+.customSelect {
+  z-index: 2;
+  color: #fff;
+  position: relative;
+  &Active {
+    background: #1c1c1c;
+    padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+    font-size: 1.125rem;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &Chevron {
+    transition: rotate 1s ease 0s;
+  }
+}
+
+.selectList {
+  position: absolute;
+  width: 100%;
+  margin-top: -0.575rem;
+  background: #1c1c1c;
+  padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+  border-radius: 0 0 0.3125rem 0.3125rem;
+}
+
+.selectItem {
+  padding-bottom: 0.3125rem;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.chevronRotate {
+  animation: rotateChevron 0.5s ease-in-out forwards;
+}
+
+.chevronNoRotate {
+  animation: noRotate 1s ease-in-out;
+}
+
+@keyframes rotateChevron {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes noRotate {
+  100% {
+    transform: rotate(0);
+  }
+}

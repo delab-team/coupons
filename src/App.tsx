@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-function App() {
+import { YourChecksPage } from './pages/your-checks-page';
+import { SettingsPage } from './pages/settings-page';
+import { CreateCheckPage } from './pages/create-check-page';
+import { QrScannerPage } from './pages/qr-scanner';
+
+import { Layout } from './layout';
+
+import { ROUTES } from './utils/router';
+
+interface AppProps {}
+
+export const App: FC<AppProps> = ({}) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage />} />
+          <Route path={ROUTES.CREATE_CHECK} element={<CreateCheckPage />} />
+          <Route path={ROUTES.QR_SCANNER} element={<QrScannerPage />} />
+          <Route path={ROUTES.SETTINGS} element={<SettingsPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-}
-
-export default App;
+};

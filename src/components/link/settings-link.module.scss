@@ -1,0 +1,17 @@
+.link {
+  padding: 0.3125rem 0.625rem;
+  border-radius: 0.625rem;
+  background: #1c1c1c;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  &Body {
+    display: flex;
+    align-items: center;
+    gap: 0.9375rem;
+  }
+  &Title {
+    font-size: 1.125rem;
+  }
+}

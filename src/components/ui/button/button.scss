@@ -1,0 +1,52 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease 0s;
+  color: #fff;
+  background: transparent;
+}
+
+.smallButton {
+  padding: 0.5rem;
+  background: #1e1e1e;
+  border-radius: 50%;
+  > svg {
+    fill: #fff;
+  }
+  &:hover {
+  }
+}
+
+.blackButton {
+  font-size: 1.125rem;
+  padding: 0.875rem 0.3125rem;
+  width: 100%;
+  gap: 0.625rem;
+  border-radius: 0.625rem;
+  background: #1c1c1c;
+}
+
+.actionButton {
+  padding: 1.1875rem 1.4375rem;
+  border-radius: 1.25rem;
+  background: #202020;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  &:hover {
+    background: rgb(44, 44, 44) 020;
+  }
+}
+
+.primaryButton {
+  width: 100%;
+  padding: .875rem .3125rem;
+  font-size: 1.125rem;
+  border-radius: .625rem;
+  border: .125rem solid #1c1c1c;
+}

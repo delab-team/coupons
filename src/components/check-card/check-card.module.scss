@@ -1,0 +1,66 @@
+.check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.325rem;
+  padding: 0.875rem 0.75rem 0.8125rem 0.625rem;
+  border-radius: 0.625rem;
+  background: #1c1c1c;
+  cursor: pointer;
+  &:not(:last-child) {
+    margin-bottom: 1.25rem;
+  }
+  &Body {
+    display: flex;
+    align-items: center;
+    gap: 0.9375rem;
+  }
+  &Notifications {
+    position: relative;
+    &Numbers {
+    }
+    &Count {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      z-index: 3;
+      background: #ff3347;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      letter-spacing: 0.0125rem;
+      top: -0.2125rem;
+      right: -0.2125rem;
+      padding: 0.1rem;
+      min-width: 18px;
+      height: 18px;
+    }
+    &Counts {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      z-index: 3;
+      background: #ff3347;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      letter-spacing: 0.0125rem;
+      top: -0.3125rem;
+      right: -0.3125rem;
+      padding: 0.1rem;
+      min-width: 0.625rem;
+      min-height: 0.875rem;
+    }
+  }
+  &Info {
+  }
+  &Title {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  &Sum {
+    color: #999;
+  }
+  &Chevron {
+  }
+}

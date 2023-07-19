@@ -1,0 +1,17 @@
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.625rem;
+  border-radius: 2.375rem;
+  background: #1c1c1c;
+  padding: 1.375rem;
+  &Button {
+    height: 1.75rem;
+    width: 1.75rem;
+    background: transparent;
+    > img {
+      object-fit: cover;
+    }
+  }
+}

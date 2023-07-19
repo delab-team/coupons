@@ -1,0 +1,21 @@
+.content {
+  padding: 4.5625rem 1.375rem 0 1.375rem;
+  overflow-y: auto;
+  height: calc(93vh - 5rem);
+  @media (max-height: 790px) {
+    padding: 1.5rem 1.375rem 0 1.375rem;
+    height: calc(94vh - 5rem);
+  }
+}
+
+.actions {
+  position: fixed;
+  width: 21.5625rem;
+  left: 50%;
+  bottom: 2.9375rem;
+  transform: translateX(-50%);
+  z-index: 10;
+  @media (max-height: 790px) {
+    bottom: 1.9375rem;
+  }
+}

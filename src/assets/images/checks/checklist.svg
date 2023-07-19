@@ -1,0 +1,24 @@
+<svg width="40" height="42" viewBox="0 0 40 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 22">
+<ellipse id="Ellipse 1" cx="20" cy="21" rx="20" ry="21" fill="black" fill-opacity="0.26"/>
+<g id="Group 20">
+<path id="Shape" fill-rule="evenodd" clip-rule="evenodd" d="M22 11H14C12.8954 11 12 11.8954 12 13V29C12 30.1046 12.8954 31 14 31H26C27.1046 31 28 30.1046 28 29V17L22 11Z" fill="black" fill-opacity="0.26" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="Shape_2">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M22 11V17H28" fill="black" fill-opacity="0.26"/>
+<path d="M22 11V17H28" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="Shape_3">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M24 22H16H24Z" fill="black" fill-opacity="0.26"/>
+<path d="M24 22H16" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="Shape_4">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M24 26H16H24Z" fill="black" fill-opacity="0.26"/>
+<path d="M24 26H16" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="Shape_5">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18 18H17H16" fill="black" fill-opacity="0.26"/>
+<path d="M18 18H17H16" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</svg>

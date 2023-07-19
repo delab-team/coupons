@@ -1,0 +1,100 @@
+.multicheck {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  transition: all 0.3s ease-in-out;
+}
+
+.container {
+  background: #141414;
+  padding: 2.06rem 1.31rem;
+  border-radius: 20px;
+}
+
+.slideIn {
+  animation: slideTransition 0.5s ease-in-out;
+  bottom: 0;
+}
+
+@keyframes slideTransition {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+.slideOut {
+  opacity: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(4, 4, 4, 0.8);
+  z-index: 10;
+}
+
+.headerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.625rem;
+  margin-bottom: 2.5625rem;
+}
+
+.headerTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.multicheckInfo {
+  padding: 2.625rem 1.25rem 1.75rem 1.25rem;
+  border-radius: 1.25rem;
+  background: #1c1c1c;
+}
+
+.multicheckActions {
+  display: flex;
+  justify-content: center;
+  gap: 3.75rem;
+  margin-top: 1.125rem;
+}
+
+.item {
+  padding: 0.4375rem 0 0.9375rem 0;
+  border-bottom: 1px solid rgba(100, 98, 98, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #4b4b4b;
+  flex: 1;
+}
+
+.description {
+  font-weight: 600;
+  color: #fff;
+  font-size: 18px;
+  text-align: right;
+}
+
+.description > span {
+  font-size: 16px;
+}
+
+.status {
+  height: 1.125rem;
+  padding-top: 0.25rem;
+}
