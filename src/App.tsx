@@ -33,7 +33,6 @@ export const App: FC<AppProps> = ({}) => {
   const [address, setAddress] = useState<DeLabAddress>(undefined);
   const [network, setNetwork] = useState<DeLabNetwork>('testnet');
   const [balance, setBalance] = useState<string | undefined>(undefined);
-  console.log('🚀 ~ file: App.tsx:36 ~ balance:', balance);
   const [typeConnect, setTypeConnect] = useState<DeLabTypeConnect>(undefined);
 
   function listenDeLab() {
@@ -104,7 +103,7 @@ export const App: FC<AppProps> = ({}) => {
       <Routes>
         <Route element={<Layout />}>
           <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage />} />
-          <Route path={ROUTES.CREATE_CHECK} element={<CreateCheckPage balance={balance} />} />
+          <Route path={ROUTES.CREATE_CHECK} element={<CreateCheckPage balance={balance} DeLabConnector={DeLabConnector} />} />
           <Route path={ROUTES.QR_SCANNER} element={<QrScannerPage />} />
           <Route
             path={ROUTES.SETTINGS}

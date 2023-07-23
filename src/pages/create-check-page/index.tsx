@@ -1,4 +1,5 @@
-import { FC, useState, FormEvent, useEffect } from 'react';
+import { FC, useState, FormEvent } from 'react';
+import { DeLabConnect } from '@delab-team/connect';
 
 import { MainTitle } from '../../components/main-title';
 import { Select } from '../../components/ui/select';
@@ -10,6 +11,7 @@ import { fixAmount } from '../../utils/fix-amount';
 
 interface CreateCheckPageProps {
   balance: string | undefined;
+  DeLabConnector: DeLabConnect;
 }
 
 interface FormValues {
@@ -37,8 +39,8 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance }) => {
       label: 'Personal',
     },
     {
-      value: 'Personal 2',
-      label: 'Personal 2',
+      value: 'Multicheck',
+      label: 'Multicheck',
     },
   ];
 
@@ -64,7 +66,10 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance }) => {
             value={values.amount}
             onChange={(e) => setValues({ ...values, amount: e.target.value })}
           />
-          <div className={s.formSubtext}>balance: {fixAmount(balance ?? '0')} TON ({balance ? <TokenPriceHook tokenAmount={Number(fixAmount(balance))} /> : 0})</div>
+          <div className={s.formSubtext}>
+            balance: {fixAmount(balance ?? '0')} TON (
+            {balance ? <TokenPriceHook tokenAmount={Number(fixAmount(balance))} /> : 0})
+          </div>
         </div>
         <div className={s.formBlock}>
           <label className={s.formLabel}>Set a password</label>
