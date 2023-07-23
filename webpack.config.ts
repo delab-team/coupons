@@ -5,6 +5,8 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import * as path from 'path'
 import 'webpack-dev-server'
 
+const { IgnorePlugin } = require('webpack');
+
 const config: Configuration = {
     mode: 'none',
     entry: { app: path.join(__dirname, 'src', 'index.tsx') },
@@ -64,7 +66,10 @@ const config: Configuration = {
         new ProvidePlugin({
             Buffer: ['buffer', 'Buffer'],
         }),
-        new ProvidePlugin({ process: 'process/browser.js' })
+        new ProvidePlugin({ process: 'process/browser.js' }),
+        new IgnorePlugin({
+            resourceRegExp: /^node:(crypto|stream)$/,
+          }),
     ],
     resolve: {
         extensions: [ '.ts', '.tsx', '.js' ],
