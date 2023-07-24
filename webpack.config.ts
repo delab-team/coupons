@@ -85,7 +85,13 @@ const config: Configuration = {
             http: require.resolve('stream-http'),
             https: require.resolve('https-browserify'),
             os: require.resolve('os-browserify'),
-            url: require.resolve('url')
+            url: require.resolve('url'),
+            path: require.resolve('path-browserify'),
+            vm: require.resolve('vm-browserify'),
+            module: require.resolve('module'),
+            fs: require.resolve('fs'),
+            console: require.resolve('console-browserify'),
+            constants: require.resolve('constants-browserify')
         }
     }
 }

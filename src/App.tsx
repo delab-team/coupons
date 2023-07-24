@@ -25,11 +25,13 @@ import { ROUTES } from './utils/router';
 interface AppProps {}
 
 const DeLabConnector = new DeLabConnect('https://delabteam.com/', 'DeCoupons', 'testnet');
+console.log('🚀 ~ file: App.tsx:28 ~ DeLabConnector:', DeLabConnector);
 
 export const App: FC<AppProps> = ({}) => {
   const [firstRender, setFirstRender] = useState<boolean>(false);
 
   const [isConnected, setIsConnected] = useState<boolean>(false);
+
   const [address, setAddress] = useState<DeLabAddress>(undefined);
   const [network, setNetwork] = useState<DeLabNetwork>('testnet');
   const [balance, setBalance] = useState<string | undefined>(undefined);
@@ -103,7 +105,17 @@ export const App: FC<AppProps> = ({}) => {
       <Routes>
         <Route element={<Layout />}>
           <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage />} />
-          <Route path={ROUTES.CREATE_CHECK} element={<CreateCheckPage balance={balance} DeLabConnector={DeLabConnector} />} />
+          <Route
+            path={ROUTES.CREATE_CHECK}
+            element={
+              <CreateCheckPage
+                balance={balance}
+                DeLabConnector={DeLabConnector}
+                typeConnect={typeConnect}
+                DeAddress={address}
+              />
+            }
+          />
           <Route path={ROUTES.QR_SCANNER} element={<QrScannerPage />} />
           <Route
             path={ROUTES.SETTINGS}
