@@ -89,7 +89,6 @@ const config: Configuration = {
             path: require.resolve('path-browserify'),
             vm: require.resolve('vm-browserify'),
             module: require.resolve('module'),
-            fs: require.resolve('fs'),
             console: require.resolve('console-browserify'),
             constants: require.resolve('constants-browserify')
         }
