@@ -20,12 +20,10 @@ import { Layout } from './layout'
 
 import { ROUTES } from './utils/router'
 
-interface AppProps {}
-
 const DeLabConnector = new DeLabConnect('https://delabteam.com/', 'DeCoupons', 'testnet')
 console.log('🚀 ~ file: App.tsx:28 ~ DeLabConnector:', DeLabConnector)
 
-export const App: FC<AppProps> = ({}) => {
+export const App = (): JSX.Element => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
 
     const [ isConnected, setIsConnected ] = useState<boolean>(false)
@@ -102,22 +100,26 @@ export const App: FC<AppProps> = ({}) => {
         <>
             <Routes>
                 <Route element={<Layout />}>
-                    <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage />} />
+                    <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage balance={balance} address={address} />} />
                     <Route
                         path={ROUTES.CREATE_CHECK}
                         element={
                             <CreateCheckPage
                                 balance={balance}
                                 DeLabConnector={DeLabConnector}
+                                address={address}
                                 typeConnect={typeConnect}
-                                DeAddress={address}
                             />
                         }
                     />
                     <Route path={ROUTES.QR_SCANNER} element={<QrScannerPage />} />
                     <Route
                         path={ROUTES.SETTINGS}
-                        element={<SettingsPage DeLabConnector={DeLabConnector} isConnected={isConnected} />}
+                        element={<SettingsPage
+                            DeLabConnector={DeLabConnector}
+                            isConnected={isConnected}
+                            address={address}
+                            balance={balance}/>}
                     />
                 </Route>
                 <Route path={ROUTES.LOGIN} element={<LoginPage DeLabConnector={DeLabConnector} />} />

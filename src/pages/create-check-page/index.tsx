@@ -1,27 +1,24 @@
 import { FC, useState, FormEvent, useEffect } from 'react'
-import { DeLabAddress, DeLabConnect, DeLabTransaction, DeLabTypeConnect } from '@delab-team/connect'
+import { DeLabAddress, DeLabConnect, DeLabTypeConnect } from '@delab-team/connect'
 
-import { Address, beginCell, Sender, toNano } from 'ton-core'
-import { keyPairFromSeed, sign, KeyPair, sha256 } from 'ton-crypto'
 import { MainTitle } from '../../components/main-title'
 import { Select } from '../../components/ui/select'
 import { Button } from '../../components/ui/button'
+import { Profile } from '../../components/profile'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
 
 import { fixAmount } from '../../utils/fix-amount'
 
-import s from './create-check-page.module.scss'
-
-import { ClaimFunctions, MultiCheque } from '../../logic/wrappers/MultiCheque'
-import { OneTimeCheque } from '../../logic/wrappers/OneTimeCheque'
 import { Coupon } from '../../logic/coupon'
+
+import s from './create-check-page.module.scss'
 
 interface CreateCheckPageProps {
     balance: string | undefined;
     DeLabConnector: DeLabConnect;
     typeConnect: DeLabTypeConnect;
-    DeAddress: DeLabAddress;
+    address: DeLabAddress;
 }
 
 interface FormValues {
@@ -34,10 +31,9 @@ interface FormValues {
 export const CreateCheckPage: FC<CreateCheckPageProps> = ({
     balance,
     DeLabConnector,
-    typeConnect,
-    DeAddress
+    address
+    // typeConnect
 }) => {
-    console.log('🚀 ~ file: index.tsx:26 ~ DeLabConnector:', DeLabConnector)
     const [ values, setValues ] = useState<FormValues>({
         typeCheck: '',
         amount: '',
@@ -73,15 +69,18 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
 
     useEffect(() => {
         if (values.typeCheck === 'Personal') {
-
+        //
         } else if (values.typeCheck === 'Multicheck') {
-
+        //
         }
     }, [ values.typeCheck ])
 
     return (
         <section>
-            <MainTitle title="Create check" />
+            <div className={s.headerForm}>
+                <MainTitle title="Create check" />
+                <Profile address={address} balance={balance} />
+            </div>
             <form className={s.form} onSubmit={() => {}}>
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>Choose the type of check</label>
@@ -98,7 +97,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                         onChange={e => setValues({ ...values, amount: e.target.value })}
                     />
                     <div className={s.formSubtext}>
-            balance: {fixAmount(balance ?? '0')} TON (
+                        balance: {fixAmount(balance ?? '0')} TON (
                         {balance ? <TokenPriceHook tokenAmount={Number(fixAmount(balance))} /> : 0})
                     </div>
                 </div>

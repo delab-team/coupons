@@ -1,35 +1,87 @@
-import { FC } from 'react';
+import { FC, useState } from 'react'
 
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
-import WRITE_OUTLINE from '../../assets/images/main-actions/write_outline.svg';
-import SCAN_VIEWFINDER from '../../assets/images/main-actions/scan_viewfinder.svg';
-import SETTINGS from '../../assets/images/main-actions/settings.svg';
+import { useMediaQuery } from '../../hooks/use-media-query'
 
-import { ROUTES } from '../../utils/router';
+// import WRITE_OUTLINE from '../../assets/images/main-actions/write_outline.svg'
+// import SCAN_VIEWFINDER from '../../assets/images/main-actions/scan_viewfinder.svg'
+// import SETTINGS from '../../assets/images/main-actions/settings.svg'
 
-import s from './main-actions.module.scss';
+import { MenuSvgSelector } from '../../assets/icons/menu-svg-selector'
+
+import { ROUTES } from '../../utils/router'
+
+import s from './main-actions.module.scss'
 
 interface MainActionsProps {}
 
-export const MainActions: FC<MainActionsProps> = ({}) => {
-  return (
-    <nav className={s.menu}>
-      <Link to={ROUTES.YOUR_CHECKS}>
-        <button className={s.menuButton}>
-          <img src={WRITE_OUTLINE} alt="write outline" height={28} width={28} />
-        </button>
-      </Link>
-      <Link to={ROUTES.QR_SCANNER}>
-        <button className={s.menuButton}>
-          <img src={SCAN_VIEWFINDER} alt="scan view finder" height={28} width={28} />
-        </button>
-      </Link>
-      <Link to={ROUTES.SETTINGS}>
-        <button className={s.menuButton}>
-          <img src={SETTINGS} alt="settings" height={28} width={28} />
-        </button>
-      </Link>
-    </nav>
-  );
-};
+const mobileMenu = [
+    {
+        id: 14124,
+        path: ROUTES.YOUR_CHECKS,
+        icon: 'create-checks'
+    },
+    {
+        id: 15677,
+        path: ROUTES.QR_SCANNER,
+        icon: 'scanner'
+    },
+    {
+        id: 12345,
+        path: ROUTES.SETTINGS,
+        icon: 'settings'
+    }
+]
+
+const pcMenu = [
+    {
+        id: 12671,
+        path: ROUTES.YOUR_CHECKS,
+        icon: 'create-checks',
+        content: 'Create checks'
+    },
+    {
+        id: 17147,
+        path: ROUTES.SETTINGS,
+        icon: 'settings',
+        content: 'Settings'
+    }
+]
+
+export const MainActions: FC<MainActionsProps> = () => {
+    const isMobile = useMediaQuery(768)
+
+    const path = window.location.pathname
+
+    const [ activeLink, setActiveLink ] = useState<string>(path)
+
+    return (
+        <>
+            {isMobile ? (
+                <nav className={s.menuMobile}>
+                    {mobileMenu.map(el => (
+                        <Link to={el.path} key={`mobile-el-${el.id}`}>
+                            <button className={s.menuMobileButton}>
+                                <MenuSvgSelector id={el.icon} />
+                            </button>
+                        </Link>
+                    ))}
+                </nav>
+            ) : (
+                <nav className={s.menuPc}>
+                    {pcMenu.map(el => (
+                        <Link to={el.path} key={`pc-el-${el.id}`}>
+                            <button
+                                className={`${s.menuPcButton} ${activeLink === el.path ? s.activeLink : ''}`}
+                                onClick={() => setActiveLink(el.path)}>
+                                <MenuSvgSelector id={el.icon} />
+                                <span>{el.content}</span>
+                            </button>
+                        </Link>
+                    ))}
+                </nav>
+            )}
+        </>
+    )
+}

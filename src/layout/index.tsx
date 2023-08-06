@@ -1,21 +1,25 @@
-import { FC } from 'react';
-import { Outlet } from 'react-router-dom';
+import { FC } from 'react'
+import { Outlet } from 'react-router-dom'
 
-import { MainActions } from '../components/main-actions';
+import { useMediaQuery } from '../hooks/use-media-query'
 
-import s from './layout.module.scss';
+import { MainActions } from '../components/main-actions'
+
+import s from './layout.module.scss'
 
 interface LayoutProps {}
 
-export const Layout: FC<LayoutProps> = ({}) => {
-  return (
-    <main>
-      <div className={`${s.content} container`}>
-        <Outlet />
-        <div className={s.actions}>
-          <MainActions />
-        </div>
-      </div>
-    </main>
-  );
-};
+export const Layout: FC<LayoutProps> = () => {
+    const isMobile = useMediaQuery(768)
+
+    return (
+        <main className={`${s.main} ${isMobile ? 'container-mobile' : 'container-pc'}`}>
+            <div className={`${s.content}`}>
+                <Outlet />
+                <div className={s.actions}>
+                    <MainActions />
+                </div>
+            </div>
+        </main>
+    )
+}

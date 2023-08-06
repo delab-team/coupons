@@ -2,19 +2,25 @@
   position: fixed;
   bottom: -100%;
   left: 0;
-  right: 0;
   z-index: 11;
   transition: all 0.3s ease-in-out;
+  @media (min-width: 768px) {
+      left: 50%;
+      transform: translateX(-50%);
+  }
+  @media (max-width: 768px) {
+      right: 0;
+  }
   &Info {
-    padding: 2.625rem 1.25rem 1.75rem 1.25rem;
-    border-radius: 1.25rem;
-    background: #1c1c1c;
+      padding: 2.625rem 1.25rem 1.75rem 1.25rem;
+      border-radius: 1.25rem;
+      background: #1c1c1c;
   }
   &Actions {
-    display: flex;
-    justify-content: center;
-    gap: 3.75rem;
-    margin-top: 1.125rem;
+      display: flex;
+      justify-content: center;
+      gap: 3.75rem;
+      margin-top: 1.125rem;
   }
 }
 
@@ -22,6 +28,9 @@
   padding: 2.06rem 1.31rem;
   border-radius: 20px;
   background: #141414;
+  @media (min-width: 768px) {
+      width: 800px;
+  }
 }
 
 .overlay {
@@ -35,16 +44,28 @@
 }
 
 .slideIn {
-  animation: slideTransition 0.5s ease-in-out;
+  animation: slideTransitionPC 0.5s ease-in-out;
+  @media (max-width: 768px) {
+      animation: slideTransitionMobile 0.5s ease-in-out;
+  }
   bottom: 0;
 }
 
-@keyframes slideTransition {
+@keyframes slideTransitionPC {
   from {
-    transform: translateY(100%);
+      transform: translateY(100%) translateX(-50%);
   }
   to {
-    transform: translateY(0%);
+      transform: translateY(0%) translateX(-50%);
+  }
+}
+
+@keyframes slideTransitionMobile {
+  from {
+      transform: translateY(100%);
+  }
+  to {
+      transform: translateY(0%);
   }
 }
 
@@ -87,11 +108,11 @@
   font-size: 18px;
   text-align: right;
   > span {
-    font-size: 16px;
+      font-size: 16px;
   }
 }
 
 .status {
   height: 1.125rem;
-  padding-top: .25rem;
+  padding-top: 0.25rem;
 }

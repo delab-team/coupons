@@ -1,0 +1,67 @@
+.profile {
+    position: relative;
+}
+
+.profileInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #1e1e1e;
+    border-radius: 20px;
+    color: #fff;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    .profileAddress {
+        font-size: 16px;
+        font-weight: 600;
+        @media (max-width: 768px) {
+            font-size: 13px;
+        }
+    }
+    &:hover {
+        background: #2e2e2e;
+    }
+    @media (max-width: 768px) {
+        padding: 11px 17px;
+    }
+}
+
+.profileBalance {
+    position: absolute;
+    bottom: -62px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 16px 23px;
+    border-radius: 10px;
+    background: #1e1e1e;
+    width: max-content;
+    opacity: 0;
+    visibility: hidden;
+
+    &Inner {
+        position: relative;
+        &::before {
+            top: -26px;
+            right: 50%;
+            transform: translateX(50%);
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #1e1e1e;
+            position: absolute;
+        }
+    }
+    &Stats {
+        font-size: 13px;
+        font-weight: 600;
+    }
+}
+
+.profileBalanceShow {
+    opacity: 1;
+    visibility: visible;
+}

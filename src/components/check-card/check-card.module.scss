@@ -7,8 +7,12 @@
   border-radius: 0.625rem;
   background: #1c1c1c;
   cursor: pointer;
+  transition: all 0.3s ease 0s;
   &:not(:last-child) {
     margin-bottom: 1.25rem;
+  }
+  &:hover {
+    background: #2b2a2a;
   }
   &Body {
     display: flex;

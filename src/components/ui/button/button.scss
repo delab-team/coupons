@@ -13,9 +13,10 @@
   background: #1e1e1e;
   border-radius: 50%;
   > svg {
-    fill: #fff;
+      fill: #fff;
   }
   &:hover {
+      background: #2e2e2e;
   }
 }
 
@@ -26,6 +27,9 @@
   gap: 0.625rem;
   border-radius: 0.625rem;
   background: #1c1c1c;
+  &:hover {
+      background: #2e2e2e;
+  }
 }
 
 .actionButton {
@@ -39,8 +43,12 @@
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
+  @media (min-width: 768px) {
+      flex-direction: row-reverse;
+      padding: 21px 71px;
+  }
   &:hover {
-    background: rgb(44, 44, 44) 020;
+      background: #2e2e2e;
   }
 }
 
@@ -50,6 +58,9 @@
   font-size: 1.125rem;
   border-radius: 0.625rem;
   border: 0.125rem solid #1c1c1c;
+  &:hover {
+      background: #202020;
+  }
 }
 
 .whiteButton {
@@ -60,4 +71,7 @@
   min-height: 3.5rem;
   border-radius: 1.25rem;
   font-weight: 500;
+  &:hover {
+      background: #dad8d8;
+  }
 }

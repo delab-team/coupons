@@ -1,4 +1,4 @@
-.menu {
+.menuMobile {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -7,11 +7,47 @@
   background: #1c1c1c;
   padding: 1.375rem;
   &Button {
-    height: 1.75rem;
-    width: 1.75rem;
-    background: transparent;
-    > img {
-      object-fit: cover;
-    }
+      height: 1.75rem;
+      width: 1.75rem;
+      background: transparent;
+      svg {
+          path {
+              fill: #fff;
+          }
+      }
+  }
+}
+
+.menuPc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 100px;
+  &Button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      gap: 10px;
+      span {
+          font-size: 13px;
+          font-weight: 600;
+          color: #797979;
+      }
+      svg {
+          fill: #797979;
+      }
+  }
+}
+
+.activeLink {
+  span {
+      color: #fff;
+  }
+  svg {
+      path {
+          fill: #fff;
+      }
   }
 }

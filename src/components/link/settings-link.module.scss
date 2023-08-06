@@ -6,12 +6,16 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  transition: all 0.3s ease 0s;
+  &:hover {
+      background: #2b2a2a;
+  }
   &Body {
-    display: flex;
-    align-items: center;
-    gap: 0.9375rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9375rem;
   }
   &Title {
-    font-size: 1.125rem;
+      font-size: 1.125rem;
   }
 }

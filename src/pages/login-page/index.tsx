@@ -1,24 +1,30 @@
-import { FC } from 'react';
-import { DeLabConnect } from '@delab-team/connect';
+import { FC } from 'react'
+import { DeLabConnect } from '@delab-team/connect'
 
-import { Button } from '../../components/ui/button';
+import { Button } from '../../components/ui/button'
 
-import s from './login-page.module.scss';
+import { useMediaQuery } from '../../hooks/use-media-query'
+
+import s from './login-page.module.scss'
 
 interface LoginPageProps {
-  DeLabConnector: DeLabConnect;
+    DeLabConnector: DeLabConnect;
 }
 
 export const LoginPage: FC<LoginPageProps> = ({ DeLabConnector }) => {
-  return (
-    <div className={`${s.main} container`}>
-      <div className={s.mainInner}>
-        <h1 className={s.mainLogo}>DeCoupons</h1>
+    const isMobile = useMediaQuery(768)
 
-        <Button variant="white-button" onClick={() => DeLabConnector.openModal()}>
-          Connect Wallet
-        </Button>
-      </div>
-    </div>
-  );
-};
+    return (
+        <div className={`${s.main} ${isMobile ? 'container-mobile' : 'container-pc'}`}>
+            <div className={s.mainInner}>
+                <h1 className={s.mainLogo}>DeCoupons</h1>
+
+                <div className={s.mainButton}>
+                    <Button variant="white-button" onClick={() => DeLabConnector.openModal()}>
+            Connect Wallet
+                    </Button>
+                </div>
+            </div>
+        </div>
+    )
+}

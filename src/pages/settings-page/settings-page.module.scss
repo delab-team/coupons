@@ -1,9 +1,23 @@
-.settings {
-  &Actions {
+.settingsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .3125rem;
+  margin-bottom: 2.5rem;
+  @media (min-width: 768px) {
     margin-bottom: 3.125rem;
   }
+}
+
+.settings {
+  &Actions {
+      margin-bottom: 3.125rem;
+      @media (min-width: 768px) {
+          margin-bottom: 5.6875rem;
+      }
+  }
   &Version {
-    text-align: center;
-    font-size: 1.125rem;
+      text-align: center;
+      font-size: 1.125rem;
   }
 }
