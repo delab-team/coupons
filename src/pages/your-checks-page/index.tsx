@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DeLabAddress } from '@delab-team/connect'
 
@@ -11,6 +11,8 @@ import { Profile } from '../../components/profile'
 import { ROUTES } from '../../utils/router'
 
 import { useMediaQuery } from '../../hooks/use-media-query'
+
+import { StorageWallet } from '../../logic/storage'
 
 import PLUS from '../../assets/images/your-checks/plus.svg'
 
@@ -48,6 +50,8 @@ const data = [
 export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) => {
     const [ selectedCheckCard, setSelectedCheckCard ] = useState<null | string>(null)
 
+    const [ checks, setChecks ] = useState([])
+
     const isMobile = useMediaQuery(768)
 
     const navigate = useNavigate()
@@ -83,8 +87,10 @@ export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) =>
                     </div>
                 </div>
                 <h2 className={s.subtitle}>Your checks</h2>
-                <ul className={s.checkList}>
-                    {data.map(el => (
+                <ul className={`${s.checkList} ${data.length > 1 ? s.checkLists : ''}`}>
+                    {data.length <= 1 ? (
+                        <div className={s.pureCheck}>Your check list is empty</div>
+                    ) : data.map(el => (
                         <CheckCard key={el.id} {...el} handleCheckCardClick={handleCheckCardClick} />
                     ))}
                     {isMobile && (

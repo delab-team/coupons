@@ -27,13 +27,27 @@
 }
 
 .checkList {
-  overflow-y: auto;
   height: calc(69vh - 67px);
   position: relative;
+}
+
+.checkLists {
+  overflow-y: auto;
 }
 
 .actionButton {
   position: absolute;
   right: 0;
   bottom: 30px;
+}
+
+.pureCheck {
+  margin-top: 20px;
+  font-size: 25px;
+  font-weight: bold;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }

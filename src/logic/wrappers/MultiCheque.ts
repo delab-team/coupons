@@ -1,4 +1,4 @@
-import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from 'ton-core';
+import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from 'ton-core'
 
 export type MultiChequeConfig = {
     publicKey: Buffer;
@@ -6,9 +6,9 @@ export type MultiChequeConfig = {
     activaitions: bigint;
     chequeAmount: bigint;
     helperCode: Cell;
-};
+}
 
-export function multiChequeConfigToCell(config: MultiChequeConfig): Cell {
+export function multiChequeConfigToCell (config: MultiChequeConfig): Cell {
     return beginCell()
         .storeBuffer(config.publicKey)
         .storeCoins(config.chequeAmount)
@@ -17,39 +17,35 @@ export function multiChequeConfigToCell(config: MultiChequeConfig): Cell {
         .storeUint(0n, 64)
         .storeRef(config.claimCont)
         .storeRef(config.helperCode)
-        .endCell();
+        .endCell()
 }
 
-export const Opcodes = {
-    claim: 0x22356c66,
-};
+export const Opcodes = { claim: 0x22356c66 }
 
-export const ClaimFunctions = {
-    toncoin: Cell.fromBoc(Buffer.from('B5EE9C720101010100140000248010C8CB05CE01FA027001CB6AC98040FB00', 'hex'))[0],
-};
+export const ClaimFunctions = { toncoin: Cell.fromBoc(Buffer.from('B5EE9C720101010100140000248010C8CB05CE01FA027001CB6AC98040FB00', 'hex'))[0] }
 
 export class MultiCheque implements Contract {
-    constructor(readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
+    constructor (readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
 
-    static createFromAddress(address: Address) {
-        return new MultiCheque(address);
+    static createFromAddress (address: Address) {
+        return new MultiCheque(address)
     }
 
-    static createFromConfig(config: MultiChequeConfig, code: Cell, workchain = 0) {
-        const data = multiChequeConfigToCell(config);
-        const init = { code, data };
-        return new MultiCheque(contractAddress(workchain, init), init);
+    static createFromConfig (config: MultiChequeConfig, code: Cell, workchain = 0) {
+        const data = multiChequeConfigToCell(config)
+        const init = { code, data }
+        return new MultiCheque(contractAddress(workchain, init), init)
     }
 
-    async sendDeploy(provider: ContractProvider, via: Sender, value: bigint) {
+    async sendDeploy (provider: ContractProvider, via: Sender, value: bigint) {
         await provider.internal(via, {
             value,
             sendMode: SendMode.PAY_GAS_SEPARATELY,
-            body: beginCell().endCell(),
-        });
+            body: beginCell().endCell()
+        })
     }
 
-    async sendClaim(
+    async sendClaim (
         provider: ContractProvider,
         via: Sender,
         value: bigint,
@@ -65,7 +61,7 @@ export class MultiCheque implements Contract {
                 .storeUint(Opcodes.claim, 32)
                 .storeBuffer(opts.signature)
                 .storeAddress(opts.address)
-                .endCell(),
-        });
+                .endCell()
+        })
     }
 }
