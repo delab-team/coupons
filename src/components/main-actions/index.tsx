@@ -53,16 +53,16 @@ const pcMenu = [
         content: 'Activate'
     },
     {
-        id: 17147,
-        path: ROUTES.SETTINGS,
-        icon: 'settings',
-        content: 'Settings'
-    },
-    {
         id: 17155,
         path: ROUTES.QR_SCANNER,
         icon: 'scanner',
         content: 'Scanner'
+    },
+    {
+        id: 17147,
+        path: ROUTES.SETTINGS,
+        icon: 'settings',
+        content: 'Settings'
     }
 ]
 
