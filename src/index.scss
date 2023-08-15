@@ -13,6 +13,7 @@ body {
 
     background: #0d0d0d;
     color: #fff;
+    overflow: overlay;
 }
 
 a {
@@ -46,4 +47,17 @@ li {
     margin: 0 auto;
     border-radius: 20px;
     background: #121212;
+}
+
+body {
+    overflow: overlay;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
 }

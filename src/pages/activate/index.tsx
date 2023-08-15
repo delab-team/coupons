@@ -54,13 +54,13 @@ export const Activate: FC<YourChecksPageProps> = ({ address, wallet, balance, ad
     return (
         <section>
             <div className={s.headerForm}>
-                <MainTitle title="Activate Check" />
+                <MainTitle title="Activate" />
                 <Profile address={addressWallet} balance={balance} />
             </div>
             <form className={s.form} onSubmit={() => {}}>
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>
-                    Set a password
+                        Password
                     </label>
                     <input
                         placeholder='password'

@@ -8,6 +8,13 @@
   flex: 1 1 auto;
 }
 
+.checkTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
 .headerTitle {
   font-size: 28px;
   font-weight: 600;
@@ -22,23 +29,19 @@
 .subtitle {
   font-size: 1.25rem;
   color: rgba(255, 255, 255, 0.51);
-  margin-bottom: 1.25rem;
   font-weight: 400;
 }
 
+.checkTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .checkList {
-  height: calc(69vh - 67px);
+  height: calc(73vh - 67px);
   position: relative;
-}
 
-.checkLists {
-  overflow-y: auto;
-}
-
-.actionButton {
-  position: absolute;
-  right: 0;
-  bottom: 30px;
 }
 
 .pureCheck {

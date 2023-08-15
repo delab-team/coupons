@@ -9,6 +9,7 @@ import {
     DeLabConnecting,
     DeLabEvent
 } from '@delab-team/connect'
+import { ToastContainer } from 'react-toastify'
 
 import { YourChecksPage } from './pages/your-checks-page'
 import { SettingsPage } from './pages/settings-page'
@@ -20,6 +21,8 @@ import { Activate } from './pages/activate'
 import { Layout } from './layout'
 
 import { ROUTES } from './utils/router'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 const DeLabConnector = new DeLabConnect('https://delabteam.com/', 'DeCoupons', 'testnet')
 
@@ -134,6 +137,17 @@ export const App = (): JSX.Element => {
                 <Route path={ROUTES.LOGIN} element={<LoginPage DeLabConnector={DeLabConnector} />} />
             </Routes>
             <DeLabModal DeLabConnectObject={DeLabConnector} scheme={'dark'} />
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </>
     )
 }

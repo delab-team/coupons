@@ -23,41 +23,62 @@ interface YourChecksPageProps {
     address: DeLabAddress;
 }
 
-const data = [
-    {
-        id: '13sad',
-        title: 'Check #1',
-        notifications: 0,
-        sum: 'Sum: 10 TON (17$)',
-        type: 'multicheck'
-    },
-    {
-        id: 'wqe123',
-        title: 'Check #2',
-        notifications: 1,
-        sum: 'Sum: 10 TON (17$)',
-        type: 'check'
-    }
-]
+// const data = [
+//     {
+//         id: '13sad',
+//         title: 'Check #1',
+//         notifications: 0,
+//         sum: 'Sum: 10 TON (17$)',
+//         type: 'multicheck'
+//     },
+//     {
+//         id: 'wqe123',
+//         title: 'Check #2',
+//         notifications: 1,
+//         sum: 'Sum: 10 TON (17$)',
+//         type: 'check'
+//     }
+// ]
+
+export interface CouponDataType {
+    sum: number;
+    id: string;
+    address: string;
+    typeCheck: 'Personal' | 'Multicheck'
+}
+
+export interface SelectedDataType {
+    id: string;
+    selected: string;
+}
 
 export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) => {
-    const [ selectedCheckCard, setSelectedCheckCard ] = useState<null | string>(null)
+    const [ selectedCheckCard, setSelectedCheckCard ] = useState<SelectedDataType>({
+        id: '',
+        selected: ''
+    })
 
-    const [ checks, setChecks ] = useState([])
+    const [ checks, setChecks ] = useState<CouponDataType[]>([])
+    const storageWallet = new StorageWallet()
 
+    useEffect(() => {
+        const allCoupons = storageWallet.getAllCoupons()
+
+        setChecks(allCoupons)
+    }, [])
     const isMobile = useMediaQuery(768)
 
     const navigate = useNavigate()
 
-    const handleCheckCardClick = (type: string) => {
-        setSelectedCheckCard(type)
+    const handleCheckCardClick = (id: string, selected: string) => {
+        setSelectedCheckCard({ id, selected })
     }
 
     const renderPopupComponent = () => {
-        if (selectedCheckCard === 'multicheck') {
-            return <Multichecks setSelectedCheckCard={setSelectedCheckCard} />
-        } if (selectedCheckCard === 'check') {
-            return <Check setSelectedCheckCard={setSelectedCheckCard} />
+        if (selectedCheckCard.selected === 'Multicheck') {
+            return <Multichecks selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} />
+        } if (selectedCheckCard.selected === 'Personal') {
+            return <Check selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} />
         }
         return null
     }
@@ -79,13 +100,8 @@ export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) =>
                         <Profile balance={balance} address={address} />
                     </div>
                 </div>
-                <h2 className={s.subtitle}>Your checks</h2>
-                <ul className={`${s.checkList} ${data.length > 1 ? s.checkLists : ''}`}>
-                    {data.length <= 1 ? (
-                        <div className={s.pureCheck}>Your check list is empty</div>
-                    ) : data.map(el => (
-                        <CheckCard key={el.id} {...el} handleCheckCardClick={handleCheckCardClick} />
-                    ))}
+                <div className={s.checkTop}>
+                    <h2 className={s.subtitle}>Your checks</h2>
                     {isMobile && (
                         <div className={s.actionButton}>
                             <Button
@@ -95,6 +111,14 @@ export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) =>
                             />
                         </div>
                     )}
+                </div>
+                <ul className={`${s.checkList} ${checks.length > 1 ? s.checkLists : ''}`}>
+                    {checks.length < 1 ? (
+                        <div className={s.pureCheck}>Your check list is empty</div>
+                    ) : checks.map((el, index) => (
+                        <CheckCard key={el.id} el={el} index={index + 1} handleCheckCardClick={handleCheckCardClick} />
+                    ))}
+
                 </ul>
             </div>
 

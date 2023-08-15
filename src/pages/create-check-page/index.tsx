@@ -1,5 +1,8 @@
-import { FC, useState, FormEvent, useEffect } from 'react'
+import * as Yup from 'yup'
+import { FC, useState, useEffect } from 'react'
 import { DeLabAddress, DeLabConnect, DeLabTypeConnect } from '@delab-team/connect'
+import { toast } from 'react-toastify'
+import { v1 } from 'uuid'
 
 import { MainTitle } from '../../components/main-title'
 import { Select } from '../../components/ui/select'
@@ -11,6 +14,7 @@ import TokenPriceHook from '../../hooks/token-price-hook'
 import { fixAmount } from '../../utils/fix-amount'
 
 import { Coupon } from '../../logic/coupon'
+import { StorageWallet } from '../../logic/storage'
 
 import s from './create-check-page.module.scss'
 
@@ -23,9 +27,14 @@ interface CreateCheckPageProps {
 
 interface FormValues {
     typeCheck: string;
-    amount: number | string;
+    amount: string;
     password: string;
-    address: string;
+}
+
+const DEFAULT_VALUES: FormValues = {
+    typeCheck: 'Personal',
+    amount: '0',
+    password: ''
 }
 
 export const CreateCheckPage: FC<CreateCheckPageProps> = ({
@@ -34,16 +43,10 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
     address
     // typeConnect
 }) => {
-    const [ values, setValues ] = useState<FormValues>({
-        typeCheck: '',
-        amount: '',
-        password: '',
-        address: ''
-    })
+    const [ values, setValues ] = useState<FormValues>(DEFAULT_VALUES)
+    const [ errors, setErrors ] = useState<Record<string, string>>({})
 
-    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-    }
+    const [ isDeploying, setIsDeploying ] = useState<boolean>(false)
 
     const options = [
         {
@@ -60,20 +63,71 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
         setValues({ ...values, typeCheck: value })
     }
 
-    const [ status, setStatus ] = useState<string>('')
+    const deploy = () => {
+        setIsDeploying(true)
 
-    async function deploy () {
         const coupon = new Coupon(DeLabConnector)
+        const storageWallet = new StorageWallet()
+
+        const couponKey = v1()
+
         coupon.deployOne(values.password, values.amount)
+            .then((couponResult) => {
+                const dataToSave = {
+                    sum: values.amount,
+                    id: couponKey,
+                    address: couponResult,
+                    typeCheck: values.typeCheck
+                }
+
+                if (couponResult) {
+                    storageWallet.save(couponKey, dataToSave)
+                }
+                setValues(DEFAULT_VALUES)
+            })
+            .catch((error) => {
+                console.error('Error deploying:', error)
+            })
+            .finally(() => {
+                setIsDeploying(false)
+            })
     }
 
     useEffect(() => {
         if (values.typeCheck === 'Personal') {
-        //
+            //
         } else if (values.typeCheck === 'Multicheck') {
-        //
+            //
         }
     }, [ values.typeCheck ])
+
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        const validationErrors: Record<string, string> = {}
+
+        if (!values.typeCheck) {
+            validationErrors.typeCheck = 'Type of check is required'
+        }
+
+        if (!/^\d+(\.\d+)?$/.test(values.amount)) {
+            validationErrors.amount = 'Invalid amount'
+        } else {
+            const parsedAmount = parseFloat(values.amount)
+            if (parsedAmount < 0.00001 || parsedAmount > 100000.99999) {
+                validationErrors.amount = 'Invalid amount'
+            }
+        }
+
+        if (values.password.length < 8) {
+            validationErrors.password = 'Password must be at least 8 characters long'
+        }
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors)
+        } else {
+            deploy()
+        }
+    }
 
     return (
         <section>
@@ -81,47 +135,44 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                 <MainTitle title="Create check" />
                 <Profile address={address} balance={balance} />
             </div>
-            <form className={s.form} onSubmit={() => {}}>
+            <form onSubmit={onSubmit} className={s.form}>
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>Choose the type of check</label>
                     <Select options={options} value={values.typeCheck} onChange={handleSelectChange} />
+                    {errors.typeCheck && <div className={s.error}>{errors.typeCheck}</div>}
                 </div>
 
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>Send the amount of the receipt in TON</label>
                     <input
-                        className={s.formInput}
-                        placeholder="min. 0.00001 TON"
-                        required
+                        type="string"
+                        name="amount"
                         value={values.amount}
                         onChange={e => setValues({ ...values, amount: e.target.value })}
+                        placeholder="min. 0.00001 TON"
+                        className={s.formInput}
                     />
+                    {errors.amount && <div className={s.error}>{errors.amount}</div>}
                     <div className={s.formSubtext}>
-                        balance: {fixAmount(balance ?? '0')} TON (
-                        {balance ? <TokenPriceHook tokenAmount={Number(fixAmount(balance))} /> : 0})
+                        balance:
+                        {fixAmount(balance ?? '0')} TON ({balance ? <TokenPriceHook tokenAmount={Number(fixAmount(balance))} /> : 0})
                     </div>
                 </div>
+
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>Set a password</label>
                     <input
                         type="password"
-                        className={s.formInput}
-                        required
+                        name="password"
                         value={values.password}
                         onChange={e => setValues({ ...values, password: e.target.value })}
-                    />
-                </div>
-                <div className={s.formBlock}>
-                    <label className={s.formLabel}>Link to an address</label>
-                    <input
                         className={s.formInput}
-                        value={values.address}
-                        required
-                        onChange={e => setValues({ ...values, address: e.target.value })}
                     />
+                    {errors.password && <div className={s.error}>{errors.password}</div>}
                 </div>
-                <Button variant="primary-button" onClick={() => deploy()}>
-          Create a check
+
+                <Button type="submit" variant="primary-button" disabled={isDeploying}>
+                    {isDeploying ? 'Creating...' : 'Create a check'}
                 </Button>
             </form>
         </section>

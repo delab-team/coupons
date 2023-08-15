@@ -24,3 +24,25 @@
     bottom: 0;
   }
 }
+
+.form {
+  &Label {
+      font-size: 1.125rem;
+      margin-bottom: 1.25rem;
+  }
+  &Block {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.25rem;
+  }
+  &Input {
+      font-size: 1.125rem;
+      padding: 0.875rem 1.25rem;
+      border-radius: 0.625rem;
+      background: #1c1c1c;
+      color: #fff;
+      &::placeholder {
+          color: #4b4b4b;
+      }
+  }
+}

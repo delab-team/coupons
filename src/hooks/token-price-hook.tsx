@@ -6,7 +6,7 @@ interface TokenPriceHookProps {
 }
 
 const TokenPriceHook: React.FC<TokenPriceHookProps> = ({ tokenAmount }) => {
-    const [ price, setPrice ] = useState<string | null>(null)
+    const [ price, setPrice ] = useState<string>('0')
 
     useEffect(() => {
         const fetchTokenPrice = async () => {
@@ -27,7 +27,7 @@ const TokenPriceHook: React.FC<TokenPriceHookProps> = ({ tokenAmount }) => {
                 setPrice(formattedPrice)
             } catch (error) {
                 console.error('Error when getting token price:', error)
-                setPrice(null)
+                setPrice('0')
             }
         }
 

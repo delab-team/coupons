@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { DeLabConnect, DeLabTransaction } from '@delab-team/connect'
+import { toast } from 'react-toastify'
 // import { Cell, toNano } from 'ton-core'
 
 import { Address, beginCell, Cell, contractAddress, StateInit, storeStateInit, toNano, TonClient } from 'ton'
@@ -75,6 +76,12 @@ export class Coupon {
             }
 
             storage.save('coupons', JSON.stringify(couponData))
+
+            if (tx) {
+                toast.success('Coupon created successfully.')
+            } else {
+                toast.error('Failed to create coupon')
+            }
             return data.address.toString()
         } catch (error) {
             console.error('deploy', error)

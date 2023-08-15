@@ -1,24 +1,40 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useState, useEffect, Dispatch, SetStateAction } from 'react'
 
 import DONE from '../../assets/images/checks/done.svg'
 import SHARE from '../../assets/images/checks/share_outline.svg'
 import DELETE from '../../assets/images/checks/delete.svg'
 import CANCEL from '../../assets/images/checks/cancel.svg'
 
+// eslint-disable-next-line import/no-cycle
+import { SelectedDataType } from '../../pages/your-checks-page'
+
 import { Button } from '../ui/button'
 
 import s from './multichecks.module.scss'
+import { StorageWallet } from '../../logic/storage'
 
 interface MultichecksProps {
-    setSelectedCheckCard: (type: string) => void;
+    selectedCheckCard: SelectedDataType;
+    setSelectedCheckCard: any;
 }
 
-export const Multichecks: FC<MultichecksProps> = ({ setSelectedCheckCard }) => {
+export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelectedCheckCard }) => {
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
+
+    // const [ couponInfo, setCouponInfo ] = useState({})
+    // console.log('🚀 ~ file: index.tsx:25 ~ couponInfo:', couponInfo)
+
+    // const storageWallet = new StorageWallet()
+
+    // useEffect(() => {
+    //     const couponInfo = storageWallet.get(selectedCheckCard.id)
+
+    //     setCouponInfo(couponInfo)
+    // }, [ selectedCheckCard.id ])
 
     const handleCancelButtonClick = () => {
         setIsVisible(false)
-        setSelectedCheckCard('')
+        setSelectedCheckCard({ id: '', selected: '' })
     }
 
     // eslint-disable-next-line consistent-return

@@ -1,58 +1,60 @@
 .menuMobile {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.625rem;
-  border-radius: 2.375rem;
-  background: #1c1c1c;
-  padding: 1.375rem;
-  &Button {
-      height: 1.75rem;
-      width: 1.75rem;
-      background: transparent;
-      svg {
-          path {
-              fill: #fff;
-          }
-      }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.625rem;
+    border-radius: 2.375rem;
+    background: #1c1c1c;
+    padding: 1.375rem;
+    overflow-x: auto;
+    &Button {
+        height: 1.75rem;
+        width: 1.75rem;
+        background: transparent;
+        svg {
+            path {
+                fill: #fff;
+            }
+        }
+    }
   }
-}
-
-.menuPc {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6.25rem;
-  background-color: rgba(48, 47, 47, 0.8);
-  box-shadow: 0 0 .625rem rgba(0, 0, 0, 0.2);
-  padding: 9px 20px;
-  border-radius: 30px;
-  &Button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      gap: 10px;
-      width: max-content;
-      span {
-          font-size: 13px;
-          font-weight: 600;
-          color: #797979;
-      }
-      svg {
-          fill: #797979;
-      }
+  
+  .menuPc {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6.25rem;
+    background-color: rgba(48, 47, 47, 0.8);
+    box-shadow: 0 0 .625rem rgba(0, 0, 0, 0.2);
+    padding: 9px 20px;
+    border-radius: 30px;
+    &Button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        gap: 10px;
+        width: max-content;
+        span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #797979;
+        }
+        svg {
+            fill: #797979;
+        }
+    }
   }
-}
-
-.activeLink {
-  span {
-      color: #fff;
+  
+  .activeLink {
+    span {
+        color: #fff;
+    }
+    svg {
+        path {
+            fill: #fff;
+        }
+    }
   }
-  svg {
-      path {
-          fill: #fff;
-      }
-  }
-}
+  

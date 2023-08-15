@@ -1,15 +1,18 @@
 import { FC, useState, useEffect, useRef } from 'react'
 import QrScanner from 'qr-scanner'
 
+import { Address } from 'ton-core'
+import { useNavigate } from 'react-router-dom'
 import { MainTitle } from '../../components/main-title'
 import { Link } from '../../components/link'
+
+import { ROUTES } from '../../utils/router'
+
+import { useMediaQuery } from '../../hooks/use-media-query'
 
 import QR from '../../assets/images/qr/qr.svg'
 
 import s from './qr-scanner-page.module.scss'
-import { Address } from 'ton-core'
-import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '../../utils/router'
 
 interface QrScannerPageProps {
     address: string,
@@ -21,6 +24,8 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
     const [ qrResult, setQRResult ] = useState<string>('link')
 
     // const [ address, setAddress ] = useState<string>('')
+
+    const isMobile = useMediaQuery(768)
 
     const navigate = useNavigate()
 
@@ -85,7 +90,7 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
                 console.error(err)
             }
         }
-    }, [address])
+    }, [ address ])
 
     return (
         <section>
@@ -96,9 +101,18 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
                     <img src={QR} alt="qr img" className={s.qrImage} />
                 </div>
             </div>
-            <Link text={qrResult} href={qrResult} />
 
-            <input value={address} onChange={(e) => setAddress(e.target.value)} />
+            {qrResult && <Link text={qrResult} href={qrResult} />}
+            <div className={s.formBlock}>
+                <label className={s.formLabel}>Text</label>
+                <input
+                    type="text"
+                    value={address}
+                    onChange={e => setAddress(e.target.value)}
+                    className={s.formInput}
+                />
+            </div>
+
         </section>
     )
 }

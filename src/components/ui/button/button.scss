@@ -13,8 +13,8 @@
   background: #1e1e1e;
   border-radius: 50%;
   > img {
-      height: 36px;
-      width: 36px;
+      height: 30px;
+      width: 30px;
       fill: #fff;
   }
   &:hover {
@@ -61,7 +61,13 @@
   border-radius: 0.625rem;
   border: 0.125rem solid #1c1c1c;
   &:hover {
-      background: #202020;
+    background: #202020;
+  }
+  &:disabled {
+    background: #353535;
+    border-color: #424242;
+    color: #f5f5f5;
+    cursor: not-allowed;
   }
 }
 
