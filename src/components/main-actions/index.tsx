@@ -59,7 +59,7 @@ const pcMenu = [
         content: 'Settings'
     },
     {
-        id: 17147,
+        id: 17155,
         path: ROUTES.QR_SCANNER,
         icon: 'scanner',
         content: 'Scanner'

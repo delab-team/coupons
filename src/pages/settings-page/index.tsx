@@ -42,7 +42,10 @@ export const SettingsPage: FC<SettingsPageProps> = ({
                 <Button
                     variant="black-button"
                     endIcon={LogOut}
-                    onClick={() => DeLabConnector.disconnect()}
+                    onClick={() => {
+                        localStorage.clear()
+                        DeLabConnector.disconnect()
+                    }}
                 >
                   Sign out
                 </Button>
