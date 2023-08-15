@@ -16,39 +16,18 @@ import { StorageWallet } from '../../logic/storage'
 
 import PLUS from '../../assets/images/your-checks/plus.svg'
 
-import s from './your-checks-page.module.scss'
+import s from './activate-page.module.scss'
 import { Coupon } from '../../logic/coupon'
+import { MainTitle } from '../../components/main-title'
 
 interface YourChecksPageProps {
     address: string;
     wallet: DeLabConnect;
+    balance: string | undefined;
+    addressWallet: DeLabAddress;
 }
 
-const data = [
-    {
-        id: '13sad',
-        title: 'Check #1',
-        notifications: 0,
-        sum: 'Sum: 10 TON (17$)',
-        type: 'multicheck'
-    },
-    {
-        id: 'wqe123',
-        title: 'Check #2',
-        notifications: 1,
-        sum: 'Sum: 10 TON (17$)',
-        type: 'check'
-    },
-    {
-        id: 'wqe1321',
-        title: 'Check #3',
-        notifications: 0,
-        sum: 'Sum: 10 TON (17$)',
-        type: 'check'
-    }
-]
-
-export const Activate: FC<YourChecksPageProps> = ({ address, wallet }) => {
+export const Activate: FC<YourChecksPageProps> = ({ address, wallet, balance, addressWallet }) => {
     const [ selectedCheckCard, setSelectedCheckCard ] = useState<null | string>(null)
 
     const [ psw, setPsw ] = useState<string>('')
@@ -73,11 +52,24 @@ export const Activate: FC<YourChecksPageProps> = ({ address, wallet }) => {
     }
 
     return (
-        <section className={s.yourChecks}>
-            <div className={s.yourChecksBody}>
-                <input placeholder='password' onChange={(e) => setPsw(e.target.value)} value={psw} />
-                <Button variant={'small-button'} onClick={() => claim()}>Activate</Button>
+        <section>
+            <div className={s.headerForm}>
+                <MainTitle title="Activate Check" />
+                <Profile address={addressWallet} balance={balance} />
             </div>
+            <form className={s.form} onSubmit={() => {}}>
+                <div className={s.formBlock}>
+                    <label className={s.formLabel}>
+                    Set a password
+                    </label>
+                    <input
+                        placeholder='password'
+                        className={s.formInput}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPsw(e.target.value)} value={psw}
+                    />
+                </div>
+                <Button variant={'primary-button'} onClick={() => claim()}>Activate</Button>
+            </form>
 
         </section>
     )

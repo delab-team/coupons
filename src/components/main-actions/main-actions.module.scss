@@ -22,7 +22,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 100px;
+  gap: 6.25rem;
+  background-color: rgba(48, 47, 47, 0.8);
+  box-shadow: 0 0 .625rem rgba(0, 0, 0, 0.2);
+  padding: 9px 20px;
+  border-radius: 30px;
   &Button {
       display: flex;
       flex-direction: column;
@@ -30,6 +34,7 @@
       justify-content: center;
       background: transparent;
       gap: 10px;
+      width: max-content;
       span {
           font-size: 13px;
           font-weight: 600;

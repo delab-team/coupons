@@ -19,11 +19,14 @@
 
 .actions {
   position: fixed;
-  width: 21.5625rem;
   left: 50%;
   bottom: 2.9375rem;
   transform: translateX(-50%);
   z-index: 10;
+  width: 21.5625rem;
+  @media (min-width: 768px) {
+    width: auto;
+  }
   @media (max-height: 790px) {
       bottom: 1.9375rem;
   }

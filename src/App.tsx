@@ -15,14 +15,13 @@ import { SettingsPage } from './pages/settings-page'
 import { CreateCheckPage } from './pages/create-check-page'
 import { QrScannerPage } from './pages/qr-scanner-page'
 import { LoginPage } from './pages/login-page'
+import { Activate } from './pages/activate'
 
 import { Layout } from './layout'
 
 import { ROUTES } from './utils/router'
-import { Activate } from './pages/activate'
 
 const DeLabConnector = new DeLabConnect('https://delabteam.com/', 'DeCoupons', 'testnet')
-console.log('🚀 ~ file: App.tsx:28 ~ DeLabConnector:', DeLabConnector)
 
 export const App = (): JSX.Element => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
@@ -126,7 +125,9 @@ export const App = (): JSX.Element => {
                     />
 
                     <Route path={ROUTES.ACTIVATE} element={<Activate
+                        balance={balance}
                         address={addressCoupon}
+                        addressWallet={address}
                         wallet={DeLabConnector}
                     />} />
                 </Route>

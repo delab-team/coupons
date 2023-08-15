@@ -20,7 +20,7 @@ const mobileMenu = [
     {
         id: 14124,
         path: ROUTES.YOUR_CHECKS,
-        icon: 'create-checks'
+        icon: 'checks'
     },
     {
         id: 15677,
@@ -38,8 +38,14 @@ const pcMenu = [
     {
         id: 12671,
         path: ROUTES.YOUR_CHECKS,
-        icon: 'create-checks',
-        content: 'Create checks'
+        icon: 'checks',
+        content: 'Checks'
+    },
+    {
+        id: 12357,
+        path: ROUTES.ACTIVATE,
+        icon: 'activate',
+        content: 'Activate'
     },
     {
         id: 17147,
