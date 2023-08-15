@@ -77,13 +77,13 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
             return
         }
 
-        if (!info.id) {
+        if (!info.address) {
             console.error('Something went wrong')
             return
         }
 
         const tempTextArea = document.createElement('textarea')
-        tempTextArea.value = info.id
+        tempTextArea.value = info.address
         document.body.appendChild(tempTextArea)
         tempTextArea.select()
         document.execCommand('copy')

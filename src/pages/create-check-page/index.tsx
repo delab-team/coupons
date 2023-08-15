@@ -1,6 +1,7 @@
 import * as Yup from 'yup'
 import { FC, useState, useEffect } from 'react'
 import { DeLabAddress, DeLabConnect, DeLabTypeConnect } from '@delab-team/connect'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { v1 } from 'uuid'
 
@@ -43,6 +44,8 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
     address
     // typeConnect
 }) => {
+    const navigate = useNavigate()
+
     const [ values, setValues ] = useState<FormValues>(DEFAULT_VALUES)
     const [ errors, setErrors ] = useState<Record<string, string>>({})
 
@@ -84,6 +87,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                     storageWallet.save(couponKey, dataToSave)
                 }
                 setValues(DEFAULT_VALUES)
+                navigate('/')
             })
             .catch((error) => {
                 console.error('Error deploying:', error)

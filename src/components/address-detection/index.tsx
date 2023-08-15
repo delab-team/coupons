@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 interface AddressDetectionProps {
-    text: string
+    text: string;
 }
 
 export const AddressDetection: FC<AddressDetectionProps> = ({ text }) => {
@@ -15,7 +15,7 @@ export const AddressDetection: FC<AddressDetectionProps> = ({ text }) => {
     const detectedAddress = detectAddress(text)
     return (
         <div>
-            <p>{detectedAddress}</p>
+            <p></p>
         </div>
     )
 }
