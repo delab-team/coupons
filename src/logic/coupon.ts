@@ -1,9 +1,11 @@
 /* eslint-disable max-len */
 import { DeLabConnect, DeLabTransaction } from '@delab-team/connect'
-import { Cell, toNano } from 'ton-core'
-import { KeyPair, keyPairFromSeed, sha256 } from 'ton-crypto'
+// import { Cell, toNano } from 'ton-core'
+
+import { Address, beginCell, Cell, contractAddress, StateInit, storeStateInit, toNano } from 'ton'
+import { KeyPair, keyPairFromSeed, sha256, sign } from 'ton-crypto'
 import { StorageWallet } from './storage'
-import { ClaimFunctions, OneTimeCheque } from './wrappers/OneTimeCheque'
+import { ClaimFunctions, OneTimeCheque, Opcodes } from './wrappers/OneTimeCheque'
 
 const oneBoc = 'b5ee9c72410106010055000114ff00f4a413f4bcf2c80b010201200302004ef2d31ff00101821079b0b258ba8e158308d71820f901f8414130f910f2e2bcf800f842d89130e20202d10504001f3b513434ffc07e18750c343b47be18a0000120ed5bde98'
 
@@ -30,27 +32,79 @@ export class Coupon {
         )
         // )
 
+        if (!data.init) {
+            console.error('data.init null', data)
+            return false
+        }
+
+        const stateInit: StateInit  = {
+            code: data.init.code,
+            data: data.init.data
+        }
+
+        // const stateInitCell = new Cell()
+
+        const initString = beginCell().storeWritable(storeStateInit(stateInit)).endCell().toBoc()
+            .toString('base64')
+        // stateInit.writeTo(stateInitCell)
+
         const trans: DeLabTransaction = {
             to: data.address.toString(),
             value: _amount.toString(),
-            stateInit: data.init?.code.toBoc().toString()
+            stateInit: initString
         }
 
-        await this._wallet.sendTransaction(trans)
+        console.log('address', data)
 
-        // await oneTimeCheque.sendDeploy(provider.sender(), amount)
-        // console.log(cell)
-        // console.log(data)
+        console.log('address', data.address.toString())
 
-        const storage = new StorageWallet()
-        const couponData = {
-            publicKey: keypair.publicKey,
-            address: data.address.toString(),
-            amount: _amount.toString(),
-            stateInit: data.init?.code.toBoc().toString()
+        try {
+            const tx = await this._wallet.sendTransaction(trans)
+            console.log('tx', tx)
+
+            const storage = new StorageWallet()
+            const couponData = {
+                publicKey: keypair.publicKey,
+                address: data.address.toString(),
+                amount: _amount.toString(),
+                type: 'one'
+            }
+
+            storage.save('coupons', JSON.stringify(couponData))
+            return true
+        } catch (error) {
+            console.error('deploy', error)
+            return false
         }
-        storage.save('coupons', JSON.stringify(couponData))
+    }
 
-        return true
+    public async claim (address: string, addressForUser: string, passwordString: string) {
+        const seed: Buffer = await sha256(passwordString)
+        const keypair: KeyPair = keyPairFromSeed(seed)
+
+        const addressFor = Address.parse(addressForUser)
+
+        const signature = sign(beginCell().storeAddress(addressFor).endCell().hash(), keypair.secretKey)
+
+        const oneTimeCheque =             OneTimeCheque.createFromAddress(Address.parse(address))
+
+        console.log('oneTimeCheque', oneTimeCheque)
+
+        const payload = beginCell().storeUint(Opcodes.claim, 32).storeBuffer(signature).storeAddress(addressFor)
+            .endCell()
+        const trans: DeLabTransaction = {
+            to: Address.parse(address).toString({ bounceable: true }),
+            value: toNano('0.05').toString(),
+            payload: payload.toBoc().toString('base64')
+        }
+
+        try {
+            const tx = await this._wallet.sendTransaction(trans)
+            console.log('tx', tx)
+            return true
+        } catch (error) {
+            console.error('claim', error)
+            return false
+        }
     }
 }

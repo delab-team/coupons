@@ -19,6 +19,7 @@ import { LoginPage } from './pages/login-page'
 import { Layout } from './layout'
 
 import { ROUTES } from './utils/router'
+import { Activate } from './pages/activate'
 
 const DeLabConnector = new DeLabConnect('https://delabteam.com/', 'DeCoupons', 'testnet')
 console.log('🚀 ~ file: App.tsx:28 ~ DeLabConnector:', DeLabConnector)
@@ -32,6 +33,8 @@ export const App = (): JSX.Element => {
     const [ network, setNetwork ] = useState<DeLabNetwork>('testnet')
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
     const [ typeConnect, setTypeConnect ] = useState<DeLabTypeConnect>(undefined)
+
+    const [ addressCoupon, setAddressCoupon ] = useState<string>('')
 
     function listenDeLab () {
         DeLabConnector.on('connect', async (data: DeLabEvent) => {
@@ -112,7 +115,7 @@ export const App = (): JSX.Element => {
                             />
                         }
                     />
-                    <Route path={ROUTES.QR_SCANNER} element={<QrScannerPage />} />
+                    <Route path={ROUTES.QR_SCANNER} element={<QrScannerPage setAddress={setAddressCoupon} address={addressCoupon} />} />
                     <Route
                         path={ROUTES.SETTINGS}
                         element={<SettingsPage
@@ -121,6 +124,11 @@ export const App = (): JSX.Element => {
                             address={address}
                             balance={balance}/>}
                     />
+
+                    <Route path={ROUTES.ACTIVATE} element={<Activate
+                        address={addressCoupon}
+                        wallet={DeLabConnector}
+                    />} />
                 </Route>
                 <Route path={ROUTES.LOGIN} element={<LoginPage DeLabConnector={DeLabConnector} />} />
             </Routes>

@@ -7,12 +7,22 @@ import { Link } from '../../components/link'
 import QR from '../../assets/images/qr/qr.svg'
 
 import s from './qr-scanner-page.module.scss'
+import { Address } from 'ton-core'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../utils/router'
 
-interface QrScannerPageProps {}
+interface QrScannerPageProps {
+    address: string,
+    setAddress: Function
+}
 
-export const QrScannerPage: FC<QrScannerPageProps> = () => {
+export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) => {
     const videoRef = useRef<HTMLVideoElement | null>(null)
     const [ qrResult, setQRResult ] = useState<string>('link')
+
+    // const [ address, setAddress ] = useState<string>('')
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const initializeScanner = async () => {
@@ -65,6 +75,18 @@ export const QrScannerPage: FC<QrScannerPageProps> = () => {
         scanQRCodeFromImage()
     }, [])
 
+    useEffect(() => {
+        if (address) {
+            try {
+                const addr = Address.parse(address)
+
+                navigate(ROUTES.ACTIVATE)
+            } catch (err) {
+                console.error(err)
+            }
+        }
+    }, [address])
+
     return (
         <section>
             <MainTitle title="Scan QR code" />
@@ -75,6 +97,8 @@ export const QrScannerPage: FC<QrScannerPageProps> = () => {
                 </div>
             </div>
             <Link text={qrResult} href={qrResult} />
+
+            <input value={address} onChange={(e) => setAddress(e.target.value)} />
         </section>
     )
 }

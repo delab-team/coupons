@@ -120,7 +120,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                         onChange={e => setValues({ ...values, address: e.target.value })}
                     />
                 </div>
-                <Button variant="primary-button" type="submit" onClick={() => deploy()}>
+                <Button variant="primary-button" onClick={() => deploy()}>
           Create a check
                 </Button>
             </form>
