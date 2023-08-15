@@ -37,13 +37,6 @@ const data = [
         notifications: 1,
         sum: 'Sum: 10 TON (17$)',
         type: 'check'
-    },
-    {
-        id: 'wqe1321',
-        title: 'Check #3',
-        notifications: 0,
-        sum: 'Sum: 10 TON (17$)',
-        type: 'check'
     }
 ]
 

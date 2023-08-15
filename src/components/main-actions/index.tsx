@@ -23,6 +23,11 @@ const mobileMenu = [
         icon: 'checks'
     },
     {
+        id: 12357,
+        path: ROUTES.ACTIVATE,
+        icon: 'activate'
+    },
+    {
         id: 15677,
         path: ROUTES.QR_SCANNER,
         icon: 'scanner'

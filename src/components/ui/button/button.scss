@@ -12,7 +12,9 @@
   padding: 0.5rem;
   background: #1e1e1e;
   border-radius: 50%;
-  > svg {
+  > img {
+      height: 36px;
+      width: 36px;
       fill: #fff;
   }
   &:hover {
