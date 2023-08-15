@@ -68,6 +68,13 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
             try {
                 const result = await QrScanner.scanImage(QR)
                 if (result) {
+                    try {
+                        const addr = Address.parse(result)
+
+                        setAddress(addr.toString())
+                    } catch (error) {
+                        console.log(error)
+                    }
                     setQRResult(result)
                 } else {
                     console.error('QR code not found in the image')
@@ -102,9 +109,9 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
                 </div>
             </div>
 
-            {qrResult && <Link text={qrResult} href={qrResult} />}
+            {/* {qrResult && <Link text={qrResult} href={qrResult} />} */}
             <div className={s.formBlock}>
-                <label className={s.formLabel}>Text</label>
+                <label className={s.formLabel}>Address coupon</label>
                 <input
                     type="text"
                     value={address}

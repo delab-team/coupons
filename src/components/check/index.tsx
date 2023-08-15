@@ -15,6 +15,8 @@ import { StorageWallet } from '../../logic/storage'
 
 import s from './check.module.scss'
 import TokenPriceHook from '../../hooks/token-price-hook'
+import { Coupon } from '../../logic/coupon'
+import { fixAmount } from '../../utils/fix-amount'
 
 interface CheckProps {
     selectedCheckCard: SelectedDataType;
@@ -23,6 +25,8 @@ interface CheckProps {
 
 export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard }) => {
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
+
+    const [ bal, setBal ] = useState<string>('0')
 
     const [ info, setInfo ] = useState<CouponDataType | null>(null)
 
@@ -103,6 +107,12 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         }
     }, [ isVisible ])
 
+    useEffect(() => {
+        Coupon.getSumCoupon(s.address).then((bl) => {
+            setBal(bl)
+        })
+    }, [ isVisible, selectedCheckCard ])
+
     return (
         <div>
             {isVisible && <div className={s.overlay}></div>}
@@ -119,13 +129,12 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                     <div className={s.checkInfo}>
                         <div className={s.item}>
                             <div className={s.title}>Status:</div>
-                            <div className={s.description}>Not activated</div>
+                            <div className={s.description}>{Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated' }</div>
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Sum:</div>
                             <div className={s.description}>
-                                {info?.sum}
-                                TON (<TokenPriceHook tokenAmount={Number(info?.sum)} />)
+                                {fixAmount(bal)} TON (<TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                             </div>
                         </div>
                         <div className={s.item}>
