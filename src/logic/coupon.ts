@@ -101,7 +101,6 @@ export class Coupon {
 
         console.log('oneTimeCheque', oneTimeCheque)
 
-
         const oneTimeChequeO = this._client.open(
             OneTimeCheque.createFromAddress(Address.parse(address))
         )
@@ -126,6 +125,16 @@ export class Coupon {
         } catch (error) {
             console.error('claim', error)
             return false
+        }
+    }
+
+    public static async getSumCoupon (address: string): Promise<string> {
+        try {
+            const client = new TonClient({ endpoint: 'https://testnet.tonhubapi.com/jsonRPC' })
+            const bl = await client.getBalance(Address.parse(address))
+            return bl.toString()
+        } catch (error) {
+            return '0'
         }
     }
 }

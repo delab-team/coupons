@@ -6,11 +6,10 @@ interface AddressDetectionProps {
 
 export const AddressDetection: FC<AddressDetectionProps> = ({ text }) => {
     const detectAddress = (text: string) => {
-        const addressRegex = (
-          //
-        )
+        const addressRegex = ''
 
         // return matches ? matches[0] : 'Address not found'
+        return ''
     }
 
     const detectedAddress = detectAddress(text)
