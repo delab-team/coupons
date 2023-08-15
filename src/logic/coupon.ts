@@ -20,7 +20,7 @@ export class Coupon {
         this._client = new TonClient({ endpoint: 'https://testnet.tonhubapi.com/jsonRPC' })
     }
 
-    public async deployOne (passwordString: string, amount: string | number): Promise<boolean> {
+    public async deployOne (passwordString: string, amount: string | number): Promise<string | boolean> {
         const seed: Buffer = await sha256(passwordString)
         const keypair: KeyPair = keyPairFromSeed(seed)
 
@@ -75,7 +75,7 @@ export class Coupon {
             }
 
             storage.save('coupons', JSON.stringify(couponData))
-            return true
+            return data.address.toString()
         } catch (error) {
             console.error('deploy', error)
             return false
