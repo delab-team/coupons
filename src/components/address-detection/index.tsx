@@ -1,16 +1,11 @@
 import { FC } from 'react'
 
 interface AddressDetectionProps {
-    text: string
+    text: string;
 }
 
 export const AddressDetection: FC<AddressDetectionProps> = ({ text }) => {
-    const detectAddress = (text: string) => {
-        const addressRegex = (
-
-        )
-
-    }
+    const detectAddress = (text: string) => {}
 
     return (
         <div>

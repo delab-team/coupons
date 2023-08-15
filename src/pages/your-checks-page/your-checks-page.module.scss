@@ -39,9 +39,9 @@
 }
 
 .checkList {
-  height: calc(73vh - 67px);
+  height: 60vh;
+  overflow-y: auto;
   position: relative;
-
 }
 
 .pureCheck {
