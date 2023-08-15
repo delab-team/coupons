@@ -29,7 +29,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
     const [ bal, setBal ] = useState<string>('0')
 
     const [ info, setInfo ] = useState<CouponDataType | null>(null)
-
+    
     const storageWallet = new StorageWallet()
 
     useEffect(() => {
@@ -108,10 +108,12 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
     }, [ isVisible ])
 
     useEffect(() => {
-        Coupon.getSumCoupon(s.address).then((bl) => {
-            setBal(bl)
-        })
-    }, [ isVisible, selectedCheckCard ])
+        if (info) {
+            Coupon.getSumCoupon(info.address).then((bl) => {
+                setBal(bl)
+            })
+        }
+    }, [ isVisible, selectedCheckCard, setInfo, info ])
 
     return (
         <div>

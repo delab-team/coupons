@@ -21,7 +21,7 @@ interface QrScannerPageProps {
 
 export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) => {
     const videoRef = useRef<HTMLVideoElement | null>(null)
-    const [ qrResult, setQRResult ] = useState<string>('link')
+    const [ qrResult, setQRResult ] = useState<string>('')
 
     // const [ address, setAddress ] = useState<string>('')
 
@@ -109,7 +109,7 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
                 </div>
             </div>
 
-            {/* {qrResult && <Link text={qrResult} href={qrResult} />} */}
+            {/* {qrResult.length > 1 && <Link text={qrResult} href={qrResult} />} */}
             <div className={s.formBlock}>
                 <label className={s.formLabel}>Address coupon</label>
                 <input

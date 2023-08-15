@@ -30,12 +30,16 @@ interface FormValues {
     typeCheck: string;
     amount: string;
     password: string;
+    oneActivation: string;
+    amountActivation: string;
 }
 
 const DEFAULT_VALUES: FormValues = {
     typeCheck: 'Personal',
     amount: '0',
-    password: ''
+    password: '',
+    oneActivation: '0',
+    amountActivation: '0'
 }
 
 export const CreateCheckPage: FC<CreateCheckPageProps> = ({
@@ -97,13 +101,13 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
             })
     }
 
-    useEffect(() => {
-        if (values.typeCheck === 'Personal') {
-            //
-        } else if (values.typeCheck === 'Multicheck') {
-            //
-        }
-    }, [ values.typeCheck ])
+    // useEffect(() => {
+    //     if (values.typeCheck === 'Personal') {
+    //         //
+    //     } else if (values.typeCheck === 'Multicheck') {
+    //         //
+    //     }
+    // }, [ values.typeCheck ])
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -119,6 +123,26 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
             const parsedAmount = parseFloat(values.amount)
             if (parsedAmount < 0.00001 || parsedAmount > 100000.99999) {
                 validationErrors.amount = 'Invalid amount'
+            }
+
+            if (values.typeCheck === 'Multicheck') {
+                if (!/^\d+(\.\d+)?$/.test(values.oneActivation)) {
+                    validationErrors.oneActivation = 'Invalid amount'
+                } else {
+                    const parsedOneActivation = parseFloat(values.oneActivation)
+                    if (parsedOneActivation < 1 || parsedOneActivation > 100) {
+                        validationErrors.oneActivation = 'Invalid amount'
+                    }
+                }
+
+                if (!/^\d+(\.\d+)?$/.test(values.amountActivation)) {
+                    validationErrors.amountActivation = 'Invalid amount'
+                } else {
+                    const parsedAmountActivation = parseFloat(values.amountActivation)
+                    if (parsedAmountActivation < 1 || parsedAmountActivation > 100) {
+                        validationErrors.amountActivation = 'Invalid amount'
+                    }
+                }
             }
         }
 
@@ -162,6 +186,34 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                         {fixAmount(balance ?? '0')} TON ({balance ? <TokenPriceHook tokenAmount={Number(fixAmount(balance))} /> : 0})
                     </div>
                 </div>
+
+                {values.typeCheck === 'Multicheck' && (
+                    <div className={s.formBlock}>
+                        <label className={s.formLabel}>Amount of one activation</label>
+                        <input
+                            type="string"
+                            name="oneActivation"
+                            value={values.oneActivation}
+                            onChange={e => setValues({ ...values, oneActivation: e.target.value })}
+                            className={s.formInput}
+                        />
+                        {errors.oneActivation && <div className={s.error}>{errors.oneActivation}</div>}
+                    </div>
+                )}
+
+                {values.typeCheck === 'Multicheck' && (
+                    <div className={s.formBlock}>
+                        <label className={s.formLabel}>Number of activations</label>
+                        <input
+                            type="string"
+                            name="activationAmount"
+                            value={values.amountActivation}
+                            onChange={e => setValues({ ...values, amountActivation: e.target.value })}
+                            className={s.formInput}
+                        />
+                        {errors.amountActivation && <div className={s.error}>{errors.amountActivation}</div>}
+                    </div>
+                )}
 
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>Set a password</label>

@@ -22,11 +22,11 @@ const mobileMenu = [
         path: ROUTES.YOUR_CHECKS,
         icon: 'checks'
     },
-    {
-        id: 12357,
-        path: ROUTES.ACTIVATE,
-        icon: 'activate'
-    },
+    // {
+    //     id: 12357,
+    //     path: ROUTES.ACTIVATE,
+    //     icon: 'activate'
+    // },
     {
         id: 15677,
         path: ROUTES.QR_SCANNER,
@@ -46,12 +46,12 @@ const pcMenu = [
         icon: 'checks',
         content: 'Checks'
     },
-    {
-        id: 12357,
-        path: ROUTES.ACTIVATE,
-        icon: 'activate',
-        content: 'Activate'
-    },
+    // {
+    //     id: 12357,
+    //     path: ROUTES.ACTIVATE,
+    //     icon: 'activate',
+    //     content: 'Activate'
+    // },
     {
         id: 17155,
         path: ROUTES.QR_SCANNER,
