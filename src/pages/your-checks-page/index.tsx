@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DeLabAddress } from '@delab-team/connect'
@@ -45,6 +46,7 @@ export interface CouponDataType {
     id: string;
     address: string;
     typeCheck: 'Personal' | 'Multicheck';
+    date: number;
 }
 
 export interface MultiDataType {

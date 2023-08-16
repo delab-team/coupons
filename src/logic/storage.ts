@@ -42,6 +42,8 @@ export class StorageWallet {
                     }
                 }
             }
+
+            allCoupons.sort((a, b) => a.date - b.date)
         } catch (error) {
             console.error(error)
         }
