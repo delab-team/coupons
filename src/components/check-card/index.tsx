@@ -38,7 +38,6 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick 
         fetchBalance()
     }, [ el.address ])
 
-
     return (
         <li className={s.check} onClick={() => handleCheckCardClick(el?.id, el?.typeCheck)}>
             <div className={s.checkBody}>

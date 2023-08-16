@@ -135,7 +135,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Address:</div>
-                            <div className={s.description} onClick={handleCopyAddress}>
+                            <div className={s.description} onClick={handleCopyAddress} style={{ cursor: 'pointer' }}>
                                 {smlAddr(info?.address)}
                             </div>
                         </div>
