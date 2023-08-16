@@ -52,7 +52,6 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         setIsVisible(false)
         setSelectedCheckCard('', '')
         setInfo(null)
-        setBal('0')
     }
 
     const handleRemoveCheck = () => {
@@ -119,11 +118,11 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                 }
             }
         }
-
-        if (isVisible && info) {
+        console.log('rerender')
+        if (isVisible && info && selectedCheckCard?.id === info.id) {
             fetchCouponBalance()
         }
-    }, [ info?.address ])
+    }, [ info?.address, selectedCheckCard?.id, isVisible ])
 
     return (
         <div>

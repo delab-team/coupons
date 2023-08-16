@@ -29,8 +29,8 @@ export class StorageWallet {
         return true
     }
 
-    public getAllCoupons (): any[] {
-        const allCoupons: any[] = []
+    public getAllCoupons (): CouponDataType[] {
+        const allCoupons: CouponDataType[] = []
 
         try {
             for (let i = 0; i < this._data.length; i++) {
@@ -38,7 +38,7 @@ export class StorageWallet {
                 if (key && key.startsWith(this._keyPrefix)) {
                     const dataArray = this.get(key.replace(this._keyPrefix, ''))
                     if (Array.isArray(dataArray) && dataArray.length > 0 && typeof dataArray[0] === 'object') {
-                        allCoupons.push(dataArray[0])
+                        allCoupons.push(...dataArray)
                     }
                 }
             }

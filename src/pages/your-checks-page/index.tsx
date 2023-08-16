@@ -115,11 +115,11 @@ export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) =>
                 <ul className={`${s.checkList} ${checks.length > 1 ? s.checkLists : ''}`}>
                     {checks.length < 1 ? (
                         <div className={s.pureCheck}>Your check list is empty</div>
-                    ) : checks.map((el, index) => (
+                    ) : checks.slice().reverse().map((el, index) => (
                         <CheckCard key={el.id} el={el} index={index + 1} handleCheckCardClick={handleCheckCardClick} />
                     ))}
-
                 </ul>
+
             </div>
 
             {renderPopupComponent()}

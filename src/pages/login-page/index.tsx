@@ -15,16 +15,18 @@ export const LoginPage: FC<LoginPageProps> = ({ DeLabConnector }) => {
     const isMobile = useMediaQuery(768)
 
     return (
-        <div className={`${s.main} ${isMobile ? 'container-mobile' : 'container-pc'}`}>
-            <div className={s.mainInner}>
-                <h1 className={s.mainLogo}>DeCoupons</h1>
+        <section>
+            <div className={`${s.main} ${isMobile ? 'container-mobile' : 'container-pc'}`}>
+                <div className={s.mainInner}>
+                    <h1 className={s.mainLogo}>DeCoupons</h1>
 
-                <div className={s.mainButton}>
-                    <Button variant="white-button" onClick={() => DeLabConnector.openModal()}>
+                    <div className={s.mainButton}>
+                        <Button variant="white-button" onClick={() => DeLabConnector.openModal()}>
             Connect Wallet
-                    </Button>
+                        </Button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
