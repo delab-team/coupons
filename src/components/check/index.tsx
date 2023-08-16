@@ -1,12 +1,6 @@
 import { FC, useState, useEffect } from 'react'
 
 import { toast } from 'react-toastify'
-import { Button } from '../ui/button'
-
-import DONE from '../../assets/images/checks/done.svg'
-import SHARE from '../../assets/images/checks/share_outline.svg'
-import DELETE from '../../assets/images/checks/delete.svg'
-import CANCEL from '../../assets/images/checks/cancel.svg'
 
 // eslint-disable-next-line import/no-cycle
 import { CouponDataType, SelectedDataType } from '../../pages/your-checks-page'
@@ -14,10 +8,18 @@ import { CouponDataType, SelectedDataType } from '../../pages/your-checks-page'
 import { StorageWallet } from '../../logic/storage'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
+import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
+
+import { Button } from '../ui/button'
 
 import { Coupon } from '../../logic/coupon'
 
 import { fixAmount } from '../../utils/fix-amount'
+
+import DONE from '../../assets/images/checks/done.svg'
+import SHARE from '../../assets/images/checks/share_outline.svg'
+import DELETE from '../../assets/images/checks/delete.svg'
+import CANCEL from '../../assets/images/checks/cancel.svg'
 
 import s from './check.module.scss'
 
@@ -28,7 +30,6 @@ interface CheckProps {
 
 export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard }) => {
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
-    const [ qrShow, setQrShow ] = useState<boolean>(false)
 
     const [ bal, setBal ] = useState<string>('0')
 
@@ -81,27 +82,6 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         }
     }
 
-    const handleShare = () => {
-        if (!info) {
-            console.error('Something went wrong')
-            return
-        }
-
-        if (!info.address) {
-            console.error('Something went wrong')
-            return
-        }
-
-        const tempTextArea = document.createElement('textarea')
-        tempTextArea.value = info.address
-        document.body.appendChild(tempTextArea)
-        tempTextArea.select()
-        document.execCommand('copy')
-        document.body.removeChild(tempTextArea)
-
-        toast.success('Check has been copied to the clipboard')
-    }
-
     // eslint-disable-next-line consistent-return
     useEffect(() => {
         if (!isVisible) {
@@ -129,6 +109,9 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
             fetchCouponBalance()
         }
     }, [ info?.address, selectedCheckCard?.id, isVisible ])
+
+    const qrCodeValue = 'https://www.youtube.com/watch?v=NUsoVlDFqZg&ab_channel=EnriqueIglesiasVEVO'
+    const generateQRCodeAndDownload = useQRCodeDownloader(qrCodeValue)
 
     return (
         <div className={s.checkBody}>
@@ -161,7 +144,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                             </div>
                         </div>
                         <div className={s.checkActions}>
-                            <Button variant="action-button" startIcon={SHARE} onClick={() => setQrShow(true)}>
+                            <Button variant="action-button" startIcon={SHARE} onClick={generateQRCodeAndDownload}>
                                 Share
                             </Button>
                             <Button

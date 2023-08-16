@@ -1,8 +1,8 @@
 import { FC, useState, useEffect, useRef } from 'react'
 import QrScanner from 'qr-scanner'
-
 import { Address } from 'ton-core'
 import { useNavigate } from 'react-router-dom'
+
 import { MainTitle } from '../../components/main-title'
 import { Link } from '../../components/link'
 
@@ -119,7 +119,6 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
                     className={s.formInput}
                 />
             </div>
-
         </section>
     )
 }

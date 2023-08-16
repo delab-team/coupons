@@ -1,6 +1,6 @@
+/* eslint-disable import/no-cycle */
 import { FC, useState, useEffect } from 'react'
 
-// eslint-disable-next-line import/no-cycle
 import { toast } from 'react-toastify'
 
 import { MultiDataType, SelectedDataType } from '../../pages/your-checks-page'
@@ -13,6 +13,7 @@ import { Coupon } from '../../logic/coupon'
 import { fixAmount } from '../../utils/fix-amount'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
+import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
 
 import DONE from '../../assets/images/checks/done.svg'
 import SHARE from '../../assets/images/checks/share_outline.svg'
@@ -87,6 +88,9 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
         }
     }
 
+    const qrCodeValue = 'https://www.youtube.com/watch?v=Qw2LUsS-Ujo&ab_channel=RandomVideos'
+    const generateQRCodeAndDownload = useQRCodeDownloader(qrCodeValue)
+
     return (
         <div>
             {isVisible && <div className={s.overlay}></div>}
@@ -110,7 +114,6 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                         <div className={s.item}>
                             <div className={s.title}>Amount of one activation:</div>
                             <div className={s.description}>
-                                {/* @ts-ignore */}
                                 {fixAmount(Number(bal))} TON (<TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                             </div>
                         </div>
@@ -125,7 +128,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                             </div>
                         </div>
                         <div className={s.multicheckActions}>
-                            <Button variant="action-button" startIcon={SHARE}>
+                            <Button variant="action-button" startIcon={SHARE} onClick={generateQRCodeAndDownload}>
                               Share
                             </Button>
                             <Button variant="action-button" startIcon={DELETE} onClick={handleRemoveCheck}>
