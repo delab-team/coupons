@@ -150,7 +150,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
         } else if (values.typeCheck === 'Multicheck') {
             const validateActivationAmount = (amount: string) => {
                 const parsedAmount = parseFloat(amount)
-                return /^\d+(\.\d+)?$/.test(amount) && parsedAmount >= 0.00001 && parsedAmount <= 100
+                return /^\d+(\.\d+)?$/.test(amount) && parsedAmount >= 0.00001 && parsedAmount <= 1500000
             }
 
             if (!validateActivationAmount(values.oneActivation)) {

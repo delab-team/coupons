@@ -20,6 +20,7 @@ import DELETE from '../../assets/images/checks/delete.svg'
 import CANCEL from '../../assets/images/checks/cancel.svg'
 
 import s from './multichecks.module.scss'
+import { QrCode } from '../qr-code'
 
 interface MultichecksProps {
     selectedCheckCard: SelectedDataType;
@@ -90,7 +91,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
     return (
         <div>
             {isVisible && <div className={s.overlay}></div>}
-            <div className={`${s.multicheck} ${isVisible ? s.slideIn : s.slideOut}`}>
+            <section className={`${s.multicheck} ${isVisible ? s.slideIn : s.slideOut}`}>
                 <div className={`container ${s.container}`}>
                     <div className={s.headerTop}>
                         <h1 className={s.headerTitle}>Multicheck</h1>
@@ -134,7 +135,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     )
 }
