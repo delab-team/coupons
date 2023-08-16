@@ -83,7 +83,8 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                     // sum: values.amount,
                     id: couponKey,
                     address: couponResult,
-                    typeCheck: values.typeCheck
+                    typeCheck: values.typeCheck,
+                    date: Date.now()
                 }
 
                 if (couponResult) {
@@ -114,7 +115,8 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                 amountActivation: values.amountActivation,
                 address: multiResult,
                 id: multiKey,
-                typeCheck: values.typeCheck
+                typeCheck: values.typeCheck,
+                date: Date.now()
             }
             if (multiResult) {
                 storageWallet.save(multiKey, dataToSave)
