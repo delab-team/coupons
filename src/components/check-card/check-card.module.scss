@@ -56,9 +56,6 @@
       min-height: 0.875rem;
     }
   }
-  &Index {
-    padding-left: 2px;
-  }
   &Info {
   }
   &Title {
@@ -70,4 +67,8 @@
   }
   &Chevron {
   }
+}
+
+.checkIndex {
+  padding-left: 5px;
 }

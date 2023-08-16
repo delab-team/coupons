@@ -62,7 +62,7 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick 
                             : el.typeCheck === 'Multicheck'
                                 ? 'Multicheck'
                                 : null}
-                        <span className={s.checkIndex}># {index}</span>
+                        <span className={s.checkIndex}>#{index}</span>
                     </p>
                     <p className={s.checkSum}>
                         Sum: {fixAmount(bal)} TON (
