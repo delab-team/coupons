@@ -79,12 +79,15 @@ export class Coupon {
                 type: 'one'
             }
 
+            if (tx.error) {
+                toast.error('Failed to create coupon')
+                return false
+            }
+
             storage.save('coupons', JSON.stringify(couponData))
 
             if (tx) {
                 toast.success('Coupon created successfully.')
-            } else {
-                toast.error('Failed to create coupon')
             }
             return data.address.toString()
         } catch (error) {

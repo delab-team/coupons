@@ -29,7 +29,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
     const [ bal, setBal ] = useState<string>('0')
 
     const [ info, setInfo ] = useState<CouponDataType | null>(null)
-    
+
     const storageWallet = new StorageWallet()
 
     useEffect(() => {
@@ -52,6 +52,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         setIsVisible(false)
         setSelectedCheckCard('', '')
         setInfo(null)
+        setBal('0')
     }
 
     const handleRemoveCheck = () => {
@@ -108,12 +109,21 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
     }, [ isVisible ])
 
     useEffect(() => {
-        if (info) {
-            Coupon.getSumCoupon(info.address).then((bl) => {
-                setBal(bl)
-            })
+        const fetchCouponBalance = async () => {
+            if (info && info.address) {
+                try {
+                    const bl = await Coupon.getSumCoupon(info.address)
+                    setBal(bl)
+                } catch (error) {
+                    console.error('Error fetching coupon balance:', error)
+                }
+            }
         }
-    }, [ isVisible, selectedCheckCard, setInfo, info ])
+
+        if (isVisible && info) {
+            fetchCouponBalance()
+        }
+    }, [ info?.address ])
 
     return (
         <div>

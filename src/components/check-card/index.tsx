@@ -8,9 +8,11 @@ import CHEVRON_RIGHT from '../../assets/images/checks/chevron_right.svg'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
 
-import s from './check-card.module.scss'
 import { Coupon } from '../../logic/coupon'
+
 import { fixAmount } from '../../utils/fix-amount'
+
+import s from './check-card.module.scss'
 
 interface CheckCardProps {
     el: CouponDataType;
@@ -26,10 +28,19 @@ export const CheckCard: FC<CheckCardProps> = ({
     const [ bal, setBal ] = useState<string>('0')
 
     useEffect(() => {
-        Coupon.getSumCoupon(el.address).then((bl) => {
-            setBal(bl)
-        })
-    }, [ ])
+        const fetchBalance = async () => {
+            try {
+                const bl = await Coupon.getSumCoupon(el.address)
+                setBal(bl)
+            } catch (error) {
+                console.error(error)
+                setBal('0')
+            }
+        }
+
+        fetchBalance()
+    }, [ el.address ])
+
     return (<li
         className={s.check}
         onClick={() => handleCheckCardClick(el?.id, el?.typeCheck)}
@@ -51,7 +62,8 @@ export const CheckCard: FC<CheckCardProps> = ({
             <div className={s.checkInfo}>
                 <p className={s.checkTitle}>Check #{index}</p>
                 <p className={s.checkSum}>
-                    Sum: {fixAmount(bal)} TON (<TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
+                    Sum: {fixAmount(bal)} TON
+                     {/* (<TokenPriceHook tokenAmount={Number(fixAmount(bal))} />) */}
                 </p>
             </div>
         </div>

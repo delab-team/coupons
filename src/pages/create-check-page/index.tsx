@@ -90,9 +90,9 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
 
                 if (couponResult) {
                     storageWallet.save(couponKey, dataToSave)
+                    navigate('/')
                 }
                 setValues(DEFAULT_VALUES)
-                navigate('/')
             })
             .catch((error) => {
                 console.error('Error deploying:', error)
@@ -101,14 +101,6 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                 setIsDeploying(false)
             })
     }
-
-    // useEffect(() => {
-    //     if (values.typeCheck === 'Personal') {
-    //         //
-    //     } else if (values.typeCheck === 'Multicheck') {
-    //         //
-    //     }
-    // }, [ values.typeCheck ])
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -156,7 +148,12 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors)
         } else {
-            deploy()
+            // eslint-disable-next-line no-lonely-if
+            if (values.typeCheck === 'Personal') {
+                deploy()
+            } else if (values.typeCheck === 'Multicheck') {
+                //
+            }
         }
     }
 
