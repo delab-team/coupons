@@ -80,14 +80,14 @@ export class Coupon {
             }
 
             if (tx.error) {
-                toast.error('Failed to create coupon')
+                toast.error('Failed to create check')
                 return false
             }
 
             storage.save('coupons', JSON.stringify(couponData))
 
             if (tx) {
-                toast.success('Coupon created successfully.')
+                toast.success('Check created successfully.')
             }
             return data.address.toString()
         } catch (error) {
@@ -203,12 +203,15 @@ export class Coupon {
                 type: 'multi'
             }
 
+            if (tx.error) {
+                toast.error('Failed to create coupon')
+                return false
+            }
+
             storage.save('coupons', JSON.stringify(couponData))
 
             if (tx) {
-                toast.success('Coupon created successfully.')
-            } else {
-                toast.error('Failed to create coupon')
+                toast.success('Check created successfully.')
             }
             return data.address.toString()
         } catch (error) {

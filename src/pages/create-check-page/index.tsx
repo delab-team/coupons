@@ -102,58 +102,82 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
             })
     }
 
+    const deployMultiCheck = () => {
+        setIsDeploying(true)
+
+        const multi = new Coupon(DeLabConnector)
+        const storageWallet = new StorageWallet()
+
+        const multiKey = v1()
+
+        multi.deployMulti(values.password, values.oneActivation, values.amountActivation).then((multiResult) => {
+            const dataToSave = {
+                oneActivation: values.oneActivation,
+                amountActivation: values.amountActivation,
+                address: multiResult,
+                id: multiKey,
+                typeCheck: values.typeCheck
+            }
+            if (multiResult) {
+                storageWallet.save(multiKey, dataToSave)
+                navigate('/')
+            }
+            setValues(DEFAULT_VALUES)
+        })
+            .catch((error) => {
+                console.error('Error deploying:', error)
+            })
+            .finally(() => {
+                setIsDeploying(false)
+            })
+    }
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         const validationErrors: Record<string, string> = {}
 
         if (!values.typeCheck) {
             validationErrors.typeCheck = 'Type of check is required'
-        }
+        } else if (values.typeCheck === 'Personal') {
+            const validateAmount = (amount: string) => {
+                const parsedAmount = parseFloat(amount)
+                return /^\d+(\.\d+)?$/.test(amount) && parsedAmount >= 0.00001 && parsedAmount <= 100000.99999
+            }
 
-        if (values.typeCheck === 'Personal') {
-            if (!/^\d+(\.\d+)?$/.test(values.amount)) {
+            if (!validateAmount(values.amount)) {
                 validationErrors.amount = 'Invalid amount'
-            } else {
-                const parsedAmount = parseFloat(values.amount)
-                if (parsedAmount < 0.00001 || parsedAmount > 100000.99999) {
-                    validationErrors.amount = 'Invalid amount'
-                }
             }
-        }
+        } else if (values.typeCheck === 'Multicheck') {
+            const validateActivationAmount = (amount: string) => {
+                const parsedAmount = parseFloat(amount)
+                return /^\d+(\.\d+)?$/.test(amount) && parsedAmount >= 0.00001 && parsedAmount <= 100
+            }
 
-        if (values.typeCheck === 'Multicheck') {
-            if (!/^\d+(\.\d+)?$/.test(values.oneActivation)) {
+            if (!validateActivationAmount(values.oneActivation)) {
                 validationErrors.oneActivation = 'Invalid amount'
-            } else {
-                const parsedOneActivation = parseFloat(values.oneActivation)
-                if (parsedOneActivation < 1 || parsedOneActivation > 100) {
-                    validationErrors.oneActivation = 'Invalid amount'
-                }
             }
 
-            if (!/^\d+(\.\d+)?$/.test(values.amountActivation)) {
+            if (!/^\d+$/.test(values.amountActivation)) {
+                validationErrors.amountActivation = 'Amount must be an integer'
+            } else if (!validateActivationAmount(values.amountActivation)) {
                 validationErrors.amountActivation = 'Invalid amount'
-            } else {
-                const parsedAmountActivation = parseFloat(values.amountActivation)
-                if (parsedAmountActivation < 1 || parsedAmountActivation > 100) {
-                    validationErrors.amountActivation = 'Invalid amount'
-                }
             }
         }
 
         if (values.password.length < 8) {
             validationErrors.password = 'Password must be at least 8 characters long'
+        } else if (!/[a-zA-Z]/.test(values.password)) {
+            validationErrors.password = 'Password must include English letters'
+        } else if (/[а-яА-Я]/.test(values.password)) {
+            validationErrors.password = 'Password must not contain Russian characters'
         }
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors)
-        } else {
-            // eslint-disable-next-line no-lonely-if
-            if (values.typeCheck === 'Personal') {
-                deploy()
-            } else if (values.typeCheck === 'Multicheck') {
-                //
-            }
+        } else if (values.typeCheck === 'Personal') {
+            deploy()
+        } else if (values.typeCheck === 'Multicheck') {
+            deployMultiCheck()
         }
     }
 

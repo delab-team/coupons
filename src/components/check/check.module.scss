@@ -1,3 +1,8 @@
+.checkBody {
+  position: relative;
+  height: 100%;
+}
+
 .check {
   position: fixed;
   bottom: -100%;
@@ -115,4 +120,14 @@
 .status {
   height: 1.125rem;
   padding-top: 0.25rem;
+}
+
+.qrBody {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(4, 4, 4, 0.8);
+  z-index: 20;
 }

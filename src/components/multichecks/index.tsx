@@ -1,17 +1,25 @@
-import { FC, useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { FC, useState, useEffect } from 'react'
+
+// eslint-disable-next-line import/no-cycle
+import { toast } from 'react-toastify'
+
+import { MultiDataType, SelectedDataType } from '../../pages/your-checks-page'
+
+import { Button } from '../ui/button'
+
+import { StorageWallet } from '../../logic/storage'
+import { Coupon } from '../../logic/coupon'
+
+import { fixAmount } from '../../utils/fix-amount'
+
+import TokenPriceHook from '../../hooks/token-price-hook'
 
 import DONE from '../../assets/images/checks/done.svg'
 import SHARE from '../../assets/images/checks/share_outline.svg'
 import DELETE from '../../assets/images/checks/delete.svg'
 import CANCEL from '../../assets/images/checks/cancel.svg'
 
-// eslint-disable-next-line import/no-cycle
-import { SelectedDataType } from '../../pages/your-checks-page'
-
-import { Button } from '../ui/button'
-
 import s from './multichecks.module.scss'
-import { StorageWallet } from '../../logic/storage'
 
 interface MultichecksProps {
     selectedCheckCard: SelectedDataType;
@@ -20,33 +28,64 @@ interface MultichecksProps {
 
 export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelectedCheckCard }) => {
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
+    const [ bal, setBal ] = useState<string>('0')
+    const [ info, setInfo ] = useState<MultiDataType | null>(null)
+    const storageWallet = new StorageWallet()
 
-    // const [ couponInfo, setCouponInfo ] = useState({})
-    // console.log('🚀 ~ file: index.tsx:25 ~ couponInfo:', couponInfo)
+    useEffect(() => {
+        const getMultiData = () => {
+            try {
+                const result: MultiDataType[] | null = storageWallet.get(selectedCheckCard?.id)
 
-    // const storageWallet = new StorageWallet()
+                if (result) {
+                    setInfo(result[0])
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
 
-    // useEffect(() => {
-    //     const couponInfo = storageWallet.get(selectedCheckCard.id)
+        getMultiData()
+    }, [ selectedCheckCard?.id ])
 
-    //     setCouponInfo(couponInfo)
-    // }, [ selectedCheckCard.id ])
+    useEffect(() => {
+        const fetchCouponBalance = async () => {
+            if (info && info.address) {
+                try {
+                    const bl = await Coupon.getSumCoupon(info.address)
+                    setBal(bl)
+                } catch (error) {
+                    console.error('Error fetching coupon balance:', error)
+                }
+            }
+        }
+        console.log('rerender')
+        if (isVisible && info && selectedCheckCard?.id === info.id) {
+            fetchCouponBalance()
+        }
+    }, [ info?.address, selectedCheckCard?.id, isVisible ])
 
     const handleCancelButtonClick = () => {
         setIsVisible(false)
         setSelectedCheckCard({ id: '', selected: '' })
+        setBal('0')
+        setInfo(null)
     }
 
-    // eslint-disable-next-line consistent-return
-    useEffect(() => {
-        if (!isVisible) {
-            const timer = setTimeout(() => {
-                clearTimeout(timer)
-            }, 300)
-
-            return () => clearTimeout(timer)
+    const handleRemoveCheck = () => {
+        if (!info?.id) {
+            console.error('Something went wrong')
+            return
         }
-    }, [ isVisible ])
+
+        if (window.confirm('Are you sure you want to delete the coupon?')) {
+            storageWallet.del(info.id)
+            toast.success('Coupon successfully deleted')
+            window.location.reload()
+        } else {
+            console.log('Coupon deletion was canceled')
+        }
+    }
 
     return (
         <div>
@@ -54,29 +93,30 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
             <div className={`${s.multicheck} ${isVisible ? s.slideIn : s.slideOut}`}>
                 <div className={`container ${s.container}`}>
                     <div className={s.headerTop}>
-                        <h1 className={s.headerTitle}>Multicheck #1</h1>
+                        <h1 className={s.headerTitle}>Multicheck</h1>
                         <Button variant="small-button" startIcon={CANCEL} onClick={handleCancelButtonClick} />
                     </div>
                     <div className={`${s.multicheckInfo}`}>
                         <div className={s.item}>
                             <div className={s.title}>Status:</div>
-                            <div className={s.description}>Not activated</div>
+                            <div className={s.description}>{Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated' }</div>
                         </div>
-                        <div className={s.item}>
+                        {/* <div className={s.item}>
                             <div className={s.title}>Sum:</div>
                             <div className={s.description}>
                               10 TON (<span>$17</span>)
                             </div>
-                        </div>
+                        </div> */}
                         <div className={s.item}>
                             <div className={s.title}>Amount of one activation:</div>
                             <div className={s.description}>
-                              0.5 TON (<span>$0.91</span>)
+                                {/* @ts-ignore */}
+                                {fixAmount(Number(bal))} TON (<TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                             </div>
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Number of activations:</div>
-                            <div className={s.description}>20</div>
+                            <div className={s.description}>{info?.amountActivation}</div>
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Password:</div>

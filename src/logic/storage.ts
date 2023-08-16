@@ -49,10 +49,10 @@ export class StorageWallet {
         return allCoupons
     }
 
-    public get (key: string): CouponDataType[] | null {
+    public get (key: string): any[] | null {
         try {
             const dataArray = this._data.getItem(this.getFullKey(key))
-            return dataArray ? JSON.parse(dataArray) as CouponDataType[] : null
+            return dataArray ? JSON.parse(dataArray) as any[] : null
         } catch (error) {
             console.error(error)
             return null

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { FC, useEffect, useState } from 'react'
 
 // eslint-disable-next-line import/no-cycle
@@ -20,11 +21,7 @@ interface CheckCardProps {
     handleCheckCardClick: (id: string, selected: string) => void;
 }
 
-export const CheckCard: FC<CheckCardProps> = ({
-    el,
-    index,
-    handleCheckCardClick
-}) =>  {
+export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick }) => {
     const [ bal, setBal ] = useState<string>('0')
 
     useEffect(() => {
@@ -41,13 +38,11 @@ export const CheckCard: FC<CheckCardProps> = ({
         fetchBalance()
     }, [ el.address ])
 
-    return (<li
-        className={s.check}
-        onClick={() => handleCheckCardClick(el?.id, el?.typeCheck)}
-    >
-        <div className={s.checkBody}>
-            <div className={s.checkNotifications}>
-                {/* {notifications > 0 && (
+    return (
+        <li className={s.check} onClick={() => handleCheckCardClick(el?.id, el?.typeCheck)}>
+            <div className={s.checkBody}>
+                <div className={s.checkNotifications}>
+                    {/* {notifications > 0 && (
                     <div
                         className={`${s.checkNotificationsNumbers}, ${
                             notifications >= 10 ? s.checkNotificationsCounts : s.checkNotificationsCount
@@ -56,21 +51,25 @@ export const CheckCard: FC<CheckCardProps> = ({
                         {notifications}
                     </div>
                 )} */}
-                <img src={CHECK_IMG} alt="check image" />
-            </div>
+                    <img src={CHECK_IMG} alt="check image" />
+                </div>
 
-            <div className={s.checkInfo}>
-                <p className={s.checkTitle}>Check #{index}</p>
-                <p className={s.checkSum}>
-                    Sum: {fixAmount(bal)} TON
-                     {/* (<TokenPriceHook tokenAmount={Number(fixAmount(bal))} />) */}
-                </p>
+                <div className={s.checkInfo}>
+                    <p className={s.checkTitle}>
+                        {el.typeCheck === 'Personal'
+                            ? 'Check'
+                            : el.typeCheck === 'Multicheck'
+                                ? 'Multicheck'
+                                : null}
+                        #{index}
+                    </p>
+                    <p className={s.checkSum}>
+                        Sum: {fixAmount(bal)} TON (
+                        <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
+                    </p>
+                </div>
             </div>
-        </div>
-        <img
-            src={CHEVRON_RIGHT}
-            className={s.checkChevron}
-            alt="chevron right"
-        />
-    </li>)
+            <img src={CHEVRON_RIGHT} className={s.checkChevron} alt="chevron right" />
+        </li>
+    )
 }

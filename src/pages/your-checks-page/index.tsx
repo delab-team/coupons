@@ -44,7 +44,15 @@ export interface CouponDataType {
     sum: number;
     id: string;
     address: string;
-    typeCheck: 'Personal' | 'Multicheck'
+    typeCheck: 'Personal' | 'Multicheck';
+}
+
+export interface MultiDataType {
+    address: string;
+    amountActivation: string;
+    id: string;
+    oneActivation: string;
+    typeCheck: 'Personal' | 'Multicheck';
 }
 
 export interface SelectedDataType {
@@ -58,7 +66,7 @@ export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) =>
         selected: ''
     })
 
-    const [ checks, setChecks ] = useState<CouponDataType[]>([])
+    const [ checks, setChecks ] = useState<any[]>([])
     const storageWallet = new StorageWallet()
 
     useEffect(() => {

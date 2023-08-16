@@ -13,10 +13,15 @@ import { CouponDataType, SelectedDataType } from '../../pages/your-checks-page'
 
 import { StorageWallet } from '../../logic/storage'
 
-import s from './check.module.scss'
 import TokenPriceHook from '../../hooks/token-price-hook'
+
 import { Coupon } from '../../logic/coupon'
+
 import { fixAmount } from '../../utils/fix-amount'
+
+import { QrCode } from '../qr-code'
+
+import s from './check.module.scss'
 
 interface CheckProps {
     selectedCheckCard: SelectedDataType;
@@ -25,6 +30,7 @@ interface CheckProps {
 
 export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard }) => {
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
+    const [ qrShow, setQrShow ] = useState<boolean>(false)
 
     const [ bal, setBal ] = useState<string>('0')
 
@@ -46,11 +52,13 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         }
 
         getCheckData()
-    }, [ selectedCheckCard?.id ])
+    }, [ selectedCheckCard?.id, setSelectedCheckCard ])
 
     const handleCancelButtonClick = () => {
         setIsVisible(false)
         setSelectedCheckCard('', '')
+        setBal('0')
+
         setInfo(null)
     }
 
@@ -125,12 +133,12 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
     }, [ info?.address, selectedCheckCard?.id, isVisible ])
 
     return (
-        <div>
+        <div className={s.checkBody}>
             {isVisible && <div className={s.overlay}></div>}
             <section className={`${s.check} ${isVisible ? s.slideIn : s.slideOut}`}>
                 <div className={`container ${s.container}`}>
                     <div className={s.headerTop}>
-                        <h1 className={s.headerTitle}>Check #1</h1>
+                        <h1 className={s.headerTitle}>Check</h1>
                         <Button
                             variant="small-button"
                             startIcon={CANCEL}
@@ -155,7 +163,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                             </div>
                         </div>
                         <div className={s.checkActions}>
-                            <Button variant="action-button" startIcon={SHARE} onClick={handleShare}>
+                            <Button variant="action-button" startIcon={SHARE} onClick={() => setQrShow(true)}>
                                 Share
                             </Button>
                             <Button
@@ -166,6 +174,11 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                                 Delete
                             </Button>
                         </div>
+                        {qrShow && (
+                            <div className={s.qrBody}>
+                                <QrCode value={'Hi'} handleClose={() => setQrShow(false)} />
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
