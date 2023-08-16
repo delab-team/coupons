@@ -11,6 +11,7 @@ import { StorageWallet } from '../../logic/storage'
 import { Coupon } from '../../logic/coupon'
 
 import { fixAmount } from '../../utils/fix-amount'
+import { smlAddr } from '../../utils/sml-addr'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
 import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
@@ -88,6 +89,27 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
         }
     }
 
+    const handleCopyAddress = () => {
+        if (!info) {
+            console.error('Something went wrong')
+            return
+        }
+
+        if (!info.address) {
+            console.error('Something went wrong')
+            return
+        }
+
+        const tempTextArea = document.createElement('textarea')
+        tempTextArea.value = info.address
+        document.body.appendChild(tempTextArea)
+        tempTextArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(tempTextArea)
+
+        toast.success('Check has been copied to the clipboard')
+    }
+
     const qrCodeValue = 'https://www.youtube.com/watch?v=Qw2LUsS-Ujo&ab_channel=RandomVideos'
     const generateQRCodeAndDownload = useQRCodeDownloader(qrCodeValue)
 
@@ -98,23 +120,48 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                 <div className={`container ${s.container}`}>
                     <div className={s.headerTop}>
                         <h1 className={s.headerTitle}>Multicheck</h1>
-                        <Button variant="small-button" startIcon={CANCEL} onClick={handleCancelButtonClick} />
+                        <Button
+                            variant="small-button"
+                            startIcon={CANCEL}
+                            onClick={handleCancelButtonClick}
+                        />
                     </div>
                     <div className={`${s.multicheckInfo}`}>
                         <div className={s.item}>
                             <div className={s.title}>Status:</div>
-                            <div className={s.description}>{Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated' }</div>
+                            <div className={s.description}>
+                                {Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated'}
+                            </div>
                         </div>
-                        {/* <div className={s.item}>
+                        <div className={s.item}>
+                            <div className={s.title}>Address:</div>
+                            <div className={s.description} onClick={handleCopyAddress}>
+                                {smlAddr(info?.address)}
+                            </div>
+                        </div>
+                        <div className={s.item}>
                             <div className={s.title}>Sum:</div>
                             <div className={s.description}>
-                              10 TON (<span>$17</span>)
+                                {fixAmount(Number(bal))} TON (
+                                <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                             </div>
-                        </div> */}
+                        </div>
                         <div className={s.item}>
                             <div className={s.title}>Amount of one activation:</div>
                             <div className={s.description}>
-                                {fixAmount(Number(bal))} TON (<TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
+                                {info?.amountActivation !== undefined
+                                    ? fixAmount(Number(bal) / Number(info?.amountActivation))
+                                    : null}
+                                TON (
+                                <TokenPriceHook
+                                    tokenAmount={
+                                        info?.amountActivation !== undefined
+                                            ? Number(fixAmount(Number(bal) / Number(info?.amountActivation)))
+                                            : 0
+                                    }
+                                />
+
+                                )
                             </div>
                         </div>
                         <div className={s.item}>
@@ -128,11 +175,19 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                             </div>
                         </div>
                         <div className={s.multicheckActions}>
-                            <Button variant="action-button" startIcon={SHARE} onClick={generateQRCodeAndDownload}>
-                              Share
+                            <Button
+                                variant="action-button"
+                                startIcon={SHARE}
+                                onClick={generateQRCodeAndDownload}
+                            >
+                                Share
                             </Button>
-                            <Button variant="action-button" startIcon={DELETE} onClick={handleRemoveCheck}>
-                              Delete
+                            <Button
+                                variant="action-button"
+                                startIcon={DELETE}
+                                onClick={handleRemoveCheck}
+                            >
+                                Delete
                             </Button>
                         </div>
                     </div>

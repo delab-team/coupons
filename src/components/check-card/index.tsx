@@ -38,6 +38,7 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick 
         fetchBalance()
     }, [ el.address ])
 
+
     return (
         <li className={s.check} onClick={() => handleCheckCardClick(el?.id, el?.typeCheck)}>
             <div className={s.checkBody}>
@@ -61,7 +62,7 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick 
                             : el.typeCheck === 'Multicheck'
                                 ? 'Multicheck'
                                 : null}
-                        #{index}
+                        <span className={s.checkIndex}># {index}</span>
                     </p>
                     <p className={s.checkSum}>
                         Sum: {fixAmount(bal)} TON (

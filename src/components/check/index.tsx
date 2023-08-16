@@ -15,6 +15,7 @@ import { Button } from '../ui/button'
 import { Coupon } from '../../logic/coupon'
 
 import { fixAmount } from '../../utils/fix-amount'
+import { smlAddr } from '../../utils/sml-addr'
 
 import DONE from '../../assets/images/checks/done.svg'
 import SHARE from '../../assets/images/checks/share_outline.svg'
@@ -110,6 +111,27 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         }
     }, [ info?.address, selectedCheckCard?.id, isVisible ])
 
+    const handleCopyAddress = () => {
+        if (!info) {
+            console.error('Something went wrong')
+            return
+        }
+
+        if (!info.address) {
+            console.error('Something went wrong')
+            return
+        }
+
+        const tempTextArea = document.createElement('textarea')
+        tempTextArea.value = info.address
+        document.body.appendChild(tempTextArea)
+        tempTextArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(tempTextArea)
+
+        toast.success('Check has been copied to the clipboard')
+    }
+
     const qrCodeValue = 'https://www.youtube.com/watch?v=NUsoVlDFqZg&ab_channel=EnriqueIglesiasVEVO'
     const generateQRCodeAndDownload = useQRCodeDownloader(qrCodeValue)
 
@@ -130,6 +152,12 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                         <div className={s.item}>
                             <div className={s.title}>Status:</div>
                             <div className={s.description}>{Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated' }</div>
+                        </div>
+                        <div className={s.item}>
+                            <div className={s.title}>Address:</div>
+                            <div className={s.description} onClick={handleCopyAddress}>
+                                {smlAddr(info?.address)}
+                            </div>
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Sum:</div>
