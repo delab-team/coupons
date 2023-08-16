@@ -110,8 +110,8 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
         toast.success('Check has been copied to the clipboard')
     }
 
-    const qrCodeValue = 'https://www.youtube.com/watch?v=Qw2LUsS-Ujo&ab_channel=RandomVideos'
-    const generateQRCodeAndDownload = useQRCodeDownloader(qrCodeValue)
+    // const qrCodeValue = 'https://www.youtube.com/watch?v=Qw2LUsS-Ujo&ab_channel=RandomVideos'
+    const generateQRCodeAndDownload = useQRCodeDownloader(info?.address ?? '')
 
     return (
         <div>

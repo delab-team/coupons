@@ -132,8 +132,8 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         toast.success('Check has been copied to the clipboard')
     }
 
-    const qrCodeValue = 'https://www.youtube.com/watch?v=NUsoVlDFqZg&ab_channel=EnriqueIglesiasVEVO'
-    const generateQRCodeAndDownload = useQRCodeDownloader(qrCodeValue)
+    // const qrCodeValue = 'https://www.youtube.com/watch?v=NUsoVlDFqZg&ab_channel=EnriqueIglesiasVEVO'
+    const generateQRCodeAndDownload = useQRCodeDownloader(info?.address ?? '')
 
     return (
         <div className={s.checkBody}>
