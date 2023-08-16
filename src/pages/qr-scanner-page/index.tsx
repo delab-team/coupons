@@ -109,7 +109,7 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
                 </div>
             </div>
 
-            {/* {qrResult.length > 1 && <Link text={qrResult} href={qrResult} />} */}
+            {qrResult.length > 1 && <Link text={qrResult} href={qrResult} />}
             <div className={s.formBlock}>
                 <label className={s.formLabel}>Address coupon</label>
                 <input

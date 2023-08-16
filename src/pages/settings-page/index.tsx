@@ -32,12 +32,12 @@ export const SettingsPage: FC<SettingsPageProps> = ({
         </div>
         <div className={s.settingsActions}>
             <Link
-                href="https://web.telegram.org/"
+                href="https://t.me/delab"
                 icon={TelegramLogo}
                 iconAlt="Telegram Logo"
                 text="Telegram"
             />
-            <Link href="https://github.com/" icon={GithubLogo} iconAlt="Github Logo" text="Github" />
+            <Link href="https://github.com/delab-team" icon={GithubLogo} iconAlt="Github Logo" text="Github" />
             {isConnected && (
                 <Button
                     variant="black-button"
