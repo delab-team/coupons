@@ -78,7 +78,8 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
 
         const couponKey = v1()
 
-        coupon.deployOne(values.password, values.amount)
+        coupon
+            .deployOne(values.password, values.amount)
             .then((couponResult) => {
                 const dataToSave = {
                     sum: values.amount,
@@ -117,31 +118,33 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
             validationErrors.typeCheck = 'Type of check is required'
         }
 
-        if (!/^\d+(\.\d+)?$/.test(values.amount)) {
-            validationErrors.amount = 'Invalid amount'
-        } else {
-            const parsedAmount = parseFloat(values.amount)
-            if (parsedAmount < 0.00001 || parsedAmount > 100000.99999) {
+        if (values.typeCheck === 'Personal') {
+            if (!/^\d+(\.\d+)?$/.test(values.amount)) {
                 validationErrors.amount = 'Invalid amount'
+            } else {
+                const parsedAmount = parseFloat(values.amount)
+                if (parsedAmount < 0.00001 || parsedAmount > 100000.99999) {
+                    validationErrors.amount = 'Invalid amount'
+                }
+            }
+        }
+
+        if (values.typeCheck === 'Multicheck') {
+            if (!/^\d+(\.\d+)?$/.test(values.oneActivation)) {
+                validationErrors.oneActivation = 'Invalid amount'
+            } else {
+                const parsedOneActivation = parseFloat(values.oneActivation)
+                if (parsedOneActivation < 1 || parsedOneActivation > 100) {
+                    validationErrors.oneActivation = 'Invalid amount'
+                }
             }
 
-            if (values.typeCheck === 'Multicheck') {
-                if (!/^\d+(\.\d+)?$/.test(values.oneActivation)) {
-                    validationErrors.oneActivation = 'Invalid amount'
-                } else {
-                    const parsedOneActivation = parseFloat(values.oneActivation)
-                    if (parsedOneActivation < 1 || parsedOneActivation > 100) {
-                        validationErrors.oneActivation = 'Invalid amount'
-                    }
-                }
-
-                if (!/^\d+(\.\d+)?$/.test(values.amountActivation)) {
+            if (!/^\d+(\.\d+)?$/.test(values.amountActivation)) {
+                validationErrors.amountActivation = 'Invalid amount'
+            } else {
+                const parsedAmountActivation = parseFloat(values.amountActivation)
+                if (parsedAmountActivation < 1 || parsedAmountActivation > 100) {
                     validationErrors.amountActivation = 'Invalid amount'
-                } else {
-                    const parsedAmountActivation = parseFloat(values.amountActivation)
-                    if (parsedAmountActivation < 1 || parsedAmountActivation > 100) {
-                        validationErrors.amountActivation = 'Invalid amount'
-                    }
                 }
             }
         }
@@ -166,26 +169,38 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
             <form onSubmit={onSubmit} className={s.form}>
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>Choose the type of check</label>
-                    <Select options={options} value={values.typeCheck} onChange={handleSelectChange} />
+                    <Select
+                        options={options}
+                        value={values.typeCheck}
+                        onChange={handleSelectChange}
+                    />
                     {errors.typeCheck && <div className={s.error}>{errors.typeCheck}</div>}
                 </div>
 
-                <div className={s.formBlock}>
-                    <label className={s.formLabel}>Send the amount of the receipt in TON</label>
-                    <input
-                        type="string"
-                        name="amount"
-                        value={values.amount}
-                        onChange={e => setValues({ ...values, amount: e.target.value })}
-                        placeholder="min. 0.00001 TON"
-                        className={s.formInput}
-                    />
-                    {errors.amount && <div className={s.error}>{errors.amount}</div>}
-                    <div className={s.formSubtext}>
-                        balance:
-                        {fixAmount(balance ?? '0')} TON ({balance ? <TokenPriceHook tokenAmount={Number(fixAmount(balance))} /> : 0})
+                {values.typeCheck === 'Personal' && (
+                    <div className={s.formBlock}>
+                        <label className={s.formLabel}>Send the amount of the receipt in TON</label>
+                        <input
+                            type="string"
+                            name="amount"
+                            value={values.amount}
+                            onChange={e => setValues({ ...values, amount: e.target.value })}
+                            placeholder="min. 0.00001 TON"
+                            className={s.formInput}
+                        />
+                        {errors.amount && <div className={s.error}>{errors.amount}</div>}
+                        <div className={s.formSubtext}>
+                            balance:
+                            {fixAmount(balance ?? '0')} TON (
+                            {balance ? (
+                                <TokenPriceHook tokenAmount={Number(fixAmount(balance))} />
+                            ) : (
+                                0
+                            )}
+                            )
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {values.typeCheck === 'Multicheck' && (
                     <div className={s.formBlock}>
@@ -194,10 +209,13 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                             type="string"
                             name="oneActivation"
                             value={values.oneActivation}
-                            onChange={e => setValues({ ...values, oneActivation: e.target.value })}
+                            onChange={e => setValues({ ...values, oneActivation: e.target.value })
+                            }
                             className={s.formInput}
                         />
-                        {errors.oneActivation && <div className={s.error}>{errors.oneActivation}</div>}
+                        {errors.oneActivation && (
+                            <div className={s.error}>{errors.oneActivation}</div>
+                        )}
                     </div>
                 )}
 
@@ -208,10 +226,13 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                             type="string"
                             name="activationAmount"
                             value={values.amountActivation}
-                            onChange={e => setValues({ ...values, amountActivation: e.target.value })}
+                            onChange={e => setValues({ ...values, amountActivation: e.target.value })
+                            }
                             className={s.formInput}
                         />
-                        {errors.amountActivation && <div className={s.error}>{errors.amountActivation}</div>}
+                        {errors.amountActivation && (
+                            <div className={s.error}>{errors.amountActivation}</div>
+                        )}
                     </div>
                 )}
 
