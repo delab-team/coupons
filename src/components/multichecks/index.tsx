@@ -20,7 +20,6 @@ import DELETE from '../../assets/images/checks/delete.svg'
 import CANCEL from '../../assets/images/checks/cancel.svg'
 
 import s from './multichecks.module.scss'
-import { QrCode } from '../qr-code'
 
 interface MultichecksProps {
     selectedCheckCard: SelectedDataType;
@@ -129,7 +128,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                             <Button variant="action-button" startIcon={SHARE}>
                               Share
                             </Button>
-                            <Button variant="action-button" startIcon={DELETE}>
+                            <Button variant="action-button" startIcon={DELETE} onClick={handleRemoveCheck}>
                               Delete
                             </Button>
                         </div>

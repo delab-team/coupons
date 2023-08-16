@@ -41,7 +41,7 @@ interface YourChecksPageProps {
 // ]
 
 export interface CouponDataType {
-    sum: number;
+    // sum: number;
     id: string;
     address: string;
     typeCheck: 'Personal' | 'Multicheck';
@@ -51,7 +51,7 @@ export interface MultiDataType {
     address: string;
     amountActivation: string;
     id: string;
-    oneActivation: string;
+    // oneActivation: string;
     typeCheck: 'Personal' | 'Multicheck';
 }
 
@@ -123,7 +123,7 @@ export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) =>
                 <ul className={`${s.checkList} ${checks.length > 1 ? s.checkLists : ''}`}>
                     {checks.length < 1 ? (
                         <div className={s.pureCheck}>Your check list is empty</div>
-                    ) : checks.slice().reverse().map((el, index) => (
+                    ) : checks.map((el, index) => (
                         <CheckCard key={el.id} el={el} index={index + 1} handleCheckCardClick={handleCheckCardClick} />
                     ))}
                 </ul>

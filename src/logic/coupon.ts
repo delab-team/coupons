@@ -204,14 +204,14 @@ export class Coupon {
             }
 
             if (tx.error) {
-                toast.error('Failed to create coupon')
+                toast.error('Failed to create Multicheck')
                 return false
             }
 
             storage.save('coupons', JSON.stringify(couponData))
 
             if (tx) {
-                toast.success('Check created successfully.')
+                toast.success('Multicheck created successfully.')
             }
             return data.address.toString()
         } catch (error) {

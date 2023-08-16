@@ -1,8 +1,6 @@
-import * as Yup from 'yup'
-import { FC, useState, useEffect } from 'react'
+import { FC, useState } from 'react'
 import { DeLabAddress, DeLabConnect, DeLabTypeConnect } from '@delab-team/connect'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { v1 } from 'uuid'
 
 import { MainTitle } from '../../components/main-title'
@@ -82,7 +80,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
             .deployOne(values.password, values.amount)
             .then((couponResult) => {
                 const dataToSave = {
-                    sum: values.amount,
+                    // sum: values.amount,
                     id: couponKey,
                     address: couponResult,
                     typeCheck: values.typeCheck
@@ -112,7 +110,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
 
         multi.deployMulti(values.password, values.oneActivation, values.amountActivation).then((multiResult) => {
             const dataToSave = {
-                oneActivation: values.oneActivation,
+                // oneActivation: values.oneActivation,
                 amountActivation: values.amountActivation,
                 address: multiResult,
                 id: multiKey,
@@ -225,7 +223,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
 
                 {values.typeCheck === 'Multicheck' && (
                     <div className={s.formBlock}>
-                        <label className={s.formLabel}>Amount of one activation</label>
+                        <label className={s.formLabel}>Amount of one activation in TON</label>
                         <input
                             type="string"
                             name="oneActivation"

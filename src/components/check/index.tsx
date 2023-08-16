@@ -19,8 +19,6 @@ import { Coupon } from '../../logic/coupon'
 
 import { fixAmount } from '../../utils/fix-amount'
 
-import { QrCode } from '../qr-code'
-
 import s from './check.module.scss'
 
 interface CheckProps {
@@ -174,11 +172,6 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                                 Delete
                             </Button>
                         </div>
-                        {qrShow && (
-                            <div className={s.qrBody}>
-                                <QrCode value={'Hi'} handleClose={() => setQrShow(false)} />
-                            </div>
-                        )}
                     </div>
                 </div>
             </section>
