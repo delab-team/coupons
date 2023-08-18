@@ -1,13 +1,12 @@
 /* eslint-disable import/no-cycle */
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { DeLabAddress } from '@delab-team/connect'
+import { TonConnectButton } from '@tonconnect/ui-react'
 
 import { Button } from '../../components/ui/button'
 import { CheckCard } from '../../components/check-card'
 import { Check } from '../../components/check'
 import { Multichecks } from '../../components/multichecks'
-import { Profile } from '../../components/profile'
 
 import { ROUTES } from '../../utils/router'
 
@@ -18,28 +17,6 @@ import { StorageWallet } from '../../logic/storage'
 import PLUS from '../../assets/images/your-checks/plus.svg'
 
 import s from './your-checks-page.module.scss'
-
-interface YourChecksPageProps {
-    balance: string | undefined;
-    address: DeLabAddress;
-}
-
-// const data = [
-//     {
-//         id: '13sad',
-//         title: 'Check #1',
-//         notifications: 0,
-//         sum: 'Sum: 10 TON (17$)',
-//         type: 'multicheck'
-//     },
-//     {
-//         id: 'wqe123',
-//         title: 'Check #2',
-//         notifications: 1,
-//         sum: 'Sum: 10 TON (17$)',
-//         type: 'check'
-//     }
-// ]
 
 export interface CouponDataType {
     // sum: number;
@@ -62,7 +39,7 @@ export interface SelectedDataType {
     selected: string;
 }
 
-export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) => {
+export const YourChecksPage: FC = () => {
     const [ selectedCheckCard, setSelectedCheckCard ] = useState<SelectedDataType>({
         id: '',
         selected: ''
@@ -107,7 +84,7 @@ export const YourChecksPage: FC<YourChecksPageProps> = ({ balance, address }) =>
                                 onClick={() => navigate(ROUTES.CREATE_CHECK)}
                             />
                         )}
-                        <Profile balance={balance} address={address} />
+                        <TonConnectButton />
                     </div>
                 </div>
                 <div className={s.checkTop}>

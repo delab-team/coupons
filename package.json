@@ -14,6 +14,8 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@delab-team/connect": "^1.4.4",
     "@ton-community/blueprint": "^0.12.0",
+    "@tonconnect/sdk": "^2.1.4",
+    "@tonconnect/ui-react": "^1.0.0-beta.7",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.38",
     "@types/numeral": "^2.0.2",

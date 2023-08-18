@@ -11,6 +11,7 @@ import GithubLogo from '../../assets/images/settings/github-logo.png'
 import LogOut from '../../assets/images/settings/log-out.svg'
 
 import s from './settings-page.module.scss'
+import { TonConnectButton } from '@tonconnect/ui-react'
 
 interface SettingsPageProps {
     DeLabConnector: DeLabConnect;
@@ -28,7 +29,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({
     <section className={s.settings}>
         <div className={s.settingsHeader}>
             <MainTitle title="Settings" />
-            <Profile address={address} balance={balance} />
+            <TonConnectButton />
         </div>
         <div className={s.settingsActions}>
             <Link
@@ -38,18 +39,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({
                 text="Telegram"
             />
             <Link href="https://github.com/delab-team" icon={GithubLogo} iconAlt="Github Logo" text="Github" />
-            {isConnected && (
-                <Button
-                    variant="black-button"
-                    endIcon={LogOut}
-                    onClick={() => {
-                        localStorage.clear()
-                        DeLabConnector.disconnect()
-                    }}
-                >
-                  Sign out
-                </Button>
-            )}
         </div>
 
         <div className={s.settingsVersion}>v. 1.0</div>

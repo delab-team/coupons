@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import { DeLabAddress, DeLabConnect, DeLabTypeConnect } from '@delab-team/connect'
+import { TonConnectButton } from '@tonconnect/ui-react'
 import { useNavigate } from 'react-router-dom'
 import { v1 } from 'uuid'
 
@@ -185,7 +186,8 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
         <section>
             <div className={s.headerForm}>
                 <MainTitle title="Create check" />
-                <Profile address={address} balance={balance} />
+                {/* <Profile address={address} balance={balance} /> */}
+                <TonConnectButton />
             </div>
             <form onSubmit={onSubmit} className={s.form}>
                 <div className={s.formBlock}>

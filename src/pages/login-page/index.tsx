@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { DeLabConnect } from '@delab-team/connect'
+import { TonConnectButton } from '@tonconnect/ui-react'
 
 import { Button } from '../../components/ui/button'
 
@@ -21,9 +22,10 @@ export const LoginPage: FC<LoginPageProps> = ({ DeLabConnector }) => {
                     <h1 className={s.mainLogo}>DeCoupons</h1>
 
                     <div className={s.mainButton}>
-                        <Button variant="white-button" onClick={() => DeLabConnector.openModal()}>
-            Connect Wallet
-                        </Button>
+                        {/* <Button variant="white-button" onClick={() => DeLabConnector.openModal()}>
+                            Connect Wallet
+                        </Button> */}
+                        <TonConnectButton />
                     </div>
                 </div>
             </div>
