@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useEffect, useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { Address, TonClient } from 'ton'
@@ -12,6 +13,7 @@ import {
 } from '@delab-team/connect'
 
 import { TonConnectUIProvider, useTonAddress } from '@tonconnect/ui-react'
+import { Locales, useTonConnectUI } from '@tonconnect/ui-react'
 
 import { ToastContainer } from 'react-toastify'
 
@@ -28,7 +30,9 @@ import { ROUTES } from './utils/router'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-const DeLabConnector = new DeLabConnect('https://delabteam.com/', 'DeCoupons', 'testnet')
+const isTestnet = window.location.host.indexOf('localhost') >= 0 ? true : window.location.href.indexOf('testnet') >= 0
+
+const DeLabConnector = new DeLabConnect('https://delabteam.com/', 'DeCoupons', isTestnet ? 'testnet' : 'mainnet')
 
 export const App = (): JSX.Element => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
@@ -39,6 +43,8 @@ export const App = (): JSX.Element => {
     const [ network, setNetwork ] = useState<DeLabNetwork>('testnet')
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
     const [ typeConnect, setTypeConnect ] = useState<DeLabTypeConnect>(undefined)
+
+    const [ tonClient, setTonClient ] = useState<TonClient>(new TonClient({ endpoint: isTestnet ? 'https://testnet.tonhubapi.com/jsonRPC' : 'https://mainnet.tonhubapi.com/jsonRPC' }))
 
     const [ addressCoupon, setAddressCoupon ] = useState<string>('')
 
@@ -57,8 +63,7 @@ export const App = (): JSX.Element => {
             setNetwork(connectConfig.network)
 
             if (connectConfig.address) {
-                const client = new TonClient({ endpoint: 'https://testnet.tonhubapi.com/jsonRPC' })
-                const bl = await client.getBalance(Address.parse(connectConfig.address))
+                const bl = await tonClient.getBalance(Address.parse(connectConfig.address))
 
                 setBalance(bl.toString())
             }
@@ -149,6 +154,7 @@ export const App = (): JSX.Element => {
                                 isConnected={isConnected}
                                 address={address}
                                 balance={balance}
+                                isTestnet={isTestnet}
                             />
                         }
                     />

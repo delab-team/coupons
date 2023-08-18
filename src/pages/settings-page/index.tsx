@@ -18,13 +18,15 @@ interface SettingsPageProps {
     isConnected: boolean;
     balance: string | undefined;
     address: DeLabAddress;
+    isTestnet: boolean;
 }
 
 export const SettingsPage: FC<SettingsPageProps> = ({
     DeLabConnector,
     isConnected,
     balance,
-    address
+    address,
+    isTestnet
 }) => (
     <section className={s.settings}>
         <div className={s.settingsHeader}>
@@ -42,5 +44,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({
         </div>
 
         <div className={s.settingsVersion}>v. 1.0</div>
+        <div className={s.settingsVersion}>{isTestnet ? 'testnet' : 'mainnet'}</div>
     </section>
 )

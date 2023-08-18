@@ -4,6 +4,9 @@ import { TonConnectButton } from '@tonconnect/ui-react'
 import { useNavigate } from 'react-router-dom'
 import { v1 } from 'uuid'
 
+import { Locales, useTonConnectUI } from '@tonconnect/ui-react'
+import { TonConnectUI, TonConnectUiOptions } from '@tonconnect/ui'
+
 import { MainTitle } from '../../components/main-title'
 import { Select } from '../../components/ui/select'
 import { Button } from '../../components/ui/button'
@@ -44,7 +47,7 @@ const DEFAULT_VALUES: FormValues = {
 export const CreateCheckPage: FC<CreateCheckPageProps> = ({
     balance,
     DeLabConnector,
-    address
+    address,
     // typeConnect
 }) => {
     const navigate = useNavigate()
@@ -53,6 +56,8 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
     const [ errors, setErrors ] = useState<Record<string, string>>({})
 
     const [ isDeploying, setIsDeploying ] = useState<boolean>(false)
+
+    const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
     const options = [
         {
@@ -72,7 +77,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
     const deploy = () => {
         setIsDeploying(true)
 
-        const coupon = new Coupon(DeLabConnector)
+        const coupon = new Coupon(tonConnectUI)
         const storageWallet = new StorageWallet()
 
         const couponKey = v1()
@@ -105,7 +110,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
     const deployMultiCheck = () => {
         setIsDeploying(true)
 
-        const multi = new Coupon(DeLabConnector)
+        const multi = new Coupon(tonConnectUI)
         const storageWallet = new StorageWallet()
 
         const multiKey = v1()

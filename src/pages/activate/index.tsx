@@ -1,20 +1,12 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DeLabAddress, DeLabConnect } from '@delab-team/connect'
+import { useTonConnectUI } from '@tonconnect/ui-react'
 
 import { Button } from '../../components/ui/button'
-import { CheckCard } from '../../components/check-card'
-import { Check } from '../../components/check'
-import { Multichecks } from '../../components/multichecks'
 import { Profile } from '../../components/profile'
 
-import { ROUTES } from '../../utils/router'
-
 import { useMediaQuery } from '../../hooks/use-media-query'
-
-import { StorageWallet } from '../../logic/storage'
-
-import PLUS from '../../assets/images/your-checks/plus.svg'
 
 import s from './activate-page.module.scss'
 import { Coupon } from '../../logic/coupon'
@@ -34,6 +26,8 @@ export const Activate: FC<YourChecksPageProps> = ({ address, wallet, balance, ad
 
     const [ checks, setChecks ] = useState([])
 
+    const [ tonConnectUI, setOptions ] = useTonConnectUI()
+
     const isMobile = useMediaQuery(768)
 
     const navigate = useNavigate()
@@ -45,7 +39,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, wallet, balance, ad
         if (psw === '') {
             return undefined
         }
-        const ch = new Coupon(wallet)
+        const ch = new Coupon(tonConnectUI)
 
         const tx = await ch.claim(address, wallet.address.toString(), psw)
         return true

@@ -25,7 +25,7 @@ export const LoginPage: FC<LoginPageProps> = ({ DeLabConnector }) => {
                         {/* <Button variant="white-button" onClick={() => DeLabConnector.openModal()}>
                             Connect Wallet
                         </Button> */}
-                        <TonConnectButton />
+                        <TonConnectButton className='btn-login' />
                     </div>
                 </div>
             </div>

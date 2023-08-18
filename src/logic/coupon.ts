@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 
 import { Address, beginCell, Cell, contractAddress, StateInit, storeStateInit, toNano, TonClient } from 'ton'
 import { KeyPair, keyPairFromSeed, sha256, sign } from 'ton-crypto'
+import { TonConnectUI, TonConnectUiOptions, SendTransactionRequest } from '@tonconnect/ui'
 import { StorageWallet } from './storage'
 import { ClaimFunctions, OneTimeCheque, Opcodes } from './wrappers/OneTimeCheque'
 import { MultiCheque } from './wrappers/MultiCheque'
@@ -15,11 +16,11 @@ const multiBoc = 'b5ee9c7241020a01000102000114ff00f4a413f4bcf2c80b010202d0030200
 const helperBoc = 'b5ee9c7241010601007f000114ff00f4a413f4bcf2c80b010202d1030200214f843c8f841cf16f842cf16ca00c9ed548020120050400273b51343e90007e187e90007e18b480007e18f46000790c3c00741d35c87e900c3e108071c17cb8af3e10fcb4af5ffe18e08424f4deea1c20063232c17e10b3c5887e80b2dab2c7fe1073c5b260103ec03c00a051acd827'
 
 export class Coupon {
-    private _wallet: DeLabConnect
+    private _wallet: TonConnectUI
 
     private _client: TonClient
 
-    constructor (wallet: DeLabConnect) {
+    constructor (wallet: TonConnectUI) {
         this._wallet = wallet
 
         this._client = new TonClient({ endpoint: 'https://testnet.tonhubapi.com/jsonRPC' })
@@ -57,10 +58,15 @@ export class Coupon {
             .toString('base64')
         // stateInit.writeTo(stateInitCell)
 
-        const trans: DeLabTransaction = {
-            to: data.address.toString(),
-            value: _amount.toString(),
-            stateInit: initString
+        const transactionTon: SendTransactionRequest = {
+            validUntil: Date.now() + 1000000,
+            messages: [
+                {
+                    address: Address.parseFriendly(data.address.toString()).address.toString(),
+                    amount: _amount.toString(),
+                    stateInit: initString
+                }
+            ]
         }
 
         console.log('address', data)
@@ -68,7 +74,7 @@ export class Coupon {
         console.log('address', data.address.toString())
 
         try {
-            const tx = await this._wallet.sendTransaction(trans)
+            const tx = await this._wallet.sendTransaction(transactionTon)
             console.log('tx', tx)
 
             const storage = new StorageWallet()
@@ -79,11 +85,10 @@ export class Coupon {
                 type: 'one'
             }
 
-            if (tx.error) {
-                toast.error('Failed to create check')
-                return false
-            }
-
+            // if (tx.error) {
+            //     toast.error('Failed to create check')
+            //     return false
+            // }
             storage.save('coupons', JSON.stringify(couponData))
 
             if (tx) {
@@ -91,12 +96,13 @@ export class Coupon {
             }
             return data.address.toString()
         } catch (error) {
+            toast.error('Failed to create check')
             console.error('deploy', error)
             return false
         }
     }
 
-    public async claim (address: string, addressForUser: string, passwordString: string) {
+    public async claim (address: string, addressForUser: string, passwordString: string): Promise<boolean> {
         const seed: Buffer = await sha256(passwordString)
         const keypair: KeyPair = keyPairFromSeed(seed)
 
@@ -181,10 +187,15 @@ export class Coupon {
         const initString = beginCell().storeWritable(storeStateInit(stateInit)).endCell().toBoc()
             .toString('base64')
 
-        const trans: DeLabTransaction = {
-            to: data.address.toString(),
-            value: _amount.toString(),
-            stateInit: initString
+        const transactionTon: SendTransactionRequest = {
+            validUntil: Date.now() + 1000000,
+            messages: [
+                {
+                    address: Address.parseFriendly(data.address.toString()).address.toString(),
+                    amount: _amount.toString(),
+                    stateInit: initString
+                }
+            ]
         }
 
         console.log('address', data)
@@ -192,7 +203,7 @@ export class Coupon {
         console.log('address', data.address.toString())
 
         try {
-            const tx = await this._wallet.sendTransaction(trans)
+            const tx = await this._wallet.sendTransaction(transactionTon)
             console.log('tx', tx)
 
             const storage = new StorageWallet()
@@ -203,10 +214,10 @@ export class Coupon {
                 type: 'multi'
             }
 
-            if (tx.error) {
-                toast.error('Failed to create Multicheck')
-                return false
-            }
+            // if (tx.error) {
+            //     toast.error('Failed to create Multicheck')
+            //     return false
+            // }
 
             storage.save('coupons', JSON.stringify(couponData))
 
@@ -215,6 +226,7 @@ export class Coupon {
             }
             return data.address.toString()
         } catch (error) {
+            toast.error('Failed to create Multicheck')
             console.error('deployMulti', error)
             return false
         }
@@ -228,22 +240,25 @@ export class Coupon {
 
         const signature = sign(beginCell().storeAddress(addressFor).endCell().hash(), keypair.secretKey)
 
-        const multiCheque = OneTimeCheque.createFromAddress(Address.parse(address))
-
         const payload = beginCell()
             .storeUint(Opcodes.claim, 32)
             .storeBuffer(signature)
             .storeAddress(addressFor)
             .endCell()
 
-        const trans: DeLabTransaction = {
-            to: address.toString(),
-            value: toNano('0.05').toString(),
-            payload: payload.toBoc().toString('base64')
+        const transactionTon: SendTransactionRequest = {
+            validUntil: Date.now() + 1000000,
+            messages: [
+                {
+                    address: Address.parseFriendly(address.toString()).address.toString(),
+                    amount: toNano('0.05').toString(),
+                    payload: payload.toBoc().toString('base64')
+                }
+            ]
         }
 
         try {
-            const tx = await this._wallet.sendTransaction(trans)
+            const tx = await this._wallet.sendTransaction(transactionTon)
             console.log('tx', tx)
 
             if (tx) {
@@ -253,6 +268,7 @@ export class Coupon {
             }
             return true
         } catch (error) {
+            toast.error('Failed to activated coupon')
             console.error('claimMulti', error)
             return false
         }
