@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DeLabAddress, DeLabConnect } from '@delab-team/connect'
 import { useTonConnectUI } from '@tonconnect/ui-react'
+import { TonConnectUIProvider, useTonAddress } from '@tonconnect/ui-react'
 
 import { Button } from '../../components/ui/button'
 import { Profile } from '../../components/profile'
@@ -24,6 +25,8 @@ export const Activate: FC<YourChecksPageProps> = ({ address, wallet, balance, ad
 
     const [ psw, setPsw ] = useState<string>('')
 
+    const noRamAddres = useTonAddress()
+
     const [ checks, setChecks ] = useState([])
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
@@ -33,15 +36,12 @@ export const Activate: FC<YourChecksPageProps> = ({ address, wallet, balance, ad
     const navigate = useNavigate()
 
     async function claim () {
-        if (!wallet.address) {
-            return undefined
-        }
         if (psw === '') {
             return undefined
         }
         const ch = new Coupon(tonConnectUI)
 
-        const tx = await ch.claim(address, wallet.address.toString(), psw)
+        const tx = await ch.claim(address, noRamAddres.toString(), psw)
         return true
     }
 
