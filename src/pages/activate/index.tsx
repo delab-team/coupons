@@ -3,12 +3,14 @@ import { TonConnectButton, useTonConnectUI, useTonAddress } from '@tonconnect/ui
 
 import { toast } from 'react-toastify'
 
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/ui/button'
 
 import s from './activate-page.module.scss'
 import { Coupon } from '../../logic/coupon'
 import { MainTitle } from '../../components/main-title'
 import { fixAmount } from '../../utils/fix-amount'
+import { ROUTES } from '../../utils/router'
 
 interface YourChecksPageProps {
     address: string;
@@ -28,6 +30,8 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
+    const navigate = useNavigate()
+
     async function claim () {
         if (psw === '') {
             return undefined
@@ -39,6 +43,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
 
             if (tx) {
                 toast.success('Sent for password verification')
+                navigate(ROUTES.YOUR_CHECKS)
             } else {
                 toast.error('Failed to activated coupon #2')
             }
@@ -48,6 +53,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
 
                 if (tx) {
                     toast.success('Sent for password verification')
+                    navigate(ROUTES.YOUR_CHECKS)
                 } else {
                     toast.error('Failed to activated coupon #2')
                 }

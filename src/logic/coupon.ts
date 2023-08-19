@@ -241,7 +241,7 @@ export class Coupon {
         const signature = sign(beginCell().storeAddress(addressFor).endCell().hash(), keypair.secretKey)
 
         const payload = beginCell()
-            .storeUint(Opcodes.claim, 32)
+            .storeUint(0x22356c66, 32) // TODO
             .storeBuffer(signature)
             .storeAddress(addressFor)
             .endCell()
