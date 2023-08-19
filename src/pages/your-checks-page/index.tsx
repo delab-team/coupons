@@ -17,12 +17,14 @@ import { StorageWallet } from '../../logic/storage'
 import PLUS from '../../assets/images/your-checks/plus.svg'
 
 import s from './your-checks-page.module.scss'
+import { useTonAddress } from '../../hooks/useTonAdress'
 
 export interface CouponDataType {
     // sum: number;
     id: string;
     address: string;
     typeCheck: 'Personal' | 'Multicheck';
+    userAddress: string;
     date: number;
 }
 
@@ -47,6 +49,7 @@ export const YourChecksPage: FC = () => {
 
     const [ checks, setChecks ] = useState<any[]>([])
     const storageWallet = new StorageWallet()
+    const rawAddress = useTonAddress(false)
 
     useEffect(() => {
         const allCoupons = storageWallet.getAllCoupons()
@@ -102,9 +105,13 @@ export const YourChecksPage: FC = () => {
                 <ul className={`${s.checkList} ${checks.length > 1 ? s.checkLists : ''}`}>
                     {checks.length < 1 ? (
                         <div className={s.pureCheck}>Your check list is empty</div>
-                    ) : checks.map((el, index) => (
-                        <CheckCard key={el.id} el={el} index={index + 1} handleCheckCardClick={handleCheckCardClick} />
-                    ))}
+                    ) : (
+                        checks.map((el, index) => (
+                            el.userAddress === rawAddress && (
+                                <CheckCard key={el.id} el={el} index={index + 1} handleCheckCardClick={handleCheckCardClick} />
+                            )
+                        ))
+                    )}
                 </ul>
 
             </div>

@@ -1,18 +1,14 @@
 import { FC } from 'react'
-import { DeLabConnect } from '@delab-team/connect'
 import { TonConnectButton } from '@tonconnect/ui-react'
-
-import { Button } from '../../components/ui/button'
 
 import { useMediaQuery } from '../../hooks/use-media-query'
 
 import s from './login-page.module.scss'
 
 interface LoginPageProps {
-    DeLabConnector: DeLabConnect;
 }
 
-export const LoginPage: FC<LoginPageProps> = ({ DeLabConnector }) => {
+export const LoginPage: FC<LoginPageProps> = () => {
     const isMobile = useMediaQuery(768)
 
     return (
@@ -22,10 +18,7 @@ export const LoginPage: FC<LoginPageProps> = ({ DeLabConnector }) => {
                     <h1 className={s.mainLogo}>DeCoupons</h1>
 
                     <div className={s.mainButton}>
-                        {/* <Button variant="white-button" onClick={() => DeLabConnector.openModal()}>
-                            Connect Wallet
-                        </Button> */}
-                        <TonConnectButton className='btn-login' />
+                        <TonConnectButton />
                     </div>
                 </div>
             </div>

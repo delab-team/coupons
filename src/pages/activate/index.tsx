@@ -1,11 +1,9 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DeLabAddress, DeLabConnect } from '@delab-team/connect'
-import { useTonConnectUI } from '@tonconnect/ui-react'
-import { TonConnectUIProvider, useTonAddress } from '@tonconnect/ui-react'
+import { TonConnectButton, useTonConnectUI, useTonAddress } from '@tonconnect/ui-react'
 
 import { Button } from '../../components/ui/button'
-import { Profile } from '../../components/profile'
 
 import { useMediaQuery } from '../../hooks/use-media-query'
 
@@ -15,25 +13,21 @@ import { MainTitle } from '../../components/main-title'
 
 interface YourChecksPageProps {
     address: string;
-    wallet: DeLabConnect;
-    balance: string | undefined;
-    addressWallet: DeLabAddress;
+    setAddress: (address: string) => void;
 }
 
-export const Activate: FC<YourChecksPageProps> = ({ address, wallet, balance, addressWallet }) => {
+export const Activate: FC<YourChecksPageProps> = ({ address, setAddress }) => {
+    console.log('🚀 ~ file: index.tsx:20 ~ address:', address)
     const [ selectedCheckCard, setSelectedCheckCard ] = useState<null | string>(null)
 
     const [ psw, setPsw ] = useState<string>('')
+    console.log('🚀 ~ file: index.tsx:24 ~ psw:', psw)
 
     const noRamAddres = useTonAddress()
 
     const [ checks, setChecks ] = useState([])
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
-
-    const isMobile = useMediaQuery(768)
-
-    const navigate = useNavigate()
 
     async function claim () {
         if (psw === '') {
@@ -45,11 +39,18 @@ export const Activate: FC<YourChecksPageProps> = ({ address, wallet, balance, ad
         return true
     }
 
+    useEffect(
+        () => () => {
+            setAddress('')
+        },
+        []
+    )
+
     return (
         <section>
             <div className={s.headerForm}>
                 <MainTitle title="Activate" />
-                <Profile address={addressWallet} balance={balance} />
+                <TonConnectButton />
             </div>
             <form className={s.form} onSubmit={() => {}}>
                 <div className={s.formBlock}>
@@ -57,6 +58,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, wallet, balance, ad
                         Password
                     </label>
                     <input
+                        type="password"
                         placeholder='password'
                         className={s.formInput}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPsw(e.target.value)} value={psw}

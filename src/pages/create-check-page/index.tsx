@@ -1,16 +1,15 @@
 import { FC, useState } from 'react'
 import { DeLabAddress, DeLabConnect, DeLabTypeConnect } from '@delab-team/connect'
-import { TonConnectButton } from '@tonconnect/ui-react'
+import { TonConnectButton, Locales, useTonConnectUI } from '@tonconnect/ui-react'
 import { useNavigate } from 'react-router-dom'
 import { v1 } from 'uuid'
 
-import { Locales, useTonConnectUI } from '@tonconnect/ui-react'
 import { TonConnectUI, TonConnectUiOptions } from '@tonconnect/ui'
 
 import { MainTitle } from '../../components/main-title'
 import { Select } from '../../components/ui/select'
 import { Button } from '../../components/ui/button'
-import { Profile } from '../../components/profile'
+// import { Profile } from '../../components/profile'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
 
@@ -20,12 +19,10 @@ import { Coupon } from '../../logic/coupon'
 import { StorageWallet } from '../../logic/storage'
 
 import s from './create-check-page.module.scss'
+import { useTonAddress } from '../../hooks/useTonAdress'
 
 interface CreateCheckPageProps {
     balance: string | undefined;
-    DeLabConnector: DeLabConnect;
-    typeConnect: DeLabTypeConnect;
-    address: DeLabAddress;
 }
 
 interface FormValues {
@@ -44,12 +41,7 @@ const DEFAULT_VALUES: FormValues = {
     amountActivation: '0'
 }
 
-export const CreateCheckPage: FC<CreateCheckPageProps> = ({
-    balance,
-    DeLabConnector,
-    address,
-    // typeConnect
-}) => {
+export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance }) => {
     const navigate = useNavigate()
 
     const [ values, setValues ] = useState<FormValues>(DEFAULT_VALUES)
@@ -58,6 +50,8 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
     const [ isDeploying, setIsDeploying ] = useState<boolean>(false)
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
+
+    const rawAddress = useTonAddress(false)
 
     const options = [
         {
@@ -82,6 +76,10 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
 
         const couponKey = v1()
 
+        if (!rawAddress) {
+            return
+        }
+
         coupon
             .deployOne(values.password, values.amount)
             .then((couponResult) => {
@@ -90,6 +88,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                     id: couponKey,
                     address: couponResult,
                     typeCheck: values.typeCheck,
+                    userAddress: rawAddress,
                     date: Date.now()
                 }
 
@@ -122,6 +121,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({
                 address: multiResult,
                 id: multiKey,
                 typeCheck: values.typeCheck,
+                userAddress: rawAddress,
                 date: Date.now()
             }
             if (multiResult) {

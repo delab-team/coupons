@@ -91,12 +91,12 @@ export class Coupon {
             // }
             storage.save('coupons', JSON.stringify(couponData))
 
-            if (tx) {
-                toast.success('Check created successfully.')
-            }
+            // if (tx) {
+            //     toast.success('Check created successfully.')
+            // }
             return data.address.toString()
         } catch (error) {
-            toast.error('Failed to create check')
+            // toast.error('Failed to create check')
             console.error('deploy', error)
             return false
         }
@@ -221,12 +221,12 @@ export class Coupon {
 
             storage.save('coupons', JSON.stringify(couponData))
 
-            if (tx) {
-                toast.success('Multicheck created successfully.')
-            }
+            // if (tx) {
+            //     toast.success('Multicheck created successfully.')
+            // }
             return data.address.toString()
         } catch (error) {
-            toast.error('Failed to create Multicheck')
+            // toast.error('Failed to create Multicheck')
             console.error('deployMulti', error)
             return false
         }
