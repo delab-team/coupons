@@ -24,6 +24,8 @@ interface CheckCardProps {
 export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick }) => {
     const [ bal, setBal ] = useState<string>('0')
 
+    const [ inter, setInter ] = useState<any>(undefined)
+
     useEffect(() => {
         const fetchBalance = async () => {
             try {
@@ -34,6 +36,15 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick 
                 setBal('0')
             }
         }
+
+        if (inter) clearInterval(inter)
+        const timer = setInterval(() => {
+            Coupon.getSumCoupon(el.address).then((bl) => {
+                setBal(bl)
+            })
+        }, 5000)
+
+        setInter(timer)
 
         fetchBalance()
     }, [ el.address ])

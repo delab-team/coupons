@@ -1,10 +1,8 @@
 import { FC, useState } from 'react'
-import { DeLabAddress, DeLabConnect, DeLabTypeConnect } from '@delab-team/connect'
-import { TonConnectButton, Locales, useTonConnectUI } from '@tonconnect/ui-react'
+import { TonConnectButton, useTonConnectUI } from '@tonconnect/ui-react'
 import { useNavigate } from 'react-router-dom'
 import { v1 } from 'uuid'
 
-import { TonConnectUI, TonConnectUiOptions } from '@tonconnect/ui'
 
 import { MainTitle } from '../../components/main-title'
 import { Select } from '../../components/ui/select'
@@ -23,8 +21,6 @@ import { useTonAddress } from '../../hooks/useTonAdress'
 
 interface CreateCheckPageProps {
     balance: string | undefined;
-    address: DeLabAddress;
-    typeConnect: DeLabTypeConnect;
 }
 
 interface FormValues {

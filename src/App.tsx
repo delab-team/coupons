@@ -2,17 +2,8 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { Address, TonClient } from 'ton'
-import {
-    DeLabModal,
-    DeLabConnect,
-    DeLabNetwork,
-    DeLabTypeConnect,
-    DeLabAddress,
-    DeLabConnecting,
-    DeLabEvent
-} from '@delab-team/connect'
 
-import { TonConnectUIProvider, useTonAddress, Locales, useTonConnectUI } from '@tonconnect/ui-react'
+import { useTonAddress } from '@tonconnect/ui-react'
 
 import { ToastContainer } from 'react-toastify'
 
@@ -35,14 +26,9 @@ export const App = (): JSX.Element => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
 
     const [ isConnected, setIsConnected ] = useState<boolean>(false)
-
-    const [ address, setAddress ] = useState<DeLabAddress>(undefined)
-    const [ network, setNetwork ] = useState<DeLabNetwork>('testnet')
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
-    const [ typeConnect, setTypeConnect ] = useState<DeLabTypeConnect>(undefined)
 
     const [ tonClient, setTonClient ] = useState<TonClient>(new TonClient({ endpoint: isTestnet ? 'https://testnet.tonhubapi.com/jsonRPC' : 'https://mainnet.tonhubapi.com/jsonRPC' }))
-    const DeLabConnector = new DeLabConnect('https://delabteam.com/', 'DeCoupons', isTestnet ? 'testnet' : 'mainnet')
     const [ addressCoupon, setAddressCoupon ] = useState<string>('')
 
     // =================================
@@ -51,55 +37,9 @@ export const App = (): JSX.Element => {
 
     // ==================================
 
-    function listenDeLab () {
-        DeLabConnector.on('connect', async (data: DeLabEvent) => {
-            setIsConnected(true)
-            const connectConfig: DeLabConnecting = data.data
-            setAddress(connectConfig.address)
-            setTypeConnect(connectConfig.typeConnect)
-            setNetwork(connectConfig.network)
-
-            if (connectConfig.address) {
-                const bl = await tonClient.getBalance(Address.parse(connectConfig.address))
-
-                setBalance(bl.toString())
-            }
-        })
-        DeLabConnector.on('disconnect', () => {
-            setIsConnected(false)
-            setAddress(undefined)
-            setTypeConnect(undefined)
-            setNetwork('testnet')
-            console.log('disconnect')
-        })
-
-        DeLabConnector.on('error', (data: DeLabEvent) => {
-            console.log('error', data.data)
-        })
-
-        DeLabConnector.on('error-transaction', (data: DeLabEvent) => {
-            console.log('error-transaction', data.data)
-        })
-
-        DeLabConnector.on('error-toncoinwallet', (data: DeLabEvent) => {
-            console.log('error-toncoinwallet', data.data)
-        })
-
-        DeLabConnector.on('error-tonhub', (data: DeLabEvent) => {
-            console.log('error-tonhub', data.data)
-        })
-
-        DeLabConnector.on('error-tonkeeper', (data: DeLabEvent) => {
-            console.log('error-tonkeeper', data.data)
-        })
-
-        DeLabConnector.loadWallet()
-    }
-
     useEffect(() => {
         if (!firstRender) {
             setFirstRender(true)
-            listenDeLab()
         }
     }, [])
 
@@ -135,8 +75,6 @@ export const App = (): JSX.Element => {
                         element={
                             <CreateCheckPage
                                 balance={balance}
-                                address={address}
-                                typeConnect={typeConnect}
                             />
                         }
                     />
@@ -154,7 +92,6 @@ export const App = (): JSX.Element => {
                         element={
                             <SettingsPage
                                 isConnected={isConnected}
-                                address={address}
                                 balance={balance}
                                 isTestnet={isTestnet}
                             />
@@ -167,8 +104,7 @@ export const App = (): JSX.Element => {
                             <Activate
                                 balance={balance}
                                 address={addressCoupon}
-                                addressWallet={address}
-                                setAddress={setAddress}
+                                setAddress={setAddressCoupon}
                             />
                         }
                     />

@@ -8,16 +8,14 @@ import GithubLogo from '../../assets/images/settings/github-logo.png'
 // import LogOut from '../../assets/images/settings/log-out.svg'
 
 import s from './settings-page.module.scss'
-import { DeLabAddress } from '@delab-team/connect'
 
 interface SettingsPageProps {
     isTestnet: boolean;
-    address: DeLabAddress;
     isConnected: boolean;
     balance: string | undefined;
 }
 
-export const SettingsPage: FC<SettingsPageProps> = ({ isTestnet, isConnected, address,  balance }) => (
+export const SettingsPage: FC<SettingsPageProps> = ({ isTestnet, isConnected,  balance }) => (
     <section className={s.settings}>
         <div className={s.settingsHeader}>
             <MainTitle title="Settings" />

@@ -1,11 +1,9 @@
 import { FC, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { DeLabAddress, DeLabConnect } from '@delab-team/connect'
 import { TonConnectButton, useTonConnectUI, useTonAddress } from '@tonconnect/ui-react'
 
-import { Button } from '../../components/ui/button'
+import { toast } from 'react-toastify'
 
-import { useMediaQuery } from '../../hooks/use-media-query'
+import { Button } from '../../components/ui/button'
 
 import s from './activate-page.module.scss'
 import { Coupon } from '../../logic/coupon'
@@ -13,21 +11,17 @@ import { MainTitle } from '../../components/main-title'
 
 interface YourChecksPageProps {
     address: string;
-    setAddress: (address: string) => void;
     balance: string | undefined;
-    addressWallet: DeLabAddress;
+    setAddress: Function
 }
 
-export const Activate: FC<YourChecksPageProps> = ({ address, setAddress, balance, addressWallet }) => {
+export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress }) => {
     console.log('🚀 ~ file: index.tsx:20 ~ address:', address)
-    const [ selectedCheckCard, setSelectedCheckCard ] = useState<null | string>(null)
 
     const [ psw, setPsw ] = useState<string>('')
     console.log('🚀 ~ file: index.tsx:24 ~ psw:', psw)
 
     const noRamAddres = useTonAddress()
-
-    const [ checks, setChecks ] = useState([])
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
@@ -37,7 +31,18 @@ export const Activate: FC<YourChecksPageProps> = ({ address, setAddress, balance
         }
         const ch = new Coupon(tonConnectUI)
 
-        const tx = await ch.claim(address, noRamAddres.toString(), psw)
+        try {
+            const tx = await ch.claim(address, noRamAddres.toString(), psw)
+
+            if (tx) {
+                toast.success('Sent for password verification')
+            } else {
+                toast.error('Failed to activated coupon')
+            }
+        } catch (error) {
+            console.log('error', error)
+            toast.error('Failed to activated coupon')
+        }
         return true
     }
 
