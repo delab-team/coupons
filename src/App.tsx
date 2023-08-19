@@ -12,8 +12,7 @@ import {
     DeLabEvent
 } from '@delab-team/connect'
 
-import { TonConnectUIProvider, useTonAddress } from '@tonconnect/ui-react'
-import { Locales, useTonConnectUI } from '@tonconnect/ui-react'
+import { TonConnectUIProvider, useTonAddress, Locales, useTonConnectUI } from '@tonconnect/ui-react'
 
 import { ToastContainer } from 'react-toastify'
 
@@ -43,7 +42,7 @@ export const App = (): JSX.Element => {
     const [ typeConnect, setTypeConnect ] = useState<DeLabTypeConnect>(undefined)
 
     const [ tonClient, setTonClient ] = useState<TonClient>(new TonClient({ endpoint: isTestnet ? 'https://testnet.tonhubapi.com/jsonRPC' : 'https://mainnet.tonhubapi.com/jsonRPC' }))
-
+    const DeLabConnector = new DeLabConnect('https://delabteam.com/', 'DeCoupons', isTestnet ? 'testnet' : 'mainnet')
     const [ addressCoupon, setAddressCoupon ] = useState<string>('')
 
     // =================================
@@ -169,6 +168,7 @@ export const App = (): JSX.Element => {
                                 balance={balance}
                                 address={addressCoupon}
                                 addressWallet={address}
+                                setAddress={setAddress}
                             />
                         }
                     />

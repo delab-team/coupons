@@ -23,6 +23,8 @@ import { useTonAddress } from '../../hooks/useTonAdress'
 
 interface CreateCheckPageProps {
     balance: string | undefined;
+    address: DeLabAddress;
+    typeConnect: DeLabTypeConnect;
 }
 
 interface FormValues {
@@ -66,6 +68,10 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance }) => {
 
     const handleSelectChange = (value: string) => {
         setValues({ ...values, typeCheck: value })
+    }
+
+    if (!balance) {
+        return null
     }
 
     const deploy = () => {

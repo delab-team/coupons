@@ -14,9 +14,11 @@ import { MainTitle } from '../../components/main-title'
 interface YourChecksPageProps {
     address: string;
     setAddress: (address: string) => void;
+    balance: string | undefined;
+    addressWallet: DeLabAddress;
 }
 
-export const Activate: FC<YourChecksPageProps> = ({ address, setAddress }) => {
+export const Activate: FC<YourChecksPageProps> = ({ address, setAddress, balance, addressWallet }) => {
     console.log('🚀 ~ file: index.tsx:20 ~ address:', address)
     const [ selectedCheckCard, setSelectedCheckCard ] = useState<null | string>(null)
 
