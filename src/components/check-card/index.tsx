@@ -19,9 +19,10 @@ interface CheckCardProps {
     el: CouponDataType;
     index: number;
     handleCheckCardClick: (id: string, selected: string) => void;
+    isTestnet: boolean;
 }
 
-export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick }) => {
+export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick, isTestnet }) => {
     const [ bal, setBal ] = useState<string>('0')
 
     const [ inter, setInter ] = useState<any>(undefined)
@@ -29,7 +30,7 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick 
     useEffect(() => {
         const fetchBalance = async () => {
             try {
-                const bl = await Coupon.getSumCoupon(el.address)
+                const bl = await Coupon.getSumCoupon(el.address, isTestnet)
                 setBal(bl)
             } catch (error) {
                 console.error(error)
@@ -39,7 +40,7 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick 
 
         if (inter) clearInterval(inter)
         const timer = setInterval(() => {
-            Coupon.getSumCoupon(el.address).then((bl) => {
+            Coupon.getSumCoupon(el.address, isTestnet).then((bl) => {
                 setBal(bl)
             })
         }, 5000)

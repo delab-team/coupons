@@ -145,9 +145,13 @@ export class Coupon {
         }
     }
 
-    public static async getSumCoupon (address: string): Promise<string> {
+    public static async getSumCoupon (address: string, isTestnet: boolean): Promise<string> {
         try {
-            const client = new TonClient({ endpoint: 'https://testnet.tonhubapi.com/jsonRPC' })
+            const client = new TonClient({
+                endpoint: isTestnet
+                    ? 'https://testnet.tonhubapi.com/jsonRPC'
+                    : 'https://mainnet.tonhubapi.com/jsonRPC'
+            })
             const bl = await client.getBalance(Address.parse(address))
             return bl.toString()
         } catch (error) {

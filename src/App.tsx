@@ -69,7 +69,7 @@ export const App = (): JSX.Element => {
             <Routes>
                 <Route element={<PrivateRoute />}>
                     <Route element={<Layout />}>
-                        <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage />} />
+                        <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage isTestnet={isTestnet} />} />
                         <Route
                             path={ROUTES.CREATE_CHECK}
                             element={<CreateCheckPage balance={balance} isTestnet={isTestnet} />}

@@ -90,7 +90,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
     useEffect(() => {
         const fetchBalance = async () => {
             try {
-                const bl = await Coupon.getSumCoupon(address)
+                const bl = await Coupon.getSumCoupon(address, isTestnet)
                 setBal(bl)
             } catch (error) {
                 console.error(error)
