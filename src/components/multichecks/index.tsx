@@ -28,9 +28,10 @@ import s from './multichecks.module.scss'
 interface MultichecksProps {
     selectedCheckCard: SelectedDataType;
     setSelectedCheckCard: any;
+    isTestnet: boolean;
 }
 
-export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelectedCheckCard }) => {
+export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelectedCheckCard, isTestnet }) => {
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
     const [ bal, setBal ] = useState<string>('0')
     const [ info, setInfo ] = useState<MultiDataType | null>(null)
@@ -56,7 +57,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
         const fetchCouponBalance = async () => {
             if (info && info.address) {
                 try {
-                    const bl = await Coupon.getSumCoupon(info.address)
+                    const bl = await Coupon.getSumCoupon(info.address, isTestnet)
                     setBal(bl)
                 } catch (error) {
                     console.error('Error fetching coupon balance:', error)

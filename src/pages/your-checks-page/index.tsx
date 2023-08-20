@@ -41,7 +41,11 @@ export interface SelectedDataType {
     selected: string;
 }
 
-export const YourChecksPage: FC = () => {
+interface YourChecksPageType {
+    isTestnet: boolean;
+}
+
+export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet }) => {
     const [ selectedCheckCard, setSelectedCheckCard ] = useState<SelectedDataType>({
         id: '',
         selected: ''
@@ -66,9 +70,9 @@ export const YourChecksPage: FC = () => {
 
     const renderPopupComponent = () => {
         if (selectedCheckCard.selected === 'Multicheck') {
-            return <Multichecks selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} />
+            return <Multichecks selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} isTestnet={isTestnet} />
         } if (selectedCheckCard.selected === 'Personal') {
-            return <Check selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} />
+            return <Check selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} isTestnet={isTestnet} />
         }
         return null
     }
@@ -108,7 +112,9 @@ export const YourChecksPage: FC = () => {
                     ) : (
                         checks.map((el, index) => (
                             el.userAddress === rawAddress && (
-                                <CheckCard key={el.id} el={el} index={index + 1} handleCheckCardClick={handleCheckCardClick} />
+                                <CheckCard
+                                    key={el.id} el={el}
+                                    index={index + 1} handleCheckCardClick={handleCheckCardClick} isTestnet={isTestnet} />
                             )
                         ))
                     )}

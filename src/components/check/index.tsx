@@ -29,9 +29,10 @@ import s from './check.module.scss'
 interface CheckProps {
     selectedCheckCard: SelectedDataType;
     setSelectedCheckCard: any;
+    isTestnet: boolean;
 }
 
-export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard }) => {
+export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard, isTestnet }) => {
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
 
     const [ bal, setBal ] = useState<string>('0')
@@ -78,7 +79,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         const fetchCouponBalance = async () => {
             if (info && info.address) {
                 try {
-                    const bl = await Coupon.getSumCoupon(info.address)
+                    const bl = await Coupon.getSumCoupon(info.address, isTestnet)
                     setBal(bl)
                 } catch (error) {
                     console.error('Error fetching coupon balance:', error)
