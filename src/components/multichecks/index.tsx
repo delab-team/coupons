@@ -126,7 +126,11 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                     const balance = Number(fixAmount(balanceData))
 
                     if (balance < 0.001) {
-                        storageWallet.del(selectedCheckCard?.id)
+                        const deleteSuccessful = storageWallet.del(selectedCheckCard?.id)
+                        if (deleteSuccessful) {
+                            handleCancelButtonClick()
+                            window.location.href = '/'
+                        }
                     } else {
                         window.location.href = `${window.location.origin}/login?a=${info?.address}`
                     }
