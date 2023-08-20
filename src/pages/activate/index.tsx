@@ -72,13 +72,13 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                 toast.success('Sent for password verification')
                 navigate(ROUTES.YOUR_CHECKS)
             } else {
-                toast.error('Failed to activate coupon')
+                toast.error('Incorrect password')
             }
 
             return tx
         } catch (error) {
             console.log('error', error)
-            toast.error('Failed to activate coupon')
+            toast.error('Incorrect password')
             throw error
         }
     }
