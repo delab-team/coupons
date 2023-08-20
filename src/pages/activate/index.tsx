@@ -47,6 +47,28 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
         }
     }, [ location.search, auth, setAddress, navigate ])
 
+    async function claimMulti () {
+
+        if (psw === '') {
+            return undefined
+        }
+        const ch = new Coupon(tonConnectUI, isTestnet)
+        
+        try {
+            const tx = await ch.claimMulti(address, noRamAddres.toString(), psw)
+
+            if (tx) {
+                toast.success('Sent for password verification')
+                navigate(ROUTES.YOUR_CHECKS)
+            } else {
+                toast.error('Failed to activated coupon #2')
+            }
+        } catch (error2) {
+            console.log('error', error2)
+            toast.error('Failed to activated coupon')
+        }
+    }
+
     async function claim () {
         if (psw === '') {
             return undefined
@@ -63,20 +85,21 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                 toast.error('Failed to activated coupon #2')
             }
         } catch (error) {
+            console.log(error)
             toast.success('Failed to activated coupon #4')
-            try {
-                const tx = await ch.claimMulti(address, noRamAddres.toString(), psw)
+            // try {
+            //     const tx = await ch.claimMulti(address, noRamAddres.toString(), psw)
 
-                if (tx) {
-                    toast.success('Sent for password verification')
-                    navigate(ROUTES.YOUR_CHECKS)
-                } else {
-                    toast.error('Failed to activated coupon #2')
-                }
-            } catch (error2) {
-                console.log('error', error2)
-                toast.error('Failed to activated coupon')
-            }
+            //     if (tx) {
+            //         toast.success('Sent for password verification')
+            //         navigate(ROUTES.YOUR_CHECKS)
+            //     } else {
+            //         toast.error('Failed to activated coupon #2')
+            //     }
+            // } catch (error2) {
+            //     console.log('error', error2)
+            //     toast.error('Failed to activated coupon')
+            // }
         }
         return true
     }
