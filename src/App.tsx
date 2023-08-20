@@ -21,7 +21,7 @@ import { PrivateRoute } from './utils/privateRouter'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-const isTestnet =    window.location.host.indexOf('localhost') >= 0
+const isTestnet = window.location.host.indexOf('localhost') >= 0
     ? true
     : window.location.href.indexOf('testnet') >= 0
 
@@ -72,7 +72,7 @@ export const App = (): JSX.Element => {
                         <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage />} />
                         <Route
                             path={ROUTES.CREATE_CHECK}
-                            element={<CreateCheckPage balance={balance} />}
+                            element={<CreateCheckPage balance={balance} isTestnet={isTestnet} />}
                         />
                         <Route
                             path={ROUTES.QR_SCANNER}
@@ -98,6 +98,7 @@ export const App = (): JSX.Element => {
                             element={
                                 <Activate
                                     balance={balance}
+                                    isTestnet={isTestnet}
                                     address={addressCoupon}
                                     setAddress={setAddressCoupon}
                                 />

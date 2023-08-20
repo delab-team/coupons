@@ -20,6 +20,7 @@ import { useTonAddress } from '../../hooks/useTonAdress'
 
 interface CreateCheckPageProps {
     balance: string | undefined;
+    isTestnet: boolean;
 }
 
 interface FormValues {
@@ -38,7 +39,7 @@ const DEFAULT_VALUES: FormValues = {
     amountActivation: '0'
 }
 
-export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance }) => {
+export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }) => {
     const navigate = useNavigate()
 
     const [ values, setValues ] = useState<FormValues>(DEFAULT_VALUES)
@@ -72,7 +73,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance }) => {
     const deploy = () => {
         setIsDeploying(true)
 
-        const coupon = new Coupon(tonConnectUI)
+        const coupon = new Coupon(tonConnectUI, isTestnet)
         const storageWallet = new StorageWallet()
 
         const couponKey = v1()
@@ -110,7 +111,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance }) => {
     const deployMultiCheck = () => {
         setIsDeploying(true)
 
-        const multi = new Coupon(tonConnectUI)
+        const multi = new Coupon(tonConnectUI, isTestnet)
         const storageWallet = new StorageWallet()
 
         const multiKey = v1()

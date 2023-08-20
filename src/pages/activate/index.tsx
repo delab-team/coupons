@@ -16,10 +16,11 @@ import { useAuth } from '../../hooks/useAuth'
 interface YourChecksPageProps {
     address: string;
     balance: string | undefined;
-    setAddress: Function
+    setAddress: Function;
+    isTestnet: boolean;
 }
 
-export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress }) => {
+export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress, isTestnet }) => {
     const [ psw, setPsw ] = useState<string>('')
 
     const noRamAddres = useTonAddress()
@@ -50,7 +51,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
         if (psw === '') {
             return undefined
         }
-        const ch = new Coupon(tonConnectUI)
+        const ch = new Coupon(tonConnectUI, isTestnet)
 
         try {
             const tx = await ch.claim(address, noRamAddres.toString(), psw)
