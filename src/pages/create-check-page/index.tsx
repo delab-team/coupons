@@ -29,6 +29,7 @@ interface FormValues {
     password: string;
     oneActivation: string;
     amountActivation: string;
+    confirmPassword: string;
 }
 
 const DEFAULT_VALUES: FormValues = {
@@ -36,7 +37,8 @@ const DEFAULT_VALUES: FormValues = {
     amount: '0',
     password: '',
     oneActivation: '0',
-    amountActivation: '0'
+    amountActivation: '0',
+    confirmPassword: ''
 }
 
 export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }) => {
@@ -180,6 +182,10 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
             validationErrors.password = 'Password must not contain Russian characters'
         }
 
+        if (values.password !== values.confirmPassword) {
+            validationErrors.confirmPassword = 'Passwords do not match'
+        }
+
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors)
         } else if (values.typeCheck === 'Personal') {
@@ -276,6 +282,18 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                         className={s.formInput}
                     />
                     {errors.password && <div className={s.error}>{errors.password}</div>}
+                </div>
+
+                <div className={s.formBlock}>
+                    <label className={s.formLabel}>Confirm Password</label>
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        value={values.confirmPassword}
+                        onChange={e => setValues({ ...values, confirmPassword: e.target.value })}
+                        className={s.formInput}
+                    />
+                    {errors.confirmPassword && <div className={s.error}>{errors.confirmPassword}</div>}
                 </div>
 
                 <Button type="submit" variant="primary-button" disabled={isDeploying}>

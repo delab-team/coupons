@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import { toast } from 'react-toastify'
 
@@ -62,27 +63,6 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         setInfo(null)
     }
 
-    const handleRemoveCheck = () => {
-        if (!info) {
-            console.error('Something went wrong')
-            return
-        }
-
-        if (!info.id) {
-            console.error('Something went wrong')
-            return
-        }
-
-        if (window.confirm('Are you sure you want to delete the coupon?')) {
-            storageWallet.del(info.id)
-            toast.success('Coupon successfully deleted')
-
-            window.location.reload()
-        } else {
-            console.log('Coupon deletion was canceled')
-        }
-    }
-
     // eslint-disable-next-line consistent-return
     useEffect(() => {
         if (!isVisible) {
@@ -137,6 +117,13 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         const copyableAddress = `${window.location.origin}/login?a=${info?.address}`
         navigator.clipboard.writeText(copyableAddress)
         toast.success('Check has been copied to the clipboard')
+    }
+
+    const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const shouldDelete = window.confirm('Are you sure you want to delete the coupon?')
+        if (!shouldDelete) {
+            e.preventDefault()
+        }
     }
 
     return (
@@ -199,13 +186,15 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                             >
                                 Share
                             </Button>
-                            <Button
-                                variant="action-button"
-                                startIcon={DELETE}
-                                onClick={handleRemoveCheck}
-                            >
-                                Delete
-                            </Button>
+                            <Link to={`${window.location.origin}/login?a=${info?.address}`}>
+                                <Button
+                                    variant="action-button"
+                                    startIcon={DELETE}
+                                    onClick={handleDeleteClick}
+                                >
+                                    Delete
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </div>
