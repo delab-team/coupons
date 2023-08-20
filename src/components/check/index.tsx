@@ -119,11 +119,37 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
         navigator.clipboard.writeText(copyableAddress)
         toast.success('Check has been copied to the clipboard')
     }
-
-    const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleDeleteAndRedirect = async () => {
         const shouldDelete = window.confirm('Are you sure you want to delete the coupon?')
-        if (!shouldDelete) {
-            e.preventDefault()
+
+        if (!info) {
+            console.error('Something went wrong')
+            return
+        }
+
+        if (!info.address) {
+            console.error('Something went wrong')
+            return
+        }
+
+        if (shouldDelete) {
+            try {
+                const balanceResponse = await Coupon.getSumCoupon(info.address, isTestnet)
+                if (balanceResponse) {
+                    const balanceData = balanceResponse
+                    const balance = Number(fixAmount(balanceData))
+
+                    if (balance < 0.001) {
+                        storageWallet.del(selectedCheckCard?.id)
+                    } else {
+                        window.location.href = `${window.location.origin}/login?a=${info?.address}`
+                    }
+                } else {
+                    window.location.href = `${window.location.origin}/login?a=${info?.address}`
+                }
+            } catch (error) {
+                window.location.href = `${window.location.origin}/login?a=${info?.address}`
+            }
         }
     }
 
@@ -191,7 +217,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                 <Button
                                     variant="action-button"
                                     startIcon={DELETE}
-                                    onClick={handleDeleteClick}
+                                    onClick={handleDeleteAndRedirect}
                                 >
                                     Delete
                                 </Button>
