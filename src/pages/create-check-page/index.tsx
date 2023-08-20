@@ -174,16 +174,10 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
 
         if (values.password.length < 8) {
             validationErrors.password = 'Password must be at least 8 characters long'
-        } else if (values.password.length > 20) {
-            validationErrors.password = 'Password must be at most 20 characters long'
         } else if (!/[a-zA-Z]/.test(values.password)) {
             validationErrors.password = 'Password must include English letters'
         } else if (/[а-яА-Я]/.test(values.password)) {
             validationErrors.password = 'Password must not contain Russian characters'
-        } else if (/\s/.test(values.password)) {
-            validationErrors.password = 'Password must not contain spaces'
-        } else if (/[^a-zA-Zа-яА-Я0-9]/.test(values.password)) {
-            validationErrors.password = 'Password must not contain special characters'
         }
 
         if (Object.keys(validationErrors).length > 0) {
