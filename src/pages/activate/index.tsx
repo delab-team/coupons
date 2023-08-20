@@ -87,71 +87,12 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
         const query = new URLSearchParams(location.search)
         const queryAddress = query.get('a')
 
-        if (queryAddress) {
-            if (auth) {
-                navigate(ROUTES.ACTIVATE)
-                setAddress(queryAddress)
-            } else {
-                navigate(`${ROUTES.LOGIN}?a=${queryAddress}`)
-            }
+        if (queryAddress && noRamAddres) {
+            navigate(`${ROUTES.ACTIVATE}?a=${queryAddress}`)
+        } else if (noRamAddres) {
+            navigate(ROUTES.YOUR_CHECKS)
         }
-    }, [ location.search, auth, setAddress, navigate ])
-
-    async function claimMulti () {
-        if (psw === '') {
-            return undefined
-        }
-        const ch = new Coupon(tonConnectUI, isTestnet)
-
-        try {
-            const tx = await ch.claimMulti(address, noRamAddres.toString(), psw)
-
-            if (tx) {
-                toast.success('Sent for password verification')
-                navigate(ROUTES.YOUR_CHECKS)
-            } else {
-                toast.error('Failed to activated coupon #2')
-            }
-        } catch (error2) {
-            console.log('error', error2)
-            toast.error('Failed to activated coupon')
-        }
-    }
-
-    async function claim () {
-        if (psw === '') {
-            return undefined
-        }
-        const ch = new Coupon(tonConnectUI, isTestnet)
-
-        try {
-            const tx = await ch.claim(address, noRamAddres.toString(), psw)
-
-            if (tx) {
-                toast.success('Sent for password verification')
-                navigate(ROUTES.YOUR_CHECKS)
-            } else {
-                toast.error('Failed to activated coupon #2')
-            }
-        } catch (error) {
-            console.log(error)
-            toast.success('Failed to activated coupon #4')
-            // try {
-            //     const tx = await ch.claimMulti(address, noRamAddres.toString(), psw)
-
-            //     if (tx) {
-            //         toast.success('Sent for password verification')
-            //         navigate(ROUTES.YOUR_CHECKS)
-            //     } else {
-            //         toast.error('Failed to activated coupon #2')
-            //     }
-            // } catch (error2) {
-            //     console.log('error', error2)
-            //     toast.error('Failed to activated coupon')
-            // }
-        }
-        return true
-    }
+    }, [ noRamAddres, location.search ])
 
     useEffect(
         () => () => {
@@ -189,6 +130,8 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
 
         if (psw.trim() === '') {
             setPswError('Password cannot be empty')
+        } else if (psw.length < 8) {
+            setPswError('Password cannot be less than 8 symbols')
         } else {
             setPswError('')
             activateCoupon()
