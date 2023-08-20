@@ -63,6 +63,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                 toast.error('Failed to activated coupon #2')
             }
         } catch (error) {
+            toast.success('Failed to activated coupon #4')
             try {
                 const tx = await ch.claimMulti(address, noRamAddres.toString(), psw)
 
