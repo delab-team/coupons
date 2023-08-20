@@ -95,6 +95,13 @@
   align-items: center;
   gap: 0.3125rem;
   justify-content: space-between;
+  &Action {
+    padding: 0.9375rem 0 0.9375rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+    justify-content: space-between;
+  }
 }
 
 .title {
@@ -118,4 +125,36 @@
 .status {
   height: 1.125rem;
   padding-top: 0.25rem;
+}
+
+.titleDownload {
+  font-size: 1.325rem;
+  font-weight: 900;
+  color: #fff;
+  flex: 1;
+  @media (max-width: 425px) {
+    font-size: 1.190rem;
+  }
+}
+
+.itemDownload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease 0s;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+  padding: 1rem 2rem;
+  border-radius: 1.25rem;
+  background: #202020;
+  font-size: 18px;
+  font-weight: 600;
+  gap: 0.625rem;
+  &:hover {
+      background: #2e2e2e;
+  }
+  @media (max-width: 425px) {
+    padding: 0.7rem 1rem;
+  }
 }

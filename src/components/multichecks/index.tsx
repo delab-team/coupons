@@ -16,6 +16,7 @@ import { smlAddr } from '../../utils/sml-addr'
 import TokenPriceHook from '../../hooks/token-price-hook'
 import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
 
+import DOWNLOAD from '../../assets/images/checks/download.svg'
 import DONE from '../../assets/images/checks/done.svg'
 import SHARE from '../../assets/images/checks/share_outline.svg'
 import DELETE from '../../assets/images/checks/delete.svg'
@@ -110,8 +111,13 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
         toast.success('Check has been copied to the clipboard')
     }
 
-    // const qrCodeValue = 'https://www.youtube.com/watch?v=Qw2LUsS-Ujo&ab_channel=RandomVideos'
-    const generateQRCodeAndDownload = useQRCodeDownloader(info?.address ?? '')
+    const generateQRCodeAndDownload = useQRCodeDownloader(`${window.location.origin}/login?a=${info?.address}` ?? '')
+
+    const handleShareAddress = () => {
+        const copyableAddress = window.location.origin + `/login?a=${info?.address}`
+        navigator.clipboard.writeText(copyableAddress)
+        toast.success('Check has been copied to the clipboard')
+    }
 
     return (
         <div>
@@ -174,11 +180,20 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                 <img src={DONE} alt="Done" />
                             </div>
                         </div>
+                        <div className={s.itemAction}>
+                            <div className={s.titleDownload}>Download:</div>
+                            <div>
+                                <button className={s.itemDownload} onClick={generateQRCodeAndDownload}>
+                                    Download
+                                    <img src={DOWNLOAD} alt="Download" />
+                                </button>
+                            </div>
+                        </div>
                         <div className={s.multicheckActions}>
                             <Button
                                 variant="action-button"
                                 startIcon={SHARE}
-                                onClick={generateQRCodeAndDownload}
+                                onClick={handleShareAddress}
                             >
                                 Share
                             </Button>

@@ -71,15 +71,16 @@
   }
 }
 
-.whiteButton {
+.blackSmallButton {
   font-size: 1.1325rem;
-  background: #ffffff;
-  color: #000;
+  background: #202020;
+  color: #fff;
   width: 100%;
-  min-height: 3.5rem;
+  min-height: 2.5rem;
+  padding: 0 20px;
   border-radius: 1.25rem;
   font-weight: 500;
   &:hover {
-      background: #dad8d8;
+    background: #2e2e2e;
   }
 }

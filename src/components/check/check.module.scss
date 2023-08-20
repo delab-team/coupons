@@ -1,133 +1,172 @@
 .checkBody {
-  position: relative;
-  height: 100%;
+    position: relative;
+    height: 100%;
 }
 
 .check {
-  position: fixed;
-  bottom: -100%;
-  left: 0;
-  z-index: 11;
-  transition: all 0.3s ease-in-out;
-  @media (min-width: 768px) {
-      left: 50%;
-      transform: translateX(-50%);
-  }
-  @media (max-width: 768px) {
-      right: 0;
-  }
-  &Info {
-      padding: 2.625rem 1.25rem 1.75rem 1.25rem;
-      border-radius: 1.25rem;
-      background: #1c1c1c;
-  }
-  &Actions {
-      display: flex;
-      justify-content: center;
-      gap: 3.75rem;
-      margin-top: 1.125rem;
-  }
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    z-index: 11;
+    transition: all 0.3s ease-in-out;
+    @media (min-width: 768px) {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    @media (max-width: 768px) {
+        right: 0;
+    }
+    &Info {
+        padding: 2.625rem 1.25rem 1.75rem 1.25rem;
+        border-radius: 1.25rem;
+        background: #1c1c1c;
+    }
+    &Actions {
+        display: flex;
+        justify-content: center;
+        gap: 3.75rem;
+        margin-top: 1.125rem;
+    }
 }
 
 .container {
-  padding: 2.06rem 1.31rem;
-  border-radius: 20px;
-  background: #141414;
-  @media (min-width: 768px) {
-      width: 800px;
-  }
+    padding: 2.06rem 1.31rem;
+    border-radius: 20px;
+    background: #141414;
+    @media (min-width: 768px) {
+        width: 800px;
+    }
 }
 
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(4, 4, 4, 0.8);
-  z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(4, 4, 4, 0.8);
+    z-index: 10;
 }
 
 .slideIn {
-  animation: slideTransitionPC 0.5s ease-in-out;
-  @media (max-width: 768px) {
-      animation: slideTransitionMobile 0.5s ease-in-out;
-  }
-  bottom: 0;
+    animation: slideTransitionPC 0.5s ease-in-out;
+    @media (max-width: 768px) {
+        animation: slideTransitionMobile 0.5s ease-in-out;
+    }
+    bottom: 0;
 }
 
 @keyframes slideTransitionPC {
-  from {
-      transform: translateY(100%) translateX(-50%);
-  }
-  to {
-      transform: translateY(0%) translateX(-50%);
-  }
+    from {
+        transform: translateY(100%) translateX(-50%);
+    }
+    to {
+        transform: translateY(0%) translateX(-50%);
+    }
 }
 
 @keyframes slideTransitionMobile {
-  from {
-      transform: translateY(100%);
-  }
-  to {
-      transform: translateY(0%);
-  }
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0%);
+    }
 }
 
 .slideOut {
-  opacity: 0;
+    opacity: 0;
 }
 
 .headerTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.625rem;
-  margin-bottom: 2.5625rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.625rem;
+    margin-bottom: 2.5625rem;
 }
 
 .headerTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .item {
-  padding: 0.4375rem 0 0.9375rem 0;
-  border-bottom: 1px solid rgba(100, 98, 98, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 0.3125rem;
-  justify-content: space-between;
+    padding: 0.4375rem 0 0.9375rem 0;
+    border-bottom: 1px solid rgba(100, 98, 98, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+    justify-content: space-between;
+    &Action {
+        padding: 0.9375rem 0 0.9375rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.3125rem;
+        justify-content: space-between;
+    }
 }
 
 .title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #4b4b4b;
-  flex: 1;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #4b4b4b;
+    flex: 1;
 }
 
 .description {
-  font-weight: 600;
-  color: #fff;
-  font-size: 18px;
-  text-align: right;
-  > span {
-      font-size: 16px;
-  }
+    font-weight: 600;
+    color: #fff;
+    font-size: 18px;
+    text-align: right;
+    > span {
+        font-size: 16px;
+    }
 }
 
 .status {
-  height: 1.125rem;
-  padding-top: 0.25rem;
+    height: 1.125rem;
+    padding-top: 0.25rem;
 }
 
 .qrBody {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(4, 4, 4, 0.8);
-  z-index: 20;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(4, 4, 4, 0.8);
+    z-index: 20;
 }
+
+.titleDownload {
+    font-size: 1.325rem;
+    font-weight: 900;
+    color: #fff;
+    flex: 1;
+    @media (max-width: 425px) {
+      font-size: 1.190rem;
+    }
+  }
+  
+  .itemDownload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease 0s;
+    color: #fff;
+    background: transparent;
+    cursor: pointer;
+    padding: 1rem 2rem;
+    border-radius: 1.25rem;
+    background: #202020;
+    font-size: 18px;
+    font-weight: 600;
+    gap: 0.625rem;
+    &:hover {
+        background: #2e2e2e;
+    }
+    @media (max-width: 425px) {
+      padding: 0.7rem 1rem;
+    }
+  }

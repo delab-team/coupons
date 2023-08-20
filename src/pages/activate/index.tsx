@@ -3,7 +3,7 @@ import { TonConnectButton, useTonConnectUI, useTonAddress } from '@tonconnect/ui
 
 import { toast } from 'react-toastify'
 
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '../../components/ui/button'
 
 import s from './activate-page.module.scss'
@@ -11,6 +11,7 @@ import { Coupon } from '../../logic/coupon'
 import { MainTitle } from '../../components/main-title'
 import { fixAmount } from '../../utils/fix-amount'
 import { ROUTES } from '../../utils/router'
+import { useAuth } from '../../hooks/useAuth'
 
 interface YourChecksPageProps {
     address: string;
@@ -19,10 +20,7 @@ interface YourChecksPageProps {
 }
 
 export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress }) => {
-    console.log('🚀 ~ file: index.tsx:20 ~ address:', address)
-
     const [ psw, setPsw ] = useState<string>('')
-    console.log('🚀 ~ file: index.tsx:24 ~ psw:', psw)
 
     const noRamAddres = useTonAddress()
 
@@ -31,6 +29,22 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
     const navigate = useNavigate()
+    const auth = useAuth()
+    const location = useLocation()
+
+    useEffect(() => {
+        const query = new URLSearchParams(location.search)
+        const queryAddress = query.get('a')
+
+        if (queryAddress) {
+            if (auth) {
+                navigate(ROUTES.ACTIVATE)
+                setAddress(queryAddress)
+            } else {
+                navigate(`${ROUTES.LOGIN}?a=${queryAddress}`)
+            }
+        }
+    }, [ location.search, auth, setAddress, navigate ])
 
     async function claim () {
         if (psw === '') {

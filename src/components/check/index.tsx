@@ -17,6 +17,7 @@ import { Coupon } from '../../logic/coupon'
 import { fixAmount } from '../../utils/fix-amount'
 import { smlAddr } from '../../utils/sml-addr'
 
+import DOWNLOAD from '../../assets/images/checks/download.svg'
 import DONE from '../../assets/images/checks/done.svg'
 import SHARE from '../../assets/images/checks/share_outline.svg'
 import DELETE from '../../assets/images/checks/delete.svg'
@@ -37,7 +38,6 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
     const [ info, setInfo ] = useState<CouponDataType | null>(null)
 
     const storageWallet = new StorageWallet()
-
     useEffect(() => {
         const getCheckData = () => {
             try {
@@ -105,7 +105,6 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                 }
             }
         }
-        console.log('rerender')
         if (isVisible && info && selectedCheckCard?.id === info.id) {
             fetchCouponBalance()
         }
@@ -132,8 +131,13 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
         toast.success('Check has been copied to the clipboard')
     }
 
-    // const qrCodeValue = 'https://www.youtube.com/watch?v=NUsoVlDFqZg&ab_channel=EnriqueIglesiasVEVO'
-    const generateQRCodeAndDownload = useQRCodeDownloader(info?.address ?? '')
+    const generateQRCodeAndDownload = useQRCodeDownloader(`${window.location.origin}/login?a=${info?.address}` ?? '')
+
+    const handleShareAddress = () => {
+        const copyableAddress = `${window.location.origin}/login?a=${info?.address}`
+        navigator.clipboard.writeText(copyableAddress)
+        toast.success('Check has been copied to the clipboard')
+    }
 
     return (
         <div className={s.checkBody}>
@@ -151,18 +155,25 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                     <div className={s.checkInfo}>
                         <div className={s.item}>
                             <div className={s.title}>Status:</div>
-                            <div className={s.description}>{Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated' }</div>
+                            <div className={s.description}>
+                                {Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated'}
+                            </div>
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Address:</div>
-                            <div className={s.description} onClick={handleCopyAddress} style={{ cursor: 'pointer' }}>
+                            <div
+                                className={s.description}
+                                onClick={handleCopyAddress}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 {smlAddr(info?.address)}
                             </div>
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Sum:</div>
                             <div className={s.description}>
-                                {fixAmount(bal)} TON (<TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
+                                {fixAmount(bal)} TON (
+                                <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                             </div>
                         </div>
                         <div className={s.item}>
@@ -171,8 +182,21 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard 
                                 <img src={DONE} alt="Done" />
                             </div>
                         </div>
+                        <div className={s.itemAction}>
+                            <div className={s.titleDownload}>Download:</div>
+                            <div>
+                                <button className={s.itemDownload} onClick={generateQRCodeAndDownload}>
+                                    Download
+                                    <img src={DOWNLOAD} alt="Download" />
+                                </button>
+                            </div>
+                        </div>
                         <div className={s.checkActions}>
-                            <Button variant="action-button" startIcon={SHARE} onClick={generateQRCodeAndDownload}>
+                            <Button
+                                variant="action-button"
+                                startIcon={SHARE}
+                                onClick={handleShareAddress}
+                            >
                                 Share
                             </Button>
                             <Button

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { useEffect, useState } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { Address, TonClient } from 'ton'
 
 import { useTonAddress } from '@tonconnect/ui-react'
@@ -17,10 +17,13 @@ import { Activate } from './pages/activate'
 import { Layout } from './layout'
 
 import { ROUTES } from './utils/router'
+import { PrivateRoute } from './utils/privateRouter'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-const isTestnet = window.location.host.indexOf('localhost') >= 0 ? true : window.location.href.indexOf('testnet') >= 0
+const isTestnet =    window.location.host.indexOf('localhost') >= 0
+    ? true
+    : window.location.href.indexOf('testnet') >= 0
 
 export const App = (): JSX.Element => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
@@ -28,7 +31,13 @@ export const App = (): JSX.Element => {
     const [ isConnected, setIsConnected ] = useState<boolean>(false)
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
 
-    const [ tonClient, setTonClient ] = useState<TonClient>(new TonClient({ endpoint: isTestnet ? 'https://testnet.tonhubapi.com/jsonRPC' : 'https://mainnet.tonhubapi.com/jsonRPC' }))
+    const [ tonClient, setTonClient ] = useState<TonClient>(
+        new TonClient({
+            endpoint: isTestnet
+                ? 'https://testnet.tonhubapi.com/jsonRPC'
+                : 'https://mainnet.tonhubapi.com/jsonRPC'
+        })
+    )
     const [ addressCoupon, setAddressCoupon ] = useState<string>('')
 
     // =================================
@@ -43,76 +52,61 @@ export const App = (): JSX.Element => {
         }
     }, [])
 
-    useEffect(() => {
-
-    }, [ ])
-
-    const navigate = useNavigate()
+    useEffect(() => {}, [])
 
     // ===============================
 
     useEffect(() => {
-        if (!RawAddress) {
-            navigate(ROUTES.LOGIN)
-        } else {
+        if (RawAddress) {
             tonClient.getBalance(Address.parse(RawAddress)).then((bl) => {
                 setBalance(bl.toString())
             })
-            navigate(ROUTES.YOUR_CHECKS)
         }
     }, [ RawAddress ])
 
     return (
         <>
             <Routes>
-                <Route element={<Layout />}>
-                    <Route
-                        path={ROUTES.YOUR_CHECKS}
-                        element={<YourChecksPage />}
-                    />
-                    <Route
-                        path={ROUTES.CREATE_CHECK}
-                        element={
-                            <CreateCheckPage
-                                balance={balance}
-                            />
-                        }
-                    />
-                    <Route
-                        path={ROUTES.QR_SCANNER}
-                        element={
-                            <QrScannerPage
-                                setAddress={setAddressCoupon}
-                                address={addressCoupon}
-                            />
-                        }
-                    />
-                    <Route
-                        path={ROUTES.SETTINGS}
-                        element={
-                            <SettingsPage
-                                isConnected={isConnected}
-                                balance={balance}
-                                isTestnet={isTestnet}
-                            />
-                        }
-                    />
-
-                    <Route
-                        path={ROUTES.ACTIVATE}
-                        element={
-                            <Activate
-                                balance={balance}
-                                address={addressCoupon}
-                                setAddress={setAddressCoupon}
-                            />
-                        }
-                    />
+                <Route element={<PrivateRoute />}>
+                    <Route element={<Layout />}>
+                        <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage />} />
+                        <Route
+                            path={ROUTES.CREATE_CHECK}
+                            element={<CreateCheckPage balance={balance} />}
+                        />
+                        <Route
+                            path={ROUTES.QR_SCANNER}
+                            element={
+                                <QrScannerPage
+                                    setAddress={setAddressCoupon}
+                                    address={addressCoupon}
+                                />
+                            }
+                        />
+                        <Route
+                            path={ROUTES.SETTINGS}
+                            element={
+                                <SettingsPage
+                                    isConnected={isConnected}
+                                    balance={balance}
+                                    isTestnet={isTestnet}
+                                />
+                            }
+                        />
+                        <Route
+                            path={ROUTES.ACTIVATE}
+                            element={
+                                <Activate
+                                    balance={balance}
+                                    address={addressCoupon}
+                                    setAddress={setAddressCoupon}
+                                />
+                            }
+                        />
+                    </Route>
                 </Route>
-                <Route
-                    path={ROUTES.LOGIN}
-                    element={<LoginPage  />}
-                />
+                <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+                <Route path="*" element={<Navigate to='/' replace />} />
             </Routes>
             <ToastContainer
                 position="top-right"
