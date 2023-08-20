@@ -12,6 +12,7 @@ import { MainTitle } from '../../components/main-title'
 import { fixAmount } from '../../utils/fix-amount'
 import { ROUTES } from '../../utils/router'
 import { useAuth } from '../../hooks/useAuth'
+import { Select } from '../../components/ui/select'
 
 interface YourChecksPageProps {
     address: string;
@@ -33,6 +34,54 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
     const auth = useAuth()
     const location = useLocation()
 
+    const [ checkType, setCheckType ] = useState<'Personal' | 'Multicheck'>('Personal')
+
+    const options = [
+        {
+            value: 'Personal',
+            label: 'Personal'
+        },
+        {
+            value: 'Multicheck',
+            label: 'Multicheck'
+        }
+    ]
+
+    const handleSelectChange = (value: string) => {
+        setCheckType(value as 'Personal' | 'Multicheck')
+    }
+
+    async function activateCoupon () {
+        if (psw === '') {
+            return undefined
+        }
+
+        const ch = new Coupon(tonConnectUI, isTestnet)
+
+        try {
+            let tx
+
+            if (checkType === 'Personal') {
+                tx = await ch.claim(address, noRamAddres.toString(), psw)
+            } else if (checkType === 'Multicheck') {
+                tx = await ch.claimMulti(address, noRamAddres.toString(), psw)
+            }
+
+            if (tx) {
+                toast.success('Sent for password verification')
+                navigate(ROUTES.YOUR_CHECKS)
+            } else {
+                toast.error('Failed to activate coupon')
+            }
+
+            return tx
+        } catch (error) {
+            console.log('error', error)
+            toast.error('Failed to activate coupon')
+            throw error
+        }
+    }
+
     useEffect(() => {
         const query = new URLSearchParams(location.search)
         const queryAddress = query.get('a')
@@ -48,12 +97,11 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
     }, [ location.search, auth, setAddress, navigate ])
 
     async function claimMulti () {
-
         if (psw === '') {
             return undefined
         }
         const ch = new Coupon(tonConnectUI, isTestnet)
-        
+
         try {
             const tx = await ch.claimMulti(address, noRamAddres.toString(), psw)
 
@@ -136,7 +184,15 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                 Balance coupon {fixAmount(bal)} TON
             </div>
             <br />
-            <form className={s.form} onSubmit={() => {}}>
+            <form className={s.form} onSubmit={(e) => { e.preventDefault(); activateCoupon() }}>
+                <div className={s.formBlock}>
+                    <label className={s.formLabel}>Choose the type of check</label>
+                    <Select
+                        options={options}
+                        value={checkType}
+                        onChange={handleSelectChange}
+                    />
+                </div>
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>
                         Password
@@ -148,9 +204,8 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPsw(e.target.value)} value={psw}
                     />
                 </div>
-                <Button variant={'primary-button'} onClick={() => claim()}>Activate</Button>
+                <Button variant={'primary-button'} type="submit">Activate</Button>
             </form>
-
         </section>
     )
 }
