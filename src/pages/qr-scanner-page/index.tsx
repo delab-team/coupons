@@ -68,8 +68,10 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
             try {
                 const result = await QrScanner.scanImage(QR)
                 if (result) {
+                    const string = result.split('=')
+                    const string2 = string[string.length - 1]
                     try {
-                        const addr = Address.parse(result)
+                        const addr = Address.parse(string2)
 
                         setAddress(addr.toString())
                     } catch (error) {
