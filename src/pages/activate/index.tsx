@@ -23,6 +23,7 @@ interface YourChecksPageProps {
 
 export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress, isTestnet }) => {
     const [ psw, setPsw ] = useState<string>('')
+    const [ pswError, setPswError ] = useState<string>('')
 
     const noRamAddres = useTonAddress()
 
@@ -173,6 +174,27 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
         fetchBalance()
     }, [ address ])
 
+    const handlePasswordChange = (newPassword: string) => {
+        setPsw(newPassword)
+
+        if (newPassword.trim() === '') {
+            setPswError('Password cannot be empty')
+        } else {
+            setPswError('')
+        }
+    }
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+
+        if (psw.trim() === '') {
+            setPswError('Password cannot be empty')
+        } else {
+            setPswError('')
+            activateCoupon()
+        }
+    }
+
     return (
         <section>
             <div className={s.headerForm}>
@@ -184,7 +206,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                 Balance coupon {fixAmount(bal)} TON
             </div>
             <br />
-            <form className={s.form} onSubmit={(e) => { e.preventDefault(); activateCoupon() }}>
+            <form className={s.form} onSubmit={handleSubmit}>
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>Choose the type of check</label>
                     <Select
@@ -194,15 +216,15 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                     />
                 </div>
                 <div className={s.formBlock}>
-                    <label className={s.formLabel}>
-                        Password
-                    </label>
+                    <label className={s.formLabel}>Password</label>
                     <input
                         type="password"
                         placeholder='password'
                         className={s.formInput}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPsw(e.target.value)} value={psw}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePasswordChange(e.target.value)}
+                        value={psw}
                     />
+                    {pswError && <p className={s.errorText}>{pswError}</p>}
                 </div>
                 <Button variant={'primary-button'} type="submit">Activate</Button>
             </form>
