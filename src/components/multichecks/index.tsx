@@ -1,6 +1,5 @@
 /* eslint-disable import/no-cycle */
 import { FC, useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 
 import { toast } from 'react-toastify'
 
@@ -218,15 +217,13 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                             >
                                 Share
                             </Button>
-                            <Link to={`${window.location.origin}/login?a=${info?.address}`}>
-                                <Button
-                                    variant="action-button"
-                                    startIcon={DELETE}
-                                    onClick={handleDeleteAndRedirect}
-                                >
+                            <Button
+                                variant="action-button"
+                                startIcon={DELETE}
+                                onClick={handleDeleteAndRedirect}
+                            >
                                     Delete
-                                </Button>
-                            </Link>
+                            </Button>
                         </div>
                     </div>
                 </div>
