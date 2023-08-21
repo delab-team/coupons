@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 import { TonConnectButton, useTonConnectUI } from '@tonconnect/ui-react'
 import { useNavigate } from 'react-router-dom'
 import { v1 } from 'uuid'
+import { FaCheck } from 'react-icons/fa'
 
 import { MainTitle } from '../../components/main-title'
 import { Select } from '../../components/ui/select'
@@ -48,6 +49,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
     const [ errors, setErrors ] = useState<Record<string, string>>({})
 
     const [ isDeploying, setIsDeploying ] = useState<boolean>(false)
+    const [ isAgreed, setIsAgreed ] = useState<boolean>(false)
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
@@ -118,22 +120,24 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
 
         const multiKey = v1()
 
-        multi.deployMulti(values.password, values.oneActivation, values.amountActivation).then((multiResult) => {
-            const dataToSave = {
-                // oneActivation: values.oneActivation,
-                amountActivation: values.amountActivation,
-                address: multiResult,
-                id: multiKey,
-                typeCheck: values.typeCheck,
-                userAddress: rawAddress,
-                date: Date.now()
-            }
-            if (multiResult) {
-                storageWallet.save(multiKey, dataToSave)
-                navigate('/')
-            }
-            setValues(DEFAULT_VALUES)
-        })
+        multi
+            .deployMulti(values.password, values.oneActivation, values.amountActivation)
+            .then((multiResult) => {
+                const dataToSave = {
+                    // oneActivation: values.oneActivation,
+                    amountActivation: values.amountActivation,
+                    address: multiResult,
+                    id: multiKey,
+                    typeCheck: values.typeCheck,
+                    userAddress: rawAddress,
+                    date: Date.now()
+                }
+                if (multiResult) {
+                    storageWallet.save(multiKey, dataToSave)
+                    navigate('/')
+                }
+                setValues(DEFAULT_VALUES)
+            })
             .catch((error) => {
                 console.error('Error deploying:', error)
             })
@@ -151,7 +155,11 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
         } else if (values.typeCheck === 'Personal') {
             const validateAmount = (amount: string) => {
                 const parsedAmount = parseFloat(amount)
-                return /^\d+(\.\d+)?$/.test(amount) && parsedAmount >= 0.00001 && parsedAmount <= 100000.99999
+                return (
+                    /^\d+(\.\d+)?$/.test(amount)
+                    && parsedAmount >= 0.00001
+                    && parsedAmount <= 100000.99999
+                )
             }
 
             if (!validateAmount(values.amount)) {
@@ -160,7 +168,11 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
         } else if (values.typeCheck === 'Multicheck') {
             const validateActivationAmount = (amount: string) => {
                 const parsedAmount = parseFloat(amount)
-                return /^\d+(\.\d+)?$/.test(amount) && parsedAmount >= 0.00001 && parsedAmount <= 1500000
+                return (
+                    /^\d+(\.\d+)?$/.test(amount)
+                    && parsedAmount >= 0.00001
+                    && parsedAmount <= 1500000
+                )
             }
 
             if (!validateActivationAmount(values.oneActivation)) {
@@ -184,6 +196,12 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
 
         if (values.password !== values.confirmPassword) {
             validationErrors.confirmPassword = 'Passwords do not match'
+        }
+
+        if (values.typeCheck === 'Multicheck') {
+            if (!isAgreed) {
+                validationErrors.agreement = 'You must agree to the terms for Multicheck'
+            }
         }
 
         if (Object.keys(validationErrors).length > 0) {
@@ -293,10 +311,42 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                         onChange={e => setValues({ ...values, confirmPassword: e.target.value })}
                         className={s.formInput}
                     />
-                    {errors.confirmPassword && <div className={s.error}>{errors.confirmPassword}</div>}
+                    {errors.confirmPassword && (
+                        <div className={s.error}>{errors.confirmPassword}</div>
+                    )}
                 </div>
+                {values.typeCheck === 'Multicheck' && (
+                    <div className={s.checkboxContainer}>
+                        <label className={s.checkboxLabel}>
+                            <input
+                                type="checkbox"
+                                checked={isAgreed}
+                                onChange={() => setIsAgreed(!isAgreed)}
+                                className={s.checkboxInput}
+                            />
+                            <div className={`${s.customCheckbox} ${isAgreed ? 'checked' : 'unchecked'}`}>
+                                {isAgreed ? (
+                                    <FaCheck
+                                        className={s.checkboxIcon}
+                                        color="#000"
+                                        size={19}
+                                    />
+                                ) : null}
+                            </div>
+                            I agree to the terms
+                        </label>
+                        <div className={`${s.alert} ${s.multicheckAlert}`}>
+                            Having created a multicheck, you will not be able to delete it.
+                        </div>
+                    </div>
 
-                <Button type="submit" variant="primary-button" disabled={isDeploying}>
+                )}
+                {errors.agreement && <div>{errors.agreement}</div>}
+                <Button
+                    type="submit"
+                    variant="primary-button"
+                    disabled={isDeploying || (values.typeCheck === 'Multicheck' && !isAgreed)}
+                >
                     {isDeploying ? 'Creating...' : 'Create a check'}
                 </Button>
             </form>

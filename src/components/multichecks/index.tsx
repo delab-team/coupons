@@ -19,7 +19,7 @@ import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
 import DOWNLOAD from '../../assets/images/checks/download.svg'
 import DONE from '../../assets/images/checks/done.svg'
 import SHARE from '../../assets/images/checks/share_outline.svg'
-import DELETE from '../../assets/images/checks/delete.svg'
+// import DELETE from '../../assets/images/checks/delete.svg'
 import CANCEL from '../../assets/images/checks/cancel.svg'
 
 import s from './multichecks.module.scss'
@@ -105,43 +105,43 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
         toast.success('Check has been copied to the clipboard')
     }
 
-    const handleDeleteAndRedirect = async () => {
-        const shouldDelete = window.confirm('Are you sure you want to delete the coupon?')
+    // const handleDeleteAndRedirect = async () => {
+    //     const shouldDelete = window.confirm('Are you sure you want to delete the coupon?')
 
-        if (!info) {
-            console.error('Something went wrong')
-            return
-        }
+    //     if (!info) {
+    //         console.error('Something went wrong')
+    //         return
+    //     }
 
-        if (!info.address) {
-            console.error('Something went wrong')
-            return
-        }
+    //     if (!info.address) {
+    //         console.error('Something went wrong')
+    //         return
+    //     }
 
-        if (shouldDelete) {
-            try {
-                const balanceResponse = await Coupon.getSumCoupon(info.address, isTestnet)
-                if (balanceResponse) {
-                    const balanceData = balanceResponse
-                    const balance = Number(fixAmount(balanceData))
+    //     if (shouldDelete) {
+    //         try {
+    //             const balanceResponse = await Coupon.getSumCoupon(info.address, isTestnet)
+    //             if (balanceResponse) {
+    //                 const balanceData = balanceResponse
+    //                 const balance = Number(fixAmount(balanceData))
 
-                    if (balance < 0.001) {
-                        const deleteSuccessful = storageWallet.del(selectedCheckCard?.id)
-                        if (deleteSuccessful) {
-                            handleCancelButtonClick()
-                            window.location.href = '/'
-                        }
-                    } else {
-                        window.location.href = `${window.location.origin}/login?a=${info?.address}`
-                    }
-                } else {
-                    window.location.href = `${window.location.origin}/login?a=${info?.address}`
-                }
-            } catch (error) {
-                window.location.href = `${window.location.origin}/login?a=${info?.address}`
-            }
-        }
-    }
+    //                 if (balance < 0.001) {
+    //                     const deleteSuccessful = storageWallet.del(selectedCheckCard?.id)
+    //                     if (deleteSuccessful) {
+    //                         handleCancelButtonClick()
+    //                         window.location.href = '/'
+    //                     }
+    //                 } else {
+    //                     window.location.href = `${window.location.origin}/login?a=${info?.address}`
+    //                 }
+    //             } else {
+    //                 window.location.href = `${window.location.origin}/login?a=${info?.address}`
+    //             }
+    //         } catch (error) {
+    //             window.location.href = `${window.location.origin}/login?a=${info?.address}`
+    //         }
+    //     }
+    // }
 
     return (
         <div>
@@ -204,15 +204,6 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                 <img src={DONE} alt="Done" />
                             </div>
                         </div>
-                        <div className={s.itemAction}>
-                            <div className={s.titleDownload}>Download:</div>
-                            <div>
-                                <button className={s.itemDownload} onClick={generateQRCodeAndDownload}>
-                                    Download
-                                    <img src={DOWNLOAD} alt="Download" />
-                                </button>
-                            </div>
-                        </div>
                         <div className={s.multicheckActions}>
                             <Button
                                 variant="action-button"
@@ -223,10 +214,10 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                             </Button>
                             <Button
                                 variant="action-button"
-                                startIcon={DELETE}
-                                onClick={handleDeleteAndRedirect}
+                                startIcon={DOWNLOAD}
+                                onClick={generateQRCodeAndDownload}
                             >
-                                    Delete
+                                    Download
                             </Button>
                         </div>
                     </div>
