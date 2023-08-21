@@ -89,6 +89,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
 
         if (queryAddress && noRamAddres) {
             navigate(`${ROUTES.ACTIVATE}?a=${queryAddress}`)
+            setAddress(queryAddress)
         } else if (noRamAddres) {
             navigate(ROUTES.YOUR_CHECKS)
         }
@@ -111,9 +112,8 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                 setBal('0')
             }
         }
-
         fetchBalance()
-    }, [ address ])
+    }, [ address, location.search ])
 
     const handlePasswordChange = (newPassword: string) => {
         setPsw(newPassword)
