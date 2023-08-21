@@ -113,7 +113,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
             }
         }
         fetchBalance()
-    }, [ address ])
+    }, [ address, location.search ])
 
     const handlePasswordChange = (newPassword: string) => {
         setPsw(newPassword)
