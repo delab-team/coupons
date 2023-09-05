@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable consistent-return */
 /* eslint-disable import/no-cycle */
 import { FC, useState, useEffect } from 'react'
@@ -37,22 +38,11 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
     const [ bal, setBal ] = useState<string>('0')
     const [ info, setInfo ] = useState<MultiDataType | null>(null)
     const [ usage, setUsage ] = useState<number>(0)
-    console.log('🚀 ~ file: index.tsx:39 ~ usage:', usage)
 
     const storageWallet = new StorageWallet()
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
     const cp = new Coupon(tonConnectUI, isTestnet)
-
-    async function fetchUsage () {
-        if (!info?.address) return
-        try {
-            const res = await cp.getSumActivation(info?.address)
-            setUsage(res)
-        } catch (error) {
-            console.error('Error fetching usage:', error)
-        }
-    }
 
     useEffect(() => {
         const getMultiData = () => {
@@ -79,6 +69,15 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                 } catch (error) {
                     console.error('Error fetching coupon balance:', error)
                 }
+            }
+        }
+        async function fetchUsage () {
+            if (!info?.address) return
+            try {
+                const res = await cp.getSumActivation(info?.address)
+                setUsage(res)
+            } catch (error) {
+                console.error('Error fetching usage:', error)
             }
         }
         console.log('rerender')
@@ -124,50 +123,25 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
         toast.success('Check has been copied to the clipboard')
     }
 
-    // const handleDeleteAndRedirect = async () => {
-    //     const shouldDelete = window.confirm('Are you sure you want to delete the coupon?')
-
-    //     if (!info) {
-    //         console.error('Something went wrong')
-    //         return
-    //     }
-
-    //     if (!info.address) {
-    //         console.error('Something went wrong')
-    //         return
-    //     }
-
-    //     if (shouldDelete) {
-    //         try {
-    //             const balanceResponse = await Coupon.getSumCoupon(info.address, isTestnet)
-    //             if (balanceResponse) {
-    //                 const balanceData = balanceResponse
-    //                 const balance = Number(fixAmount(balanceData))
-
-    //                 if (balance < 0.001) {
-    //                     const deleteSuccessful = storageWallet.del(selectedCheckCard?.id)
-    //                     if (deleteSuccessful) {
-    //                         handleCancelButtonClick()
-    //                         window.location.href = '/'
-    //                     }
-    //                 } else {
-    //                     window.location.href = `${window.location.origin}/login?a=${info?.address}`
-    //                 }
-    //             } else {
-    //                 window.location.href = `${window.location.origin}/login?a=${info?.address}`
-    //             }
-    //         } catch (error) {
-    //             window.location.href = `${window.location.origin}/login?a=${info?.address}`
-    //         }
-    //     }
-    // }
-
     const handleRemove = async () => {
         const us = new Coupon(tonConnectUI, isTestnet)
-        if (!info?.address) return console.error(123)
+        if (!info?.address) return console.error('Error')
+
+        const userConfirmed = window.confirm('Вы уверены, что хотите удалить чек?')
+
+        if (!userConfirmed) {
+            return
+        }
+
         try {
             const res = await us.destroyMulti(info?.address)
-            console.log('🚀 ~ file: index.tsx:170 ~ handleRemove ~ res:', res)
+
+            if (res === true) {
+                handleCancelButtonClick()
+                storageWallet.del(selectedCheckCard?.id)
+                window.location.reload()
+            }
+
             return res
         } catch (error) {
             console.error('Error fetching usage:', error)
@@ -210,14 +184,14 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                         <div className={s.item}>
                             <div className={s.title}>Amount of one activation:</div>
                             <div className={s.description}>
-                                {usage !== 0
-                                    ? fixAmount(Number(bal) / Number(usage))
+                                {info?.amountActivation !== undefined
+                                    ? fixAmount(Number(bal) / Number(info?.amountActivation))
                                     : 0 + ' '}
                                 TON (
                                 <TokenPriceHook
                                     tokenAmount={
-                                        usage !== 0
-                                            ? Number(fixAmount(Number(bal) / Number(usage)))
+                                        info?.amountActivation !== undefined
+                                            ? Number(fixAmount(Number(bal) / Number(info?.amountActivation)))
                                             : 0
                                     }
                                 />
@@ -226,7 +200,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Number of activations:</div>
-                            <div className={s.description}>{usage === 0 ? '0' : usage}</div>
+                            <div className={s.description}>{usage === 0 ? '0' : usage} out of {info?.amountActivation}</div>
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Password:</div>
