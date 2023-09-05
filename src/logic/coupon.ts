@@ -248,11 +248,10 @@ export class Coupon {
         const keypair: KeyPair = keyPairFromSeed(seed)
 
         const addressFor = Address.parse(addressForUser)
-
         const signature = sign(beginCell().storeAddress(addressFor).endCell().hash(), keypair.secretKey)
 
         const payload = beginCell()
-            .storeUint(0x22356c66, 32) // TODO
+            .storeUint(Opcodes.claim, 32)
             .storeBuffer(signature)
             .storeAddress(addressFor)
             .endCell()
@@ -262,7 +261,7 @@ export class Coupon {
             messages: [
                 {
                     address: Address.parseFriendly(address.toString()).address.toString(),
-                    amount: toNano('0.05').toString(),
+                    amount: toNano('0.04').toString(),
                     payload: payload.toBoc().toString('base64')
                 }
             ]
@@ -287,13 +286,27 @@ export class Coupon {
 
     public async getSumActivation (address: string): Promise<number> {
         try {
-            const multiProvider =  this._client.open(
-                MultiCheque.createFromAddress(Address.parse(address))
+            // const multiProvider =  this._client.open(
+            //     MultiCheque.createFromAddress(Address.parse(address))
+            // )
+
+            const result = await this._client.runMethodWithError(
+                Address.parse(address),
+                'get_number_of_uses',
+                [ ]
             )
+            if (result.exit_code !== 0) {
+                console.error('An error occurred: exit code ', result.exit_code)
+                return 0
+            }
 
-            const usage = await multiProvider.getUsage()
+            const usage = result.stack
 
-            return Number(usage)
+            const amount = usage.readBigNumber()
+
+            console.log(amount)
+
+            return Number(amount)
         } catch (error) {
             console.error('An error occurred:', error)
             return 0
@@ -301,11 +314,7 @@ export class Coupon {
     }
 
     public async destroyMulti (address: string): Promise<boolean> {
-        const multiCheque = MultiCheque.createFromAddress(Address.parse(address))
-
-        const payload = beginCell()
-            .storeUint(0x22356c66, 32) // TODO
-            .endCell()
+        const payload = beginCell().storeUint(Opcodes.destroy, 32).endCell()
 
         const transactionTon: SendTransactionRequest = {
             validUntil: Date.now() + 1000000,

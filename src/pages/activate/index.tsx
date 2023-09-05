@@ -90,10 +90,13 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
         if (queryAddress && noRamAddres) {
             navigate(`${ROUTES.ACTIVATE}?a=${queryAddress}`)
             setAddress(queryAddress)
-        } else if (noRamAddres) {
+        } else if (noRamAddres && address) {
+            navigate(ROUTES.ACTIVATE)
+            // setAddress(noRamAddres)
+        } else {
             navigate(ROUTES.YOUR_CHECKS)
         }
-    }, [ noRamAddres, location.search ])
+    }, [ noRamAddres, location.search, address ])
 
     useEffect(
         () => () => {
