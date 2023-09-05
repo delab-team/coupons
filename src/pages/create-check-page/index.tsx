@@ -121,7 +121,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
         const multiKey = v1()
 
         multi
-            .deployMulti(values.password, values.oneActivation, values.amountActivation)
+            .deployMulti(values.password, values.oneActivation, values.amountActivation, rawAddress)
             .then((multiResult) => {
                 const dataToSave = {
                     // oneActivation: values.oneActivation,
@@ -244,14 +244,15 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                         />
                         {errors.amount && <div className={s.error}>{errors.amount}</div>}
                         <div className={s.formSubtext}>
-                            balance:
-                            {fixAmount(balance ?? '0')} TON (
-                            {balance ? (
-                                <TokenPriceHook tokenAmount={Number(fixAmount(balance))} />
-                            ) : (
-                                0
-                            )}
+                            balance: <span>
+                                {fixAmount(balance ?? '0')} TON (
+                                {balance ? (
+                                    <TokenPriceHook tokenAmount={Number(fixAmount(balance))} />
+                                ) : (
+                                    0
+                                )}
                             )
+                            </span>
                         </div>
                     </div>
                 )}
