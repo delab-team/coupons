@@ -1,5 +1,7 @@
+/* eslint-disable consistent-return */
 /* eslint-disable import/no-cycle */
 import { FC, useState, useEffect } from 'react'
+import { useTonConnectUI } from '@tonconnect/ui-react'
 
 import { toast } from 'react-toastify'
 
@@ -19,7 +21,7 @@ import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
 import DOWNLOAD from '../../assets/images/checks/download.svg'
 import DONE from '../../assets/images/checks/done.svg'
 import SHARE from '../../assets/images/checks/share_outline.svg'
-// import DELETE from '../../assets/images/checks/delete.svg'
+import DELETE from '../../assets/images/checks/delete.svg'
 import CANCEL from '../../assets/images/checks/cancel.svg'
 
 import s from './multichecks.module.scss'
@@ -34,7 +36,23 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
     const [ bal, setBal ] = useState<string>('0')
     const [ info, setInfo ] = useState<MultiDataType | null>(null)
+    const [ usage, setUsage ] = useState<number>(0)
+    console.log('🚀 ~ file: index.tsx:39 ~ usage:', usage)
+
     const storageWallet = new StorageWallet()
+
+    const [ tonConnectUI, setOptions ] = useTonConnectUI()
+    const cp = new Coupon(tonConnectUI, isTestnet)
+
+    async function fetchUsage () {
+        if (!info?.address) return
+        try {
+            const res = await cp.getSumActivation(info?.address)
+            setUsage(res)
+        } catch (error) {
+            console.error('Error fetching usage:', error)
+        }
+    }
 
     useEffect(() => {
         const getMultiData = () => {
@@ -66,6 +84,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
         console.log('rerender')
         if (isVisible && info && selectedCheckCard?.id === info.id) {
             fetchCouponBalance()
+            fetchUsage()
         }
     }, [ info?.address, selectedCheckCard?.id, isVisible ])
 
@@ -143,6 +162,18 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
     //     }
     // }
 
+    const handleRemove = async () => {
+        const us = new Coupon(tonConnectUI, isTestnet)
+        if (!info?.address) return console.error(123)
+        try {
+            const res = await us.destroyMulti(info?.address)
+            console.log('🚀 ~ file: index.tsx:170 ~ handleRemove ~ res:', res)
+            return res
+        } catch (error) {
+            console.error('Error fetching usage:', error)
+        }
+    }
+
     return (
         <div>
             {isVisible && <div className={s.overlay}></div>}
@@ -179,29 +210,37 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                         <div className={s.item}>
                             <div className={s.title}>Amount of one activation:</div>
                             <div className={s.description}>
-                                {info?.amountActivation !== undefined
-                                    ? fixAmount(Number(bal) / Number(info?.amountActivation))
-                                    : null}
+                                {usage !== 0
+                                    ? fixAmount(Number(bal) / Number(usage))
+                                    : 0 + ' '}
                                 TON (
                                 <TokenPriceHook
                                     tokenAmount={
-                                        info?.amountActivation !== undefined
-                                            ? Number(fixAmount(Number(bal) / Number(info?.amountActivation)))
+                                        usage !== 0
+                                            ? Number(fixAmount(Number(bal) / Number(usage)))
                                             : 0
                                     }
                                 />
-
                                 )
                             </div>
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Number of activations:</div>
-                            <div className={s.description}>{info?.amountActivation}</div>
+                            <div className={s.description}>{usage === 0 ? '0' : usage}</div>
                         </div>
                         <div className={s.item}>
                             <div className={s.title}>Password:</div>
                             <div className={s.status}>
                                 <img src={DONE} alt="Done" />
+                            </div>
+                        </div>
+                        <div className={s.itemAction}>
+                            <div className={s.titleDownload}>Download:</div>
+                            <div>
+                                <button className={s.itemDownload} onClick={generateQRCodeAndDownload}>
+                                    Download
+                                    <img src={DOWNLOAD} alt="Download" />
+                                </button>
                             </div>
                         </div>
                         <div className={s.multicheckActions}>
@@ -214,10 +253,10 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                             </Button>
                             <Button
                                 variant="action-button"
-                                startIcon={DOWNLOAD}
-                                onClick={generateQRCodeAndDownload}
+                                startIcon={DELETE}
+                                onClick={handleRemove}
                             >
-                                    Download
+                                Delete
                             </Button>
                         </div>
                     </div>

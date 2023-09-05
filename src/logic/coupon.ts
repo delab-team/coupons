@@ -284,4 +284,54 @@ export class Coupon {
             return false
         }
     }
+
+    public async getSumActivation (address: string): Promise<number> {
+        try {
+            const multiProvider =  this._client.open(
+                MultiCheque.createFromAddress(Address.parse(address))
+            )
+
+            const usage = await multiProvider.getUsage()
+
+            return Number(usage)
+        } catch (error) {
+            console.error('An error occurred:', error)
+            return 0
+        }
+    }
+
+    public async destroyMulti (address: string): Promise<boolean> {
+        const multiCheque = MultiCheque.createFromAddress(Address.parse(address))
+
+        const payload = beginCell()
+            .storeUint(0x22356c66, 32) // TODO
+            .endCell()
+
+        const transactionTon: SendTransactionRequest = {
+            validUntil: Date.now() + 1000000,
+            messages: [
+                {
+                    address: Address.parseFriendly(address.toString()).address.toString(),
+                    amount: toNano('0.05').toString(),
+                    payload: payload.toBoc().toString('base64')
+                }
+            ]
+        }
+
+        try {
+            const tx = await this._wallet.sendTransaction(transactionTon)
+            console.log('tx', tx)
+
+            if (tx) {
+                toast.success('All balance coupon destroyed successfully..')
+            } else {
+                toast.error('Failed to destroy all coupon balance')
+            }
+            return true
+        } catch (error) {
+            toast.error('Failed to destroy all coupon balance')
+            console.error('claimMulti', error)
+            return false
+        }
+    }
 }

@@ -337,7 +337,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                             I agree to the terms
                         </label>
                         <div className={`${s.alert} ${s.multicheckAlert}`}>
-                            Having created a multicheck, you will not be able to delete it.
+                            Once you create a coupon, you won't be able to remove it without the specified password.
                         </div>
                     </div>
 
