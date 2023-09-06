@@ -284,24 +284,20 @@ export class Coupon {
         }
     }
 
-    public async getSumActivation (address: string): Promise<number> {
+    public async getSumActivation (address: string): Promise<number | Error> {
         try {
-            // const multiProvider =  this._client.open(
-            //     MultiCheque.createFromAddress(Address.parse(address))
-            // )
-
             const result = await this._client.runMethodWithError(
                 Address.parse(address),
                 'get_number_of_uses',
-                [ ]
+                []
             )
+
             if (result.exit_code !== 0) {
                 console.error('An error occurred: exit code ', result.exit_code)
-                return 0
+                return new Error('An error occurred: exit code ' + result.exit_code)
             }
 
             const usage = result.stack
-
             const amount = usage.readBigNumber()
 
             console.log(amount)
@@ -309,7 +305,7 @@ export class Coupon {
             return Number(amount)
         } catch (error) {
             console.error('An error occurred:', error)
-            return 0
+            return new Error('An error occurred: ' + error)
         }
     }
 

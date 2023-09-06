@@ -36,3 +36,26 @@
   padding-top: 6px;
   font-size: 12px;
 }
+
+.item {
+  padding: 0.4375rem 0 0.9375rem 0;
+  border-bottom: 1px solid rgba(100, 98, 98, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #fff;
+  flex: 1;
+}
+
+.description {
+  font-weight: 600;
+  color: #fff;
+  font-size: 18px;
+  text-align: right;
+}

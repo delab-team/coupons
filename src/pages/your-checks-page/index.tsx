@@ -81,7 +81,7 @@ export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet }) => {
         <section className={s.yourChecks}>
             <div className={s.yourChecksBody}>
                 <div className={s.headerActions}>
-                    <h1 className={s.headerTitle}>Create Check</h1>
+                    <h1 className={s.headerTitle}>DeCoupons</h1>
 
                     <div className={s.headerContainer}>
                         {!isMobile && (

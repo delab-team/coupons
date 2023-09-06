@@ -1,18 +1,21 @@
 import { FC, useEffect, useState } from 'react'
 import { TonConnectButton, useTonConnectUI, useTonAddress } from '@tonconnect/ui-react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { toast } from 'react-toastify'
 
-import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '../../components/ui/button'
-
-import s from './activate-page.module.scss'
-import { Coupon } from '../../logic/coupon'
+import { Select } from '../../components/ui/select'
 import { MainTitle } from '../../components/main-title'
+
 import { fixAmount } from '../../utils/fix-amount'
 import { ROUTES } from '../../utils/router'
+
 import { useAuth } from '../../hooks/useAuth'
-import { Select } from '../../components/ui/select'
+
+import { Coupon } from '../../logic/coupon'
+
+import s from './activate-page.module.scss'
 
 interface YourChecksPageProps {
     address: string;
@@ -35,22 +38,12 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
     const auth = useAuth()
     const location = useLocation()
 
-    const [ checkType, setCheckType ] = useState<'Personal' | 'Multicheck'>('Personal')
+    const [ checkType, setCheckType ] = useState<'Personal' | 'Multicheck' | ''>('')
+    console.log('🚀 ~ file: index.tsx:42 ~ checkType:', checkType)
+    const [ usage, setUsage ] = useState<number>(0)
+    console.log('🚀 ~ file: index.tsx:44 ~ usage:', usage)
 
-    const options = [
-        {
-            value: 'Personal',
-            label: 'Personal'
-        },
-        {
-            value: 'Multicheck',
-            label: 'Multicheck'
-        }
-    ]
-
-    const handleSelectChange = (value: string) => {
-        setCheckType(value as 'Personal' | 'Multicheck')
-    }
+    const coupon = new Coupon(tonConnectUI, isTestnet)
 
     async function activateCoupon () {
         if (psw === '') {
@@ -83,6 +76,21 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
         }
     }
 
+    async function fetchUsage () {
+        if (!address) return
+        try {
+            const res = await coupon.getSumActivation(address)
+            if (typeof res === 'number') {
+                setUsage(res)
+                setCheckType('Multicheck')
+            } else {
+                setCheckType('Personal')
+            }
+        } catch (error) {
+            console.error('Error fetching usage:', error)
+        }
+    }
+
     useEffect(() => {
         const query = new URLSearchParams(location.search)
         const queryAddress = query.get('a')
@@ -96,6 +104,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
         } else {
             navigate(ROUTES.YOUR_CHECKS)
         }
+        fetchUsage()
     }, [ noRamAddres, location.search, address ])
 
     useEffect(
@@ -147,20 +156,20 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                 <MainTitle title="Activate" />
                 <TonConnectButton />
             </div>
-
             <div>
                 Balance coupon {fixAmount(bal)} TON
             </div>
             <br />
+            {checkType === 'Multicheck' && (
+                <>
+                    <div className={s.item}>
+                        <div className={s.title}>Number of activations:</div>
+                        <div className={s.description}>{usage === 0 ? '0' : usage} times activated</div>
+                    </div>
+                    <br />
+                </>
+            )}
             <form className={s.form} onSubmit={handleSubmit}>
-                <div className={s.formBlock}>
-                    <label className={s.formLabel}>Choose the type of check</label>
-                    <Select
-                        options={options}
-                        value={checkType}
-                        onChange={handleSelectChange}
-                    />
-                </div>
                 <div className={s.formBlock}>
                     <label className={s.formLabel}>Password</label>
                     <input

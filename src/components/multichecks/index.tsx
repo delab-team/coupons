@@ -75,7 +75,11 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
             if (!info?.address) return
             try {
                 const res = await cp.getSumActivation(info?.address)
-                setUsage(res)
+                if (typeof res === 'number') {
+                    setUsage(res)
+                } else {
+                    setUsage(0)
+                }
             } catch (error) {
                 console.error('Error fetching usage:', error)
             }
