@@ -31,7 +31,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ isTestnet, isConnected,  b
             <Link href="https://github.com/delab-team" icon={GithubLogo} iconAlt="Github Logo" text="Github" />
         </div>
 
-        <div className={s.settingsVersion}>v. 1.1</div>
+        <div className={s.settingsVersion}>v. 1.2</div>
         <div className={s.settingsVersion}>{isTestnet ? 'testnet' : 'mainnet'}</div>
     </section>
 )
