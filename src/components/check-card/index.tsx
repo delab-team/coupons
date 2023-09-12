@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, CSSProperties } from 'react'
 
 // eslint-disable-next-line import/no-cycle
 import { CouponDataType } from '../../pages/your-checks-page'
@@ -8,6 +8,8 @@ import CHECK_IMG from '../../assets/images/checks/checklist.svg'
 import CHEVRON_RIGHT from '../../assets/images/checks/chevron_right.svg'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
+import { useBgTelegram } from '../../hooks/useBgTelegram'
+import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 import { Coupon } from '../../logic/coupon'
 
@@ -20,12 +22,16 @@ interface CheckCardProps {
     index: number;
     handleCheckCardClick: (id: string, selected: string) => void;
     isTestnet: boolean;
+    isTg: boolean;
 }
 
-export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick, isTestnet }) => {
+export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick, isTestnet, isTg }) => {
     const [ bal, setBal ] = useState<string>('0')
 
     const [ inter, setInter ] = useState<any>(undefined)
+
+    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramText: CSSProperties = useTextTelegram(isTg)
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -51,7 +57,7 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick,
     }, [ el.address ])
 
     return (
-        <li className={s.check} onClick={() => handleCheckCardClick(el?.id, el?.typeCheck)}>
+        <li className={s.check} onClick={() => handleCheckCardClick(el?.id, el?.typeCheck)} style={telegramBG}>
             <div className={s.checkBody}>
                 <div className={s.checkNotifications}>
                     {/* {notifications > 0 && (
@@ -67,15 +73,15 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick,
                 </div>
 
                 <div className={s.checkInfo}>
-                    <p className={s.checkTitle}>
+                    <p className={s.checkTitle} style={telegramText}>
                         {el.typeCheck === 'Personal'
                             ? 'Check'
                             : el.typeCheck === 'Multicheck'
                                 ? 'Multicheck'
                                 : null}
-                        <span className={s.checkIndex}>#{index}</span>
+                        <span className={s.checkIndex} style={telegramText}>#{index}</span>
                     </p>
-                    <p className={s.checkSum}>
+                    <p className={s.checkSum} style={telegramText}>
                         Sum: {fixAmount(bal)} TON (
                         <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                     </p>

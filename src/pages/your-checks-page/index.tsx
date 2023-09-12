@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TonConnectButton } from '@tonconnect/ui-react'
 
@@ -11,13 +11,15 @@ import { Multichecks } from '../../components/multichecks'
 import { ROUTES } from '../../utils/router'
 
 import { useMediaQuery } from '../../hooks/use-media-query'
+import { useTonAddress } from '../../hooks/useTonAdress'
+import { useBgTelegram } from '../../hooks/useBgTelegram'
+import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 import { StorageWallet } from '../../logic/storage'
 
 import PLUS from '../../assets/images/your-checks/plus.svg'
 
 import s from './your-checks-page.module.scss'
-import { useTonAddress } from '../../hooks/useTonAdress'
 
 export interface CouponDataType {
     // sum: number;
@@ -43,13 +45,18 @@ export interface SelectedDataType {
 
 interface YourChecksPageType {
     isTestnet: boolean;
+    isTg: boolean;
 }
 
-export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet }) => {
+export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet, isTg }) => {
+    console.log('🚀 ~ file: index.tsx:50 ~ isTg:', isTg)
     const [ selectedCheckCard, setSelectedCheckCard ] = useState<SelectedDataType>({
         id: '',
         selected: ''
     })
+
+    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const [ checks, setChecks ] = useState<any[]>([])
     const storageWallet = new StorageWallet()
@@ -79,9 +86,9 @@ export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet }) => {
 
     return (
         <section className={s.yourChecks}>
-            <div className={s.yourChecksTop}>
+            <div className={s.yourChecksTop} style={telegramBG}>
                 <div className={s.headerActions}>
-                    <h1 className={s.headerTitle}>DeCoupons</h1>
+                    <h1 className={s.headerTitle} style={telegramText}>DeCoupons</h1>
 
                     <div className={s.headerContainer}>
                         {!isMobile && (
@@ -89,19 +96,21 @@ export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet }) => {
                                 variant="small-button"
                                 startIcon={PLUS}
                                 onClick={() => navigate(ROUTES.CREATE_CHECK)}
+                                style={telegramText}
                             />
                         )}
                         <TonConnectButton />
                     </div>
                 </div>
                 <div className={s.checkTop}>
-                    <h2 className={s.subtitle}>Your checks</h2>
+                    <h2 className={s.subtitle} style={telegramText}>Your checks</h2>
                     {isMobile && (
                         <div className={s.actionButton}>
                             <Button
                                 variant="small-button"
                                 startIcon={PLUS}
                                 onClick={() => navigate(ROUTES.CREATE_CHECK)}
+                                style={telegramText}
                             />
                         </div>
                     )}
@@ -110,13 +119,13 @@ export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet }) => {
             <div className={s.yourChecksBody}>
                 <ul className={`${s.checkList} ${checks.length > 1 ? s.checkLists : ''}`}>
                     {checks.length < 1 ? (
-                        <div className={s.pureCheck}>Your check list is empty</div>
+                        <div className={s.pureCheck} style={telegramText}>Your check list is empty</div>
                     ) : (
                         checks.map((el, index) => (
                             el.userAddress === rawAddress && (
                                 <CheckCard
                                     key={el.id} el={el}
-                                    index={index + 1} handleCheckCardClick={handleCheckCardClick} isTestnet={isTestnet} />
+                                    index={index + 1} handleCheckCardClick={handleCheckCardClick} isTestnet={isTestnet} isTg={isTg} />
                             )
                         ))
                     )}
