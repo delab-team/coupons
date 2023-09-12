@@ -16,7 +16,7 @@ const config: Configuration = {
         static: { directory: path.join(__dirname, 'public') },
         compress: true,
         https: true,
-        port: 8081,
+        port: 8083,
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': '*'

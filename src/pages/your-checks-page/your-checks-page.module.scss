@@ -43,18 +43,59 @@
 }
 
 .checkList {
-  height: 65vh;
+  height: 63vh;
   overflow-y: auto;
   position: relative;
 }
 
+@media (max-height: 750px) {
+  .checkList {
+  height: 60vh;
+  }
+}
+
+@media (max-height: 700px) {
+  .checkList {
+  height: 55vh;
+  }
+}
+
+@media (max-height: 630px) {
+  .checkList {
+  height: 50vh;
+  }
+}
+
+@media (max-height: 560px) {
+  .checkList {
+  height: 45vh;
+  }
+}
+
+@media (max-height: 550px) {
+  .checkList {
+  height: 44vh;
+  }
+}
+
 .pureCheck {
-  margin-top: 20px;
   font-size: 25px;
   font-weight: bold;
-  height: 50vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+
+.yourChecks {
+  position: relative;
+  padding-top: 130px;
+}
+
+.yourChecksTop {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  z-index: 5;
 }

@@ -80,31 +80,33 @@ export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet }) => {
     return (
         <section className={s.yourChecks}>
             <div className={s.yourChecksBody}>
-                <div className={s.headerActions}>
-                    <h1 className={s.headerTitle}>DeCoupons</h1>
+                <div className={s.yourChecksTop}>
+                    <div className={s.headerActions}>
+                        <h1 className={s.headerTitle}>DeCoupons</h1>
 
-                    <div className={s.headerContainer}>
-                        {!isMobile && (
-                            <Button
-                                variant="small-button"
-                                startIcon={PLUS}
-                                onClick={() => navigate(ROUTES.CREATE_CHECK)}
-                            />
-                        )}
-                        <TonConnectButton />
-                    </div>
-                </div>
-                <div className={s.checkTop}>
-                    <h2 className={s.subtitle}>Your checks</h2>
-                    {isMobile && (
-                        <div className={s.actionButton}>
-                            <Button
-                                variant="small-button"
-                                startIcon={PLUS}
-                                onClick={() => navigate(ROUTES.CREATE_CHECK)}
-                            />
+                        <div className={s.headerContainer}>
+                            {!isMobile && (
+                                <Button
+                                    variant="small-button"
+                                    startIcon={PLUS}
+                                    onClick={() => navigate(ROUTES.CREATE_CHECK)}
+                                />
+                            )}
+                            <TonConnectButton />
                         </div>
-                    )}
+                    </div>
+                    <div className={s.checkTop}>
+                        <h2 className={s.subtitle}>Your checks</h2>
+                        {isMobile && (
+                            <div className={s.actionButton}>
+                                <Button
+                                    variant="small-button"
+                                    startIcon={PLUS}
+                                    onClick={() => navigate(ROUTES.CREATE_CHECK)}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <ul className={`${s.checkList} ${checks.length > 1 ? s.checkLists : ''}`}>
                     {checks.length < 1 ? (

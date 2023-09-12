@@ -40,21 +40,13 @@ export const App = (): JSX.Element => {
     )
     const [ addressCoupon, setAddressCoupon ] = useState<string>('')
 
-    // =================================
-
     const RawAddress = useTonAddress()
-
-    // ==================================
 
     useEffect(() => {
         if (!firstRender) {
             setFirstRender(true)
         }
     }, [])
-
-    useEffect(() => {}, [])
-
-    // ===============================
 
     useEffect(() => {
         if (RawAddress) {

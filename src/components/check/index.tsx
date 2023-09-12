@@ -159,74 +159,76 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
     return (
         <div className={s.checkBody}>
             {isVisible && <div className={s.overlay}></div>}
-            <section className={`${s.check} ${isVisible ? s.slideIn : s.slideOut}`}>
-                <div className={`container ${s.container}`}>
-                    <div className={s.headerTop}>
-                        <h1 className={s.headerTitle}>Check</h1>
-                        <Button
-                            variant="small-button"
-                            startIcon={CANCEL}
-                            onClick={handleCancelButtonClick}
-                        />
-                    </div>
-                    <div className={s.checkInfo}>
-                        <div className={s.item}>
-                            <div className={s.title}>Status:</div>
-                            <div className={s.description}>
-                                {Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated'}
-                            </div>
+            <div  className={`${s.check} ${isVisible ? s.slideIn : s.slideOut}`}>
+                <div className={s.checkInner}>
+                    <div className={`container ${s.container}`}>
+                        <div className={s.headerTop}>
+                            <h1 className={s.headerTitle}>Check</h1>
+                            <Button
+                                variant="small-button"
+                                startIcon={CANCEL}
+                                onClick={handleCancelButtonClick}
+                            />
                         </div>
-                        <div className={s.item}>
-                            <div className={s.title}>Address:</div>
-                            <div
-                                className={s.description}
-                                onClick={handleCopyAddress}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                {smlAddr(info?.address)}
+                        <div className={s.checkInfo}>
+                            <div className={s.item}>
+                                <div className={s.title}>Status:</div>
+                                <div className={s.description}>
+                                    {Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated'}
+                                </div>
                             </div>
-                        </div>
-                        <div className={s.item}>
-                            <div className={s.title}>Sum:</div>
-                            <div className={s.description}>
-                                {fixAmount(bal)} TON (
-                                <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
+                            <div className={s.item}>
+                                <div className={s.title}>Address:</div>
+                                <div
+                                    className={s.description}
+                                    onClick={handleCopyAddress}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    {smlAddr(info?.address)}
+                                </div>
                             </div>
-                        </div>
-                        <div className={s.item}>
-                            <div className={s.title}>Password:</div>
-                            <div className={s.status}>
-                                <img src={DONE} alt="Done" />
+                            <div className={s.item}>
+                                <div className={s.title}>Sum:</div>
+                                <div className={s.description}>
+                                    {fixAmount(bal)} TON (
+                                    <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
+                                </div>
                             </div>
-                        </div>
-                        <div className={s.itemAction}>
-                            <div className={s.titleDownload}>Download:</div>
-                            <div>
-                                <button className={s.itemDownload} onClick={generateQRCodeAndDownload}>
+                            <div className={s.item}>
+                                <div className={s.title}>Password:</div>
+                                <div className={s.status}>
+                                    <img src={DONE} alt="Done" />
+                                </div>
+                            </div>
+                            <div className={s.itemAction}>
+                                <div className={s.titleDownload}>Download:</div>
+                                <div>
+                                    <button className={s.itemDownload} onClick={generateQRCodeAndDownload}>
                                     Download
-                                    <img src={DOWNLOAD} alt="Download" />
-                                </button>
+                                        <img src={DOWNLOAD} alt="Download" />
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div className={s.checkActions}>
-                            <Button
-                                variant="action-button"
-                                startIcon={SHARE}
-                                onClick={handleShareAddress}
-                            >
+                            <div className={s.checkActions}>
+                                <Button
+                                    variant="action-button"
+                                    startIcon={SHARE}
+                                    onClick={handleShareAddress}
+                                >
                                 Share
-                            </Button>
-                            <Button
-                                variant="action-button"
-                                startIcon={DELETE}
-                                onClick={handleDeleteAndRedirect}
-                            >
+                                </Button>
+                                <Button
+                                    variant="action-button"
+                                    startIcon={DELETE}
+                                    onClick={handleDeleteAndRedirect}
+                                >
                                     Delete
-                            </Button>
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     )
 }
