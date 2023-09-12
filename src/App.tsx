@@ -21,6 +21,12 @@ import { PrivateRoute } from './utils/privateRouter'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+declare global {
+    interface Window {
+        Telegram?: any
+    }
+}
+
 const isTestnet = window.location.host.indexOf('localhost') >= 0
     ? true
     : window.location.href.indexOf('testnet') >= 0
@@ -30,6 +36,9 @@ export const App = (): JSX.Element => {
 
     const [ isConnected, setIsConnected ] = useState<boolean>(false)
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
+
+    const [ isTg, setIsTg ] = useState<boolean>(false)
+    console.log('🚀 ~ file: App.tsx:41 ~ App ~ isTg:', isTg)
 
     const [ tonClient, setTonClient ] = useState<TonClient>(
         new TonClient({
@@ -41,6 +50,21 @@ export const App = (): JSX.Element => {
     const [ addressCoupon, setAddressCoupon ] = useState<string>('')
 
     const RawAddress = useTonAddress()
+
+    useEffect(() => {
+        const isTgCheck = window.Telegram.WebApp.initData !== ''
+        const TgObj = window.Telegram.WebApp
+        const bodyStyle = document.body.style
+
+        setIsTg(isTgCheck)
+        if (isTgCheck) {
+            TgObj.ready()
+            TgObj.enableClosingConfirmation()
+            TgObj.expand()
+            bodyStyle.backgroundColor = 'var(--tg-theme-secondary-bg-color)'
+            bodyStyle.setProperty('background-color', 'var(--tg-theme-secondary-bg-color)', 'important')
+        }
+    }, [ firstRender ])
 
     useEffect(() => {
         if (!firstRender) {

@@ -39,9 +39,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
     const location = useLocation()
 
     const [ checkType, setCheckType ] = useState<'Personal' | 'Multicheck' | ''>('')
-    console.log('🚀 ~ file: index.tsx:42 ~ checkType:', checkType)
     const [ usage, setUsage ] = useState<number>(0)
-    console.log('🚀 ~ file: index.tsx:44 ~ usage:', usage)
 
     const coupon = new Coupon(tonConnectUI, isTestnet)
 
@@ -157,7 +155,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                 <TonConnectButton />
             </div>
             <div>
-                Balance coupon {fixAmount(bal)} TON
+                Balance coupon: {fixAmount(bal)} TON
             </div>
             <br />
             {checkType === 'Multicheck' && (
