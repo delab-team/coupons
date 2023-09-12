@@ -76,9 +76,9 @@ export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet, isTg }) => {
 
     const renderPopupComponent = () => {
         if (selectedCheckCard.selected === 'Multicheck') {
-            return <Multichecks selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} isTestnet={isTestnet} />
+            return <Multichecks selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} isTestnet={isTestnet} isTg={isTg} />
         } if (selectedCheckCard.selected === 'Personal') {
-            return <Check selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} isTestnet={isTestnet} />
+            return <Check selectedCheckCard={selectedCheckCard} setSelectedCheckCard={setSelectedCheckCard} isTestnet={isTestnet} isTg={isTg} />
         }
         return null
     }
@@ -95,7 +95,7 @@ export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet, isTg }) => {
                                 variant="small-button"
                                 startIcon={PLUS}
                                 onClick={() => navigate(ROUTES.CREATE_CHECK)}
-                                style={telegramText}
+                                isTg={isTg}
                             />
                         )}
                         <TonConnectButton />
@@ -109,7 +109,7 @@ export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet, isTg }) => {
                                 variant="small-button"
                                 startIcon={PLUS}
                                 onClick={() => navigate(ROUTES.CREATE_CHECK)}
-                                style={telegramText}
+                                isTg={isTg}
                             />
                         </div>
                     )}

@@ -179,7 +179,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
                     />
                     {pswError && <p className={s.errorText}>{pswError}</p>}
                 </div>
-                <Button variant={'primary-button'} type="submit" disabled={bal === '0'}>Activate</Button>
+                <Button variant={'primary-button'} type="submit" disabled={bal === '0'} isTg={isTg}>Activate</Button>
             </form>
         </section>
     )

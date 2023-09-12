@@ -10,6 +10,7 @@ import { ROUTES } from '../../utils/router'
 
 import { useMediaQuery } from '../../hooks/use-media-query'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
+import { useBgTelegram } from '../../hooks/useBgTelegram'
 
 import QR from '../../assets/images/qr/qr.svg'
 
@@ -28,6 +29,7 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress, isT
     // const [ address, setAddress ] = useState<string>('')
 
     const telegramText: CSSProperties = useTextTelegram(isTg)
+    const telegramBG: CSSProperties = useBgTelegram(isTg)
 
     const isMobile = useMediaQuery(768)
 
@@ -105,6 +107,9 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress, isT
         }
     }, [ address ])
 
+    const inputStyles = { ...telegramBG, ...telegramText }
+    console.log("🚀 ~ file: index.tsx:111 ~ inputStyles:", inputStyles)
+
     return (
         <section>
             <MainTitle title="Scan QR code" isTg={isTg} />
@@ -123,7 +128,7 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress, isT
                     value={address}
                     onChange={e => setAddress(e.target.value)}
                     className={s.formInput}
-                    style={telegramText}
+                    style={inputStyles}
                 />
             </div>
         </section>

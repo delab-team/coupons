@@ -1,5 +1,8 @@
-import { ButtonHTMLAttributes, FC } from 'react'
+import { ButtonHTMLAttributes, FC, CSSProperties } from 'react'
 import clsx from 'clsx'
+
+import { useBgTelegram } from '../../../hooks/useBgTelegram'
+import { useTextTelegram } from '../../../hooks/useTextTelegram'
 
 import './button.scss'
 
@@ -23,6 +26,10 @@ interface ButtonProps
    * variant button
    */
     variant: ButtonVariant;
+    /**
+     * isTg
+     */
+    isTg: boolean;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -31,6 +38,7 @@ export const Button: FC<ButtonProps> = ({
     startIcon,
     endIcon,
     onClick,
+    isTg,
     ...props
 }) => {
     const className = clsx(
@@ -42,8 +50,13 @@ export const Button: FC<ButtonProps> = ({
         { blackSmallButton: variant === 'blackS-button' }
     )
 
+    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramText: CSSProperties = useTextTelegram(isTg)
+
+    const styleButton = { ...telegramBG, ...telegramText }
+
     return (
-        <button className={className} onClick={onClick} type="button" {...props}>
+        <button className={className} onClick={onClick} type="button" {...props} style={styleButton}>
             {!!startIcon && <img src={startIcon} alt="" />}
             {children}
             {!!endIcon && <img src={endIcon} alt="" />}

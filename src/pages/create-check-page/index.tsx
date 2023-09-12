@@ -233,7 +233,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                         options={options}
                         value={values.typeCheck}
                         onChange={handleSelectChange}
-                        style={telegramBG}
+                        isTg={isTg}
                     />
                     {errors.typeCheck && <div className={s.error}>{errors.typeCheck}</div>}
                 </div>
@@ -251,7 +251,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                             style={telegramBG}
                         />
                         {errors.amount && <div className={s.error}>{errors.amount}</div>}
-                        <div className={s.formSubtext}>
+                        <div className={s.formSubtext} style={telegramText}>
                             balance: <span>
                                 {fixAmount(balance ?? '0')} TON (
                                 {balance ? (
@@ -360,7 +360,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                     type="submit"
                     variant="primary-button"
                     disabled={isDeploying || (values.typeCheck === 'Multicheck' && !isAgreed)}
-                    style={telegramBG}
+                    isTg={isTg}
                 >
                     {isDeploying ? 'Creating...' : 'Create a check'}
                 </Button>

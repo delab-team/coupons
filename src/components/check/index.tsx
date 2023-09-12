@@ -29,9 +29,10 @@ interface CheckProps {
     selectedCheckCard: SelectedDataType;
     setSelectedCheckCard: any;
     isTestnet: boolean;
+    isTg: boolean;
 }
 
-export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard, isTestnet }) => {
+export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard, isTestnet, isTg }) => {
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
 
     const [ bal, setBal ] = useState<string>('0')
@@ -168,6 +169,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                 variant="small-button"
                                 startIcon={CANCEL}
                                 onClick={handleCancelButtonClick}
+                                isTg={isTg}
                             />
                         </div>
                         <div className={s.checkInfo}>
@@ -214,6 +216,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                     variant="action-button"
                                     startIcon={SHARE}
                                     onClick={handleShareAddress}
+                                    isTg={isTg}
                                 >
                                 Share
                                 </Button>
@@ -221,6 +224,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                     variant="action-button"
                                     startIcon={DELETE}
                                     onClick={handleDeleteAndRedirect}
+                                    isTg={isTg}
                                 >
                                     Delete
                                 </Button>

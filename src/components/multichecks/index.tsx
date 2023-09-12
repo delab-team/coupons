@@ -31,9 +31,10 @@ interface MultichecksProps {
     selectedCheckCard: SelectedDataType;
     setSelectedCheckCard: any;
     isTestnet: boolean;
+    isTg: boolean;
 }
 
-export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelectedCheckCard, isTestnet }) => {
+export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelectedCheckCard, isTestnet, isTg }) => {
     const [ isVisible, setIsVisible ] = useState<boolean>(true)
     const [ bal, setBal ] = useState<string>('0')
     const [ info, setInfo ] = useState<MultiDataType | null>(null)
@@ -164,6 +165,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                 variant="small-button"
                                 startIcon={CANCEL}
                                 onClick={handleCancelButtonClick}
+                                isTg={isTg}
                             />
                         </div>
                         <div className={`${s.multicheckInfo}`}>
@@ -227,6 +229,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                     variant="action-button"
                                     startIcon={SHARE}
                                     onClick={handleShareAddress}
+                                    isTg={isTg}
                                 >
                                     Share
                                 </Button>
@@ -234,6 +237,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                     variant="action-button"
                                     startIcon={DELETE}
                                     onClick={handleRemove}
+                                    isTg={isTg}
                                 >
                                     Delete
                                 </Button>
