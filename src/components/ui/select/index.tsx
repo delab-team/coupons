@@ -2,9 +2,10 @@ import { FC, useState, useEffect, CSSProperties } from 'react'
 
 import CHEVRON_DOWN from '../../../assets/images/create-check/chevron-down.svg'
 
+import { useTextTelegram } from '../../../hooks/useTextTelegram'
+import { useBg2Telegram } from '../../../hooks/useBg2Telegram'
+
 import s from './select.module.scss'
-import { useBgTelegram } from '../../../hooks/useBgTelegram';
-import { useTextTelegram } from '../../../hooks/useTextTelegram';
 
 interface Option {
     value: string;
@@ -42,10 +43,11 @@ export const Select: FC<SelectProps> = ({ options, value, onChange, style, isTg 
         }
     }, [ options, value, hasMadeSelection ])
 
-    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
+
     const telegramText: CSSProperties = useTextTelegram(isTg)
 
-    const styleSelect = { ...telegramBG, ...telegramText }
+    const styleSelect = { ...telegramBG2, ...telegramText }
 
     return (
         <div className={s.customSelect} style={style}>

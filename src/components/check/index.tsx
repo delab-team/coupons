@@ -210,7 +210,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                             <div className={s.itemAction}>
                                 <div className={s.titleDownload}>Download:</div>
                                 <div>
-                                    <button className={s.itemDownload} onClick={generateQRCodeAndDownload}>
+                                    <button className={s.itemDownload} onClick={generateQRCodeAndDownload} style={telegramBG}>
                                     Download
                                         <img src={DOWNLOAD} alt="Download" />
                                     </button>

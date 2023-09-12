@@ -224,7 +224,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                             <div className={s.itemAction}>
                                 <div className={s.titleDownload} style={telegramText}>Download:</div>
                                 <div>
-                                    <button className={s.itemDownload} onClick={generateQRCodeAndDownload}>
+                                    <button className={s.itemDownload} onClick={generateQRCodeAndDownload} style={telegramBG}>
                                         Download
                                         <img src={DOWNLOAD} alt="Download" />
                                     </button>

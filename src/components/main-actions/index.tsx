@@ -1,9 +1,9 @@
-import { FC, useState, CSSProperties } from 'react'
+import { FC, useState, CSSProperties, useEffect } from 'react'
 
 import { Link } from 'react-router-dom'
 
 import { useMediaQuery } from '../../hooks/use-media-query'
-import { useBgTelegram } from '../../hooks/useBgTelegram'
+import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 // import WRITE_OUTLINE from '../../assets/images/main-actions/write_outline.svg'
@@ -75,15 +75,29 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
 
     const path = window.location.pathname
 
-    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramBG: CSSProperties = useBg2Telegram(isTg)
     const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const [ activeLink, setActiveLink ] = useState<string>(path)
 
+    const [ style, setStyle ] = useState({})
+
+    useEffect(() => {
+        if (isTg) {
+            setStyle({
+                backgroundColor: 'var(--tg-theme-button-color)',
+                color: 'var(--tg-theme-button-text-color)',
+                important: 'true'
+            })
+        } else {
+            setStyle({})
+        }
+    }, [ isTg ])
+
     return (
         <>
             {isMobile ? (
-                <nav className={s.menuMobile} style={telegramBG}>
+                <nav className={s.menuMobile} style={style}>
                     {mobileMenu.map(el => (
                         <Link to={el.path} key={`mobile-el-${el.id}`} style={telegramText}>
                             <button className={s.menuMobileButton}>
@@ -93,7 +107,7 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
                     ))}
                 </nav>
             ) : (
-                <nav className={s.menuPc} style={telegramBG}>
+                <nav className={s.menuPc} style={style}>
                     {pcMenu.map(el => (
                         <Link to={el.path} key={`pc-el-${el.id}`}>
                             <button

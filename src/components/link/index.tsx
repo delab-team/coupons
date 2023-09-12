@@ -1,7 +1,7 @@
 import { FC, CSSProperties } from 'react'
 
 import { useTextTelegram } from '../../hooks/useTextTelegram'
-import { useBgTelegram } from '../../hooks/useBgTelegram'
+import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
 import LinkIcon from '../../assets/images/settings/arrow-link.svg'
 
@@ -17,7 +17,7 @@ interface LinkProps {
 
 export const Link: FC<LinkProps> = ({ icon, iconAlt, text, href, isTg }) => {
     const telegramText: CSSProperties = useTextTelegram(isTg)
-    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramBG: CSSProperties = useBg2Telegram(isTg)
 
     return (
         <a href={href} target="_blank" className={s.link} style={telegramBG}>
