@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useState, CSSProperties } from 'react'
 import { TonConnectButton, useTonConnectUI } from '@tonconnect/ui-react'
 import { useNavigate } from 'react-router-dom'
 import { v1 } from 'uuid'
@@ -10,6 +10,9 @@ import { Button } from '../../components/ui/button'
 // import { Profile } from '../../components/profile'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
+import { useTonAddress } from '../../hooks/useTonAdress'
+import { useTextTelegram } from '../../hooks/useTextTelegram'
+import { useBgTelegram } from '../../hooks/useBgTelegram'
 
 import { fixAmount } from '../../utils/fix-amount'
 
@@ -17,11 +20,11 @@ import { Coupon } from '../../logic/coupon'
 import { StorageWallet } from '../../logic/storage'
 
 import s from './create-check-page.module.scss'
-import { useTonAddress } from '../../hooks/useTonAdress'
 
 interface CreateCheckPageProps {
     balance: string | undefined;
     isTestnet: boolean;
+    isTg: boolean;
 }
 
 interface FormValues {
@@ -42,7 +45,7 @@ const DEFAULT_VALUES: FormValues = {
     confirmPassword: ''
 }
 
-export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }) => {
+export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, isTg }) => {
     const navigate = useNavigate()
 
     const [ values, setValues ] = useState<FormValues>(DEFAULT_VALUES)
@@ -52,6 +55,9 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
     const [ isAgreed, setIsAgreed ] = useState<boolean>(false)
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
+
+    const telegramText: CSSProperties = useTextTelegram(isTg)
+    const telegramBG: CSSProperties = useBgTelegram(isTg)
 
     const rawAddress = useTonAddress(false)
 
@@ -216,24 +222,25 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
     return (
         <section>
             <div className={s.headerForm}>
-                <MainTitle title="Create check" />
+                <MainTitle title="Create check" isTg={isTg} />
                 {/* <Profile address={address} balance={balance} /> */}
                 <TonConnectButton />
             </div>
             <form onSubmit={onSubmit} className={s.form}>
                 <div className={s.formBlock}>
-                    <label className={s.formLabel}>Choose the type of check</label>
+                    <label className={s.formLabel} style={telegramText}>Choose the type of check</label>
                     <Select
                         options={options}
                         value={values.typeCheck}
                         onChange={handleSelectChange}
+                        style={telegramBG}
                     />
                     {errors.typeCheck && <div className={s.error}>{errors.typeCheck}</div>}
                 </div>
 
                 {values.typeCheck === 'Personal' && (
                     <div className={s.formBlock}>
-                        <label className={s.formLabel}>Send the amount of the receipt in TON</label>
+                        <label className={s.formLabel} style={telegramText}>Send the amount of the receipt in TON</label>
                         <input
                             type="string"
                             name="amount"
@@ -241,6 +248,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                             onChange={e => setValues({ ...values, amount: e.target.value })}
                             placeholder="min. 0.00001 TON"
                             className={s.formInput}
+                            style={telegramBG}
                         />
                         {errors.amount && <div className={s.error}>{errors.amount}</div>}
                         <div className={s.formSubtext}>
@@ -259,7 +267,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
 
                 {values.typeCheck === 'Multicheck' && (
                     <div className={s.formBlock}>
-                        <label className={s.formLabel}>Amount of one activation in TON</label>
+                        <label className={s.formLabel} style={telegramText}>Amount of one activation in TON</label>
                         <input
                             type="string"
                             name="oneActivation"
@@ -267,6 +275,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                             onChange={e => setValues({ ...values, oneActivation: e.target.value })
                             }
                             className={s.formInput}
+                            style={telegramBG}
                         />
                         {errors.oneActivation && (
                             <div className={s.error}>{errors.oneActivation}</div>
@@ -276,7 +285,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
 
                 {values.typeCheck === 'Multicheck' && (
                     <div className={s.formBlock}>
-                        <label className={s.formLabel}>Number of activations</label>
+                        <label className={s.formLabel} style={telegramText}>Number of activations</label>
                         <input
                             type="string"
                             name="activationAmount"
@@ -284,6 +293,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                             onChange={e => setValues({ ...values, amountActivation: e.target.value })
                             }
                             className={s.formInput}
+                            style={telegramBG}
                         />
                         {errors.amountActivation && (
                             <div className={s.error}>{errors.amountActivation}</div>
@@ -292,25 +302,27 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                 )}
 
                 <div className={s.formBlock}>
-                    <label className={s.formLabel}>Set a password</label>
+                    <label className={s.formLabel} style={telegramText}>Set a password</label>
                     <input
                         type="password"
                         name="password"
                         value={values.password}
                         onChange={e => setValues({ ...values, password: e.target.value })}
                         className={s.formInput}
+                        style={telegramBG}
                     />
                     {errors.password && <div className={s.error}>{errors.password}</div>}
                 </div>
 
                 <div className={s.formBlock}>
-                    <label className={s.formLabel}>Confirm Password</label>
+                    <label className={s.formLabel} style={telegramText}>Confirm Password</label>
                     <input
                         type="password"
                         name="confirmPassword"
                         value={values.confirmPassword}
                         onChange={e => setValues({ ...values, confirmPassword: e.target.value })}
                         className={s.formInput}
+                        style={telegramBG}
                     />
                     {errors.confirmPassword && (
                         <div className={s.error}>{errors.confirmPassword}</div>
@@ -324,6 +336,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                                 checked={isAgreed}
                                 onChange={() => setIsAgreed(!isAgreed)}
                                 className={s.checkboxInput}
+                                style={telegramBG}
                             />
                             <div className={`${s.customCheckbox} ${isAgreed ? 'checked' : 'unchecked'}`}>
                                 {isAgreed ? (
@@ -347,6 +360,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet }
                     type="submit"
                     variant="primary-button"
                     disabled={isDeploying || (values.typeCheck === 'Multicheck' && !isAgreed)}
+                    style={telegramBG}
                 >
                     {isDeploying ? 'Creating...' : 'Create a check'}
                 </Button>

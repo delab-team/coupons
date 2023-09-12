@@ -83,11 +83,11 @@ export const App = (): JSX.Element => {
         <>
             <Routes>
                 <Route element={<PrivateRoute />}>
-                    <Route element={<Layout />}>
+                    <Route element={<Layout isTg={isTg} />}>
                         <Route path={ROUTES.YOUR_CHECKS} element={<YourChecksPage isTestnet={isTestnet} isTg={isTg} />} />
                         <Route
                             path={ROUTES.CREATE_CHECK}
-                            element={<CreateCheckPage balance={balance} isTestnet={isTestnet} />}
+                            element={<CreateCheckPage balance={balance} isTestnet={isTestnet} isTg={isTg} />}
                         />
                         <Route
                             path={ROUTES.QR_SCANNER}
@@ -95,6 +95,7 @@ export const App = (): JSX.Element => {
                                 <QrScannerPage
                                     setAddress={setAddressCoupon}
                                     address={addressCoupon}
+                                    isTg={isTg}
                                 />
                             }
                         />
@@ -105,6 +106,7 @@ export const App = (): JSX.Element => {
                                     isConnected={isConnected}
                                     balance={balance}
                                     isTestnet={isTestnet}
+                                    isTg={isTg}
                                 />
                             }
                         />
@@ -112,6 +114,7 @@ export const App = (): JSX.Element => {
                             path={ROUTES.ACTIVATE}
                             element={
                                 <Activate
+                                    isTg={isTg}
                                     balance={balance}
                                     isTestnet={isTestnet}
                                     address={addressCoupon}

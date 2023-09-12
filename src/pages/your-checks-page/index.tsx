@@ -49,7 +49,6 @@ interface YourChecksPageType {
 }
 
 export const YourChecksPage: FC<YourChecksPageType> = ({ isTestnet, isTg }) => {
-    console.log('🚀 ~ file: index.tsx:50 ~ isTg:', isTg)
     const [ selectedCheckCard, setSelectedCheckCard ] = useState<SelectedDataType>({
         id: '',
         selected: ''

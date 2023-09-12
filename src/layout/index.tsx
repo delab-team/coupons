@@ -7,9 +7,11 @@ import { MainActions } from '../components/main-actions'
 
 import s from './layout.module.scss'
 
-interface LayoutProps {}
+interface LayoutProps {
+    isTg: boolean
+}
 
-export const Layout: FC<LayoutProps> = () => {
+export const Layout: FC<LayoutProps> = ({ isTg }) => {
     const isMobile = useMediaQuery(768)
 
     return (
@@ -17,7 +19,7 @@ export const Layout: FC<LayoutProps> = () => {
             <div className={`${s.content}`}>
                 <Outlet />
                 <div className={s.actions}>
-                    <MainActions />
+                    <MainActions isTg={isTg} />
                 </div>
             </div>
         </main>

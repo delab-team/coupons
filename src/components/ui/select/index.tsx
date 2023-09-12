@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useState, useEffect, CSSProperties } from 'react'
 
 import CHEVRON_DOWN from '../../../assets/images/create-check/chevron-down.svg'
 
@@ -13,9 +13,10 @@ interface SelectProps {
     options: Option[];
     value: string;
     onChange: (value: string) => void;
+    style?: CSSProperties;
 }
 
-export const Select: FC<SelectProps> = ({ options, value, onChange }) => {
+export const Select: FC<SelectProps> = ({ options, value, onChange, style }) => {
     const [ isOpen, setIsOpen ] = useState<boolean>(false)
     const [ filteredOptions, setFilteredOptions ] = useState<Option[]>([])
     const [ hasMadeSelection, setHasMadeSelection ] = useState<boolean>(false)
@@ -39,13 +40,13 @@ export const Select: FC<SelectProps> = ({ options, value, onChange }) => {
     }, [ options, value, hasMadeSelection ])
 
     return (
-        <div className={s.customSelect}>
+        <div className={s.customSelect} style={style}>
             <div className={s.customSelectActive} onClick={handleToggle}>
                 {value || options[0]?.label}
                 <img src={CHEVRON_DOWN} className={`${s.customSelectChevron} ${isOpen ? s.chevronRotate : s.chevronNoRotate}`} alt="chevron-down" />
             </div>
             {isOpen && (
-                <ul className={s.selectList}>
+                <ul className={s.selectList} style={style}>
                     {filteredOptions.map(option => (
                         <li
                             key={option.value}

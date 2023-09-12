@@ -1,9 +1,11 @@
-import { FC, useState, useRef, useEffect } from 'react'
+import { FC, useState, useRef, useEffect, CSSProperties } from 'react'
 import { DeLabAddress } from '@delab-team/connect'
 import { useTonAddress, useTonWallet } from '@tonconnect/ui-react'
 
 import { fixAmount } from '../../utils/fix-amount'
 import { smlAddr } from '../../utils/sml-addr'
+
+import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 import PROFILE from '../../assets/images/profile/profile-icon.svg'
 
@@ -12,11 +14,14 @@ import s from './profile.module.scss'
 interface ProfileProps {
     balance: string | undefined;
     address: DeLabAddress;
+    isTg: boolean;
 }
 
-export const Profile: FC<ProfileProps> = ({ balance, address }) => {
+export const Profile: FC<ProfileProps> = ({ balance, address, isTg }) => {
     const [ openStats, setOpenStats ] = useState<boolean>(false)
     const containerRef = useRef<HTMLDivElement>(null)
+
+    const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const rawAddress = useTonAddress(false)
     const wallet = useTonWallet()
@@ -41,7 +46,7 @@ export const Profile: FC<ProfileProps> = ({ balance, address }) => {
 
     return (
         <div className={s.profile} ref={containerRef}>
-            <button className={s.profileInfo} onClick={handleOpen}>
+            <button className={s.profileInfo} onClick={handleOpen} style={telegramText}>
                 <img src={PROFILE} alt="profile icon" />
                 <span className={s.profileAddress}>
                     {/* {smlAddr(address)} */}
@@ -51,7 +56,7 @@ export const Profile: FC<ProfileProps> = ({ balance, address }) => {
 
             <div className={`${s.profileBalance} ${openStats ? s.profileBalanceShow : ''}`}>
                 <div className={s.profileBalanceInner}>
-                    <div className={s.profileBalanceStats}>
+                    <div className={s.profileBalanceStats} style={telegramText}>
                         <>
                             Balance:
                             {fixAmount(balance ?? '0')}

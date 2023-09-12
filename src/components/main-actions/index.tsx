@@ -1,8 +1,10 @@
-import { FC, useState } from 'react'
+import { FC, useState, CSSProperties } from 'react'
 
 import { Link } from 'react-router-dom'
 
 import { useMediaQuery } from '../../hooks/use-media-query'
+import { useBgTelegram } from '../../hooks/useBgTelegram'
+import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 // import WRITE_OUTLINE from '../../assets/images/main-actions/write_outline.svg'
 // import SCAN_VIEWFINDER from '../../assets/images/main-actions/scan_viewfinder.svg'
@@ -14,7 +16,9 @@ import { ROUTES } from '../../utils/router'
 
 import s from './main-actions.module.scss'
 
-interface MainActionsProps {}
+interface MainActionsProps {
+    isTg: boolean
+}
 
 const mobileMenu = [
     {
@@ -66,19 +70,22 @@ const pcMenu = [
     }
 ]
 
-export const MainActions: FC<MainActionsProps> = () => {
+export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
     const isMobile = useMediaQuery(768)
 
     const path = window.location.pathname
+
+    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const [ activeLink, setActiveLink ] = useState<string>(path)
 
     return (
         <>
             {isMobile ? (
-                <nav className={s.menuMobile}>
+                <nav className={s.menuMobile} style={telegramBG}>
                     {mobileMenu.map(el => (
-                        <Link to={el.path} key={`mobile-el-${el.id}`}>
+                        <Link to={el.path} key={`mobile-el-${el.id}`} style={telegramText}>
                             <button className={s.menuMobileButton}>
                                 <MenuSvgSelector id={el.icon} />
                             </button>
@@ -86,14 +93,14 @@ export const MainActions: FC<MainActionsProps> = () => {
                     ))}
                 </nav>
             ) : (
-                <nav className={s.menuPc}>
+                <nav className={s.menuPc} style={telegramBG}>
                     {pcMenu.map(el => (
                         <Link to={el.path} key={`pc-el-${el.id}`}>
                             <button
                                 className={`${s.menuPcButton} ${activeLink === el.path ? s.activeLink : ''}`}
                                 onClick={() => setActiveLink(el.path)}>
                                 <MenuSvgSelector id={el.icon} />
-                                <span>{el.content}</span>
+                                <span style={telegramText}>{el.content}</span>
                             </button>
                         </Link>
                     ))}

@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { Button } from '../../components/ui/button'
-import { Select } from '../../components/ui/select'
 import { MainTitle } from '../../components/main-title'
 
 import { fixAmount } from '../../utils/fix-amount'
@@ -22,9 +21,10 @@ interface YourChecksPageProps {
     balance: string | undefined;
     setAddress: Function;
     isTestnet: boolean;
+    isTg: boolean;
 }
 
-export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress, isTestnet }) => {
+export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress, isTestnet, isTg }) => {
     const [ psw, setPsw ] = useState<string>('')
     const [ pswError, setPswError ] = useState<string>('')
 
@@ -151,7 +151,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
     return (
         <section>
             <div className={s.headerForm}>
-                <MainTitle title="Activate" />
+                <MainTitle title="Activate" isTg={isTg} />
                 <TonConnectButton />
             </div>
             <div>

@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useRef } from 'react'
+import { FC, useState, useEffect, useRef, CSSProperties } from 'react'
 import QrScanner from 'qr-scanner'
 import { Address } from 'ton-core'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { Link } from '../../components/link'
 import { ROUTES } from '../../utils/router'
 
 import { useMediaQuery } from '../../hooks/use-media-query'
+import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 import QR from '../../assets/images/qr/qr.svg'
 
@@ -16,14 +17,17 @@ import s from './qr-scanner-page.module.scss'
 
 interface QrScannerPageProps {
     address: string,
-    setAddress: Function
+    setAddress: Function,
+    isTg: boolean
 }
 
-export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) => {
+export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress, isTg }) => {
     const videoRef = useRef<HTMLVideoElement | null>(null)
     const [ qrResult, setQRResult ] = useState<string>('')
 
     // const [ address, setAddress ] = useState<string>('')
+
+    const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const isMobile = useMediaQuery(768)
 
@@ -103,7 +107,7 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
 
     return (
         <section>
-            <MainTitle title="Scan QR code" />
+            <MainTitle title="Scan QR code" isTg={isTg} />
             <div className={s.qrContent}>
                 <div className={s.qr}>
                     <video className={s.qrCamera} ref={videoRef} autoPlay playsInline />
@@ -111,14 +115,15 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress }) =
                 </div>
             </div>
 
-            {qrResult.length > 1 && <Link text={qrResult} href={qrResult} />}
+            {qrResult.length > 1 && <Link text={qrResult} href={qrResult} isTg={isTg} />}
             <div className={s.formBlock}>
-                <label className={s.formLabel}>Address coupon</label>
+                <label className={s.formLabel} style={telegramText}>Address coupon</label>
                 <input
                     type="text"
                     value={address}
                     onChange={e => setAddress(e.target.value)}
                     className={s.formInput}
+                    style={telegramText}
                 />
             </div>
         </section>
