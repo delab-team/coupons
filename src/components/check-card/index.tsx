@@ -16,6 +16,7 @@ import { Coupon } from '../../logic/coupon'
 import { fixAmount } from '../../utils/fix-amount'
 
 import s from './check-card.module.scss'
+import { MenuSvgSelector } from '../../assets/icons/menu-svg-selector'
 
 interface CheckCardProps {
     el: CouponDataType;
@@ -87,7 +88,7 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick,
                     </p>
                 </div>
             </div>
-            <img src={CHEVRON_RIGHT} className={s.checkChevron} alt="chevron right" />
+            <MenuSvgSelector id="chevron-right" isTg={isTg} />
         </li>
     )
 }

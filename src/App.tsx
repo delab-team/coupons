@@ -39,6 +39,8 @@ export const App = (): JSX.Element => {
 
     const [ isTg, setIsTg ] = useState<boolean>(false)
 
+    console.log(123)
+
     const [ tonClient, setTonClient ] = useState<TonClient>(
         new TonClient({
             endpoint: isTestnet
