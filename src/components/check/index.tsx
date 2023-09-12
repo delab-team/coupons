@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useState, useEffect, CSSProperties } from 'react'
 
 import { toast } from 'react-toastify'
 
@@ -9,6 +9,8 @@ import { StorageWallet } from '../../logic/storage'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
 import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
+import { useBgTelegram } from '../../hooks/useBgTelegram'
+import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 import { Button } from '../ui/button'
 
@@ -157,14 +159,17 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
         }
     }
 
+    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramText: CSSProperties = useTextTelegram(isTg)
+
     return (
         <div className={s.checkBody}>
             {isVisible && <div className={s.overlay}></div>}
-            <div  className={`${s.check} ${isVisible ? s.slideIn : s.slideOut}`}>
+            <div className={`${s.check} ${isVisible ? s.slideIn : s.slideOut}`}>
                 <div className={s.checkInner}>
-                    <div className={`container ${s.container}`}>
+                    <div className={`container ${s.container}`} style={telegramBG}>
                         <div className={s.headerTop}>
-                            <h1 className={s.headerTitle}>Check</h1>
+                            <h1 className={s.headerTitle} style={telegramText}>Check</h1>
                             <Button
                                 variant="small-button"
                                 startIcon={CANCEL}
@@ -172,32 +177,32 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                 isTg={isTg}
                             />
                         </div>
-                        <div className={s.checkInfo}>
+                        <div className={s.checkInfo} style={telegramBG}>
                             <div className={s.item}>
-                                <div className={s.title}>Status:</div>
-                                <div className={s.description}>
+                                <div className={s.title} style={telegramText}>Status:</div>
+                                <div className={s.description} style={telegramText}>
                                     {Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated'}
                                 </div>
                             </div>
                             <div className={s.item}>
-                                <div className={s.title}>Address:</div>
+                                <div className={s.title} style={telegramText}>Address:</div>
                                 <div
                                     className={s.description}
                                     onClick={handleCopyAddress}
-                                    style={{ cursor: 'pointer' }}
+                                    style={telegramText}
                                 >
                                     {smlAddr(info?.address)}
                                 </div>
                             </div>
                             <div className={s.item}>
-                                <div className={s.title}>Sum:</div>
-                                <div className={s.description}>
+                                <div className={s.title} style={telegramText}>Sum:</div>
+                                <div className={s.description} style={telegramText}>
                                     {fixAmount(bal)} TON (
                                     <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                                 </div>
                             </div>
                             <div className={s.item}>
-                                <div className={s.title}>Password:</div>
+                                <div className={s.title} style={telegramText}>Password:</div>
                                 <div className={s.status}>
                                     <img src={DONE} alt="Done" />
                                 </div>

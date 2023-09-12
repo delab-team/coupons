@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC, CSSProperties } from 'react'
+import { ButtonHTMLAttributes, FC, CSSProperties, useState, useEffect } from 'react'
 import clsx from 'clsx'
 
 import { useBgTelegram } from '../../../hooks/useBgTelegram'
@@ -50,13 +50,26 @@ export const Button: FC<ButtonProps> = ({
         { blackSmallButton: variant === 'blackS-button' }
     )
 
-    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const [ style, setStyle ] = useState({})
+
+    useEffect(() => {
+        if (isTg) {
+            setStyle({
+                backgroundColor: 'var(--tg-theme-button-color)',
+                color: 'var(--tg-theme-button-text-color)',
+                important: 'true'
+            })
+        } else {
+            setStyle({})
+        }
+    }, [ isTg ])
+
     const telegramText: CSSProperties = useTextTelegram(isTg)
 
-    const styleButton = { ...telegramBG, ...telegramText }
+    // const styleButton = { ...button_color, ...telegramText }
 
     return (
-        <button className={className} onClick={onClick} type="button" {...props} style={styleButton}>
+        <button className={className} onClick={onClick} type="button" {...props} style={style}>
             {!!startIcon && <img src={startIcon} alt="" />}
             {children}
             {!!endIcon && <img src={endIcon} alt="" />}

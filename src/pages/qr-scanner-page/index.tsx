@@ -11,6 +11,7 @@ import { ROUTES } from '../../utils/router'
 import { useMediaQuery } from '../../hooks/use-media-query'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
 import { useBgTelegram } from '../../hooks/useBgTelegram'
+import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
 import QR from '../../assets/images/qr/qr.svg'
 
@@ -107,8 +108,8 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress, isT
         }
     }, [ address ])
 
-    const inputStyles = { ...telegramBG, ...telegramText }
-    console.log("🚀 ~ file: index.tsx:111 ~ inputStyles:", inputStyles)
+    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
+    const inputStyles = { ...telegramBG2, ...telegramText }
 
     return (
         <section>

@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
 /* eslint-disable import/no-cycle */
-import { FC, useState, useEffect } from 'react'
+import { FC, useState, useEffect, CSSProperties } from 'react'
 import { useTonConnectUI } from '@tonconnect/ui-react'
 
 import { toast } from 'react-toastify'
@@ -18,6 +18,8 @@ import { smlAddr } from '../../utils/sml-addr'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
 import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
+import { useBgTelegram } from '../../hooks/useBgTelegram'
+import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 import DOWNLOAD from '../../assets/images/checks/download.svg'
 import DONE from '../../assets/images/checks/done.svg'
@@ -153,14 +155,18 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
         }
     }
 
+    const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramText: CSSProperties = useTextTelegram(isTg)
+
+
     return (
         <div className={s.multicheckBody}>
             {isVisible && <div className={s.overlay}></div>}
             <div className={`${s.multicheck} ${isVisible ? s.slideIn : s.slideOut}`}>
                 <div className={s.multicheckInner}>
-                    <div className={`container ${s.container}`}>
+                    <div className={`container ${s.container}`} style={telegramBG}>
                         <div className={s.headerTop}>
-                            <h1 className={s.headerTitle}>Multicheck</h1>
+                            <h1 className={s.headerTitle} style={telegramText}>Multicheck</h1>
                             <Button
                                 variant="small-button"
                                 startIcon={CANCEL}
@@ -168,29 +174,29 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                 isTg={isTg}
                             />
                         </div>
-                        <div className={`${s.multicheckInfo}`}>
+                        <div className={`${s.multicheckInfo}`} style={telegramBG}>
                             <div className={s.item}>
-                                <div className={s.title}>Status:</div>
-                                <div className={s.description}>
+                                <div className={s.title} style={telegramText}>Status:</div>
+                                <div className={s.description} style={telegramText}>
                                     {Number(fixAmount(bal)) > 0.001 ? 'Not activated' : 'Activated'}
                                 </div>
                             </div>
                             <div className={s.item}>
-                                <div className={s.title}>Address:</div>
+                                <div className={s.title} style={telegramText}>Address:</div>
                                 <div className={s.description} onClick={handleCopyAddress} style={{ cursor: 'pointer' }}>
                                     {smlAddr(info?.address)}
                                 </div>
                             </div>
                             <div className={s.item}>
-                                <div className={s.title}>Sum:</div>
-                                <div className={s.description}>
+                                <div className={s.title} style={telegramText}>Sum:</div>
+                                <div className={s.description} style={telegramText}>
                                     {fixAmount(Number(bal))} TON (
                                     <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                                 </div>
                             </div>
                             <div className={s.item}>
-                                <div className={s.title}>Amount of one activation:</div>
-                                <div className={s.description}>
+                                <div className={s.title} style={telegramText}>Amount of one activation:</div>
+                                <div className={s.description} style={telegramText}>
                                     {info?.amountActivation !== undefined
                                         ? fixAmount(Number(bal) / Number(info?.amountActivation))
                                         : 0 + ' '}
@@ -206,17 +212,17 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                 </div>
                             </div>
                             <div className={s.item}>
-                                <div className={s.title}>Number of activations:</div>
-                                <div className={s.description}>{usage === 0 ? '0' : usage} out of {info?.amountActivation}</div>
+                                <div className={s.title} style={telegramText}>Number of activations:</div>
+                                <div className={s.description} style={telegramText}>{usage === 0 ? '0' : usage} out of {info?.amountActivation}</div>
                             </div>
                             <div className={s.item}>
-                                <div className={s.title}>Password:</div>
+                                <div className={s.title} style={telegramText}>Password:</div>
                                 <div className={s.status}>
                                     <img src={DONE} alt="Done" />
                                 </div>
                             </div>
                             <div className={s.itemAction}>
-                                <div className={s.titleDownload}>Download:</div>
+                                <div className={s.titleDownload} style={telegramText}>Download:</div>
                                 <div>
                                     <button className={s.itemDownload} onClick={generateQRCodeAndDownload}>
                                         Download

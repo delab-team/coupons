@@ -13,6 +13,7 @@ import TokenPriceHook from '../../hooks/token-price-hook'
 import { useTonAddress } from '../../hooks/useTonAdress'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
 import { useBgTelegram } from '../../hooks/useBgTelegram'
+import { useBg2Telegram } from '../../hooks/useBg2Telegram' 
 
 import { fixAmount } from '../../utils/fix-amount'
 
@@ -58,6 +59,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
 
     const telegramText: CSSProperties = useTextTelegram(isTg)
     const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
 
     const rawAddress = useTonAddress(false)
 
@@ -248,7 +250,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                             onChange={e => setValues({ ...values, amount: e.target.value })}
                             placeholder="min. 0.00001 TON"
                             className={s.formInput}
-                            style={telegramBG}
+                            style={telegramBG2}
                         />
                         {errors.amount && <div className={s.error}>{errors.amount}</div>}
                         <div className={s.formSubtext} style={telegramText}>
@@ -275,7 +277,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                             onChange={e => setValues({ ...values, oneActivation: e.target.value })
                             }
                             className={s.formInput}
-                            style={telegramBG}
+                            style={telegramBG2}
                         />
                         {errors.oneActivation && (
                             <div className={s.error}>{errors.oneActivation}</div>
@@ -293,7 +295,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                             onChange={e => setValues({ ...values, amountActivation: e.target.value })
                             }
                             className={s.formInput}
-                            style={telegramBG}
+                            style={telegramBG2}
                         />
                         {errors.amountActivation && (
                             <div className={s.error}>{errors.amountActivation}</div>
@@ -309,7 +311,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                         value={values.password}
                         onChange={e => setValues({ ...values, password: e.target.value })}
                         className={s.formInput}
-                        style={telegramBG}
+                        style={telegramBG2}
                     />
                     {errors.password && <div className={s.error}>{errors.password}</div>}
                 </div>
@@ -322,7 +324,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                         value={values.confirmPassword}
                         onChange={e => setValues({ ...values, confirmPassword: e.target.value })}
                         className={s.formInput}
-                        style={telegramBG}
+                        style={telegramBG2}
                     />
                     {errors.confirmPassword && (
                         <div className={s.error}>{errors.confirmPassword}</div>
@@ -336,7 +338,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                                 checked={isAgreed}
                                 onChange={() => setIsAgreed(!isAgreed)}
                                 className={s.checkboxInput}
-                                style={telegramBG}
+                                style={telegramBG2}
                             />
                             <div className={`${s.customCheckbox} ${isAgreed ? 'checked' : 'unchecked'}`}>
                                 {isAgreed ? (

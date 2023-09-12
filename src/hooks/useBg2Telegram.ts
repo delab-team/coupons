@@ -1,12 +1,12 @@
 import { useEffect, useState, CSSProperties } from 'react'
 
-export const useChangeSvgColor = (isTg: boolean): CSSProperties => {
+export const useBg2Telegram = (isTg: boolean): CSSProperties => {
     const [ style, setStyle ] = useState({})
 
     useEffect(() => {
         if (isTg) {
             setStyle({
-                fill: 'var(--tg-theme-link-color)',
+                backgroundColor: 'var(--tg-theme-bg-color)',
                 important: 'true'
             })
         } else {
