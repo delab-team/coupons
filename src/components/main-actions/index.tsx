@@ -101,7 +101,7 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
                     {mobileMenu.map(el => (
                         <Link to={el.path} key={`mobile-el-${el.id}`} style={telegramText}>
                             <button className={s.menuMobileButton}>
-                                <SvgSelector id={el.icon} isTg={isTg} />
+                                <SvgSelector id={el.icon} />
                             </button>
                         </Link>
                     ))}
@@ -116,7 +116,7 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
                                 }`}
                                 onClick={() => setActiveLink(el.path)}
                             >
-                                <SvgSelector id={el.icon} isTg={isTg} />
+                                <SvgSelector id={el.icon} />
                                 <span style={telegramText}>{el.content}</span>
                             </button>
                         </Link>
