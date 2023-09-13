@@ -7,6 +7,7 @@ export const useBg2Telegram = (isTg: boolean): CSSProperties => {
         if (isTg) {
             setStyle({
                 backgroundColor: 'var(--tg-theme-bg-color)',
+                color: 'var(--tg-theme-text-color)',
                 important: 'true'
             })
         } else {

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, CSSProperties } from 'react'
 import { TonConnectButton, useTonConnectUI, useTonAddress } from '@tonconnect/ui-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -11,6 +11,8 @@ import { fixAmount } from '../../utils/fix-amount'
 import { ROUTES } from '../../utils/router'
 
 import { useAuth } from '../../hooks/useAuth'
+import { useTextTelegram } from '../../hooks/useTextTelegram'
+import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
 import { Coupon } from '../../logic/coupon'
 
@@ -148,34 +150,38 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
         }
     }
 
+    const telegramText: CSSProperties = useTextTelegram(isTg)
+    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
+
     return (
         <section>
             <div className={s.headerForm}>
                 <MainTitle title="Activate" isTg={isTg} />
                 <TonConnectButton />
             </div>
-            <div>
+            <div style={telegramText}>
                 Balance coupon: {fixAmount(bal)} TON
             </div>
             <br />
             {checkType === 'Multicheck' && (
                 <>
                     <div className={s.item}>
-                        <div className={s.title}>Number of activations:</div>
-                        <div className={s.description}>{usage === 0 ? '0' : usage} times activated</div>
+                        <div className={s.title} style={telegramText}>Number of activations:</div>
+                        <div className={s.description} style={telegramText}>{usage === 0 ? '0' : usage} times activated</div>
                     </div>
                     <br />
                 </>
             )}
             <form className={s.form} onSubmit={handleSubmit}>
                 <div className={s.formBlock}>
-                    <label className={s.formLabel}>Password</label>
+                    <label className={s.formLabel} style={telegramText}>Password</label>
                     <input
                         type="password"
                         placeholder='password'
                         className={s.formInput}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePasswordChange(e.target.value)}
                         value={psw}
+                        style={telegramBG2}
                     />
                     {pswError && <p className={s.errorText}>{pswError}</p>}
                 </div>
