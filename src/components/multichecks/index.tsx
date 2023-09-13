@@ -160,6 +160,20 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
     const telegramBG2: CSSProperties = useBg2Telegram(isTg)
     const telegramText: CSSProperties = useTextTelegram(isTg)
 
+    const [ styleBtn, setStyleBtn ] = useState({})
+
+    useEffect(() => {
+        if (isTg) {
+            setStyleBtn({
+                backgroundColor: 'var(--tg-theme-button-color)',
+                color: 'var(--tg-theme-button-text-color)',
+                important: 'true'
+            })
+        } else {
+            setStyleBtn({})
+        }
+    }, [ isTg ])
+
     return (
         <div className={s.multicheckBody}>
             {isVisible && <div className={s.overlay}></div>}
@@ -172,7 +186,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                 variant="small-button"
                                 startIcon={CANCEL}
                                 onClick={handleCancelButtonClick}
-                                style={telegramBG2}
+                                style={styleBtn}
                             />
                         </div>
                         <div className={`${s.multicheckInfo}`} style={telegramBG}>
@@ -225,7 +239,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                             <div className={s.itemAction}>
                                 <div className={s.titleDownload} style={telegramText}>Download:</div>
                                 <div>
-                                    <button className={s.itemDownload} onClick={generateQRCodeAndDownload} style={telegramBG}>
+                                    <button className={s.itemDownload} onClick={generateQRCodeAndDownload} style={styleBtn}>
                                         Download
                                         <img src={DOWNLOAD} alt="Download" />
                                     </button>
@@ -236,6 +250,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                     variant="action-button"
                                     startIcon={SHARE}
                                     onClick={handleShareAddress}
+                                    style={styleBtn}
                                     isTg={isTg}
                                 >
                                     Share
@@ -244,6 +259,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                     variant="action-button"
                                     startIcon={DELETE}
                                     onClick={handleRemove}
+                                    style={styleBtn}
                                     isTg={isTg}
                                 >
                                     Delete

@@ -63,7 +63,7 @@ export const Select: FC<SelectProps> = ({ options, value, onChange, style, isTg 
     const styleSelect = { ...styles }
 
     return (
-        <div className={s.customSelect} style={styleSelect}>
+        <div className={s.customSelect}>
             <div className={s.customSelectActive} onClick={handleToggle} style={styleSelect}>
                 {value || options[0]?.label}
                 <img src={CHEVRON_DOWN} className={`${s.customSelectChevron} ${isOpen ? s.chevronRotate : s.chevronNoRotate}`} alt="chevron-down" />

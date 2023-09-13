@@ -64,7 +64,7 @@
 }
 
 .checkList {
-  height: 62vh;
+  height: 61vh;
   overflow-y: auto;
   position: relative;
 }
@@ -75,82 +75,87 @@
   }
 }
 
-@media (max-height: 700px) {
+@media (max-height: 710px) {
   .checkList {
-  height: 58vh;
+  height: 57vh;
   }
 }
 
-@media (max-height: 685px) {
-  .checkList {
-  height: 56.5vh;
-  }
-}
-
-
-@media (max-height: 630px) {
+@media (max-height: 682px) {
   .checkList {
   height: 55vh;
   }
 }
 
-@media (max-height: 650px) {
-  .checkList {
-  height: 54vh;
-  }
-}
-
-@media (max-height: 585px) {
+@media (max-height: 620px) {
   .checkList {
   height: 53vh;
   }
 }
 
-@media (max-height: 555px) {
+@media (max-height: 597px) {
   .checkList {
   height: 51vh;
   }
 }
 
-@media (max-height: 530px) {
+@media (max-height: 575px) {
   .checkList {
   height: 49vh;
   }
 }
 
-@media (max-height: 510px) {
+@media (max-height: 550px) {
   .checkList {
   height: 47vh;
   }
 }
 
-@media (max-height: 500px) {
+@media (max-height: 535px) {
   .checkList {
   height: 45vh;
   }
 }
 
-@media (max-height: 480px) {
+@media (max-height: 510px) {
   .checkList {
   height: 42vh;
   }
 }
 
-@media (max-height: 460px) {
+@media (max-height: 480px) {
   .checkList {
   height: 39vh;
   }
 }
 
-@media (max-height: 435px) {
+@media (max-height: 460px) {
   .checkList {
   height: 36vh;
   }
 }
 
-@media (max-height: 410px) {
+@media (max-height: 445px) {
   .checkList {
   height: 34vh;
+  }
+}
+
+@media (max-height: 425px) {
+  .checkList {
+  height: 32vh;
+  }
+}
+
+@media (max-height: 410px) {
+  .checkList {
+  height: 30vh;
+  }
+}
+
+@media (max-height: 400px) {
+  .checkList {
+  height: 28vh;
   }
 }
 

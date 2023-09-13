@@ -160,6 +160,20 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
         }
     }
 
+    const [ styleBtn, setStyleBtn ] = useState({})
+
+    useEffect(() => {
+        if (isTg) {
+            setStyleBtn({
+                backgroundColor: 'var(--tg-theme-button-color)',
+                color: 'var(--tg-theme-button-text-color)',
+                important: 'true'
+            })
+        } else {
+            setStyleBtn({})
+        }
+    }, [ isTg ])
+
     const telegramBG: CSSProperties = useBgTelegram(isTg)
     const telegramBG2: CSSProperties = useBg2Telegram(isTg)
     const telegramText: CSSProperties = useTextTelegram(isTg)
@@ -176,7 +190,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                 variant="small-button"
                                 startIcon={CANCEL}
                                 onClick={handleCancelButtonClick}
-                                style={telegramBG2}
+                                style={styleBtn}
                                 isTg={isTg}
                             />
                         </div>
@@ -213,7 +227,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                             <div className={s.itemAction}>
                                 <div className={s.titleDownload}>Download:</div>
                                 <div>
-                                    <button className={s.itemDownload} onClick={generateQRCodeAndDownload} style={telegramBG}>
+                                    <button className={s.itemDownload} onClick={generateQRCodeAndDownload} style={styleBtn}>
                                     Download
                                         <img src={DOWNLOAD} alt="Download" />
                                     </button>
@@ -224,6 +238,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                     variant="action-button"
                                     startIcon={SHARE}
                                     onClick={handleShareAddress}
+                                    style={styleBtn}
                                     isTg={isTg}
                                 >
                                 Share
@@ -232,6 +247,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                     variant="action-button"
                                     startIcon={DELETE}
                                     onClick={handleDeleteAndRedirect}
+                                    style={styleBtn}
                                     isTg={isTg}
                                 >
                                     Delete
