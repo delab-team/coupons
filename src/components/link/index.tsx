@@ -2,6 +2,8 @@ import { FC, CSSProperties, useState, useEffect } from 'react'
 
 import { useTextTelegram } from '../../hooks/useTextTelegram'
 
+import { SvgSelector } from '../../assets/icons/svg-selector'
+
 import LinkIcon from '../../assets/images/settings/arrow-link.svg'
 
 import s from './settings-link.module.scss'
@@ -18,7 +20,6 @@ export const Link: FC<LinkProps> = ({ icon, iconAlt, text, href, isTg }) => {
     // const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const [ style, setStyle ] = useState({})
-    const [ styleLink, setStyleLink ] = useState({})
 
     useEffect(() => {
         if (isTg) {
@@ -31,22 +32,13 @@ export const Link: FC<LinkProps> = ({ icon, iconAlt, text, href, isTg }) => {
         }
     }, [ isTg ])
 
-    useEffect(() => {
-        if (isTg) {
-            setStyleLink({
-                color: 'var(--tg-theme-link-color)',
-                important: 'true'
-            })
-        } else {
-            setStyleLink({})
-        }
-    }, [ isTg ])
-
     return (
         <a href={href} target="_blank" className={s.link} style={style}>
             <div className={s.linkBody}>
                 {icon && <img src={icon} className={s.linkImg} alt={iconAlt} />}
-                <span className={s.linkTitle} style={styleLink}>{text}</span>
+                <span className={s.linkTitle}>
+                    {text}
+                </span>
             </div>
             <img src={LinkIcon} alt="link icon" />
         </a>

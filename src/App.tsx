@@ -39,7 +39,7 @@ export const App = (): JSX.Element => {
 
     const [ isTg, setIsTg ] = useState<boolean>(false)
 
-    console.log('000')
+    console.log('0001')
 
     const [ tonClient, setTonClient ] = useState<TonClient>(
         new TonClient({

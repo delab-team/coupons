@@ -15,7 +15,7 @@ import { Coupon } from '../../logic/coupon'
 
 import { fixAmount } from '../../utils/fix-amount'
 
-import { MenuSvgSelector } from '../../assets/icons/menu-svg-selector'
+import { SvgSelector } from '../../assets/icons/svg-selector'
 
 import s from './check-card.module.scss'
 
@@ -27,13 +27,32 @@ interface CheckCardProps {
     isTg: boolean;
 }
 
-export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick, isTestnet, isTg }) => {
+export const CheckCard: FC<CheckCardProps> = ({
+    el,
+    index,
+    handleCheckCardClick,
+    isTestnet,
+    isTg
+}) => {
     const [ bal, setBal ] = useState<string>('0')
 
     const [ inter, setInter ] = useState<any>(undefined)
 
-    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
-    const telegramText: CSSProperties = useTextTelegram(isTg)
+    // const telegramBG2: CSSProperties = useBg2Telegram(isTg)
+    // const telegramText: CSSProperties = useTextTelegram(isTg)
+
+    const [ style, setStyle ] = useState({})
+
+    useEffect(() => {
+        if (isTg) {
+            setStyle({
+                backgroundColor: 'var(--tg-theme-link-color)',
+                important: 'true'
+            })
+        } else {
+            setStyle({})
+        }
+    }, [ isTg ])
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -59,7 +78,11 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick,
     }, [ el.address ])
 
     return (
-        <li className={s.check} onClick={() => handleCheckCardClick(el?.id, el?.typeCheck)} style={telegramBG2}>
+        <li
+            className={s.check}
+            onClick={() => handleCheckCardClick(el?.id, el?.typeCheck)}
+            style={style}
+        >
             <div className={s.checkBody}>
                 <div className={s.checkNotifications}>
                     {/* {notifications > 0 && (
@@ -75,21 +98,23 @@ export const CheckCard: FC<CheckCardProps> = ({ el, index, handleCheckCardClick,
                 </div>
 
                 <div className={s.checkInfo}>
-                    <p className={s.checkTitle} style={telegramText}>
+                    <p className={s.checkTitle}>
                         {el.typeCheck === 'Personal'
                             ? 'Check'
                             : el.typeCheck === 'Multicheck'
                                 ? 'Multicheck'
                                 : null}
-                        <span className={s.checkIndex} style={telegramText}>#{index}</span>
+                        <span className={s.checkIndex}>
+                            #{index}
+                        </span>
                     </p>
-                    <p className={s.checkSum} style={telegramText}>
+                    <p className={s.checkSum}>
                         Sum: {fixAmount(bal)} TON (
                         <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                     </p>
                 </div>
             </div>
-            <MenuSvgSelector id="chevron-right" isTg={isTg} />
+            <SvgSelector id="chevron-right" />
         </li>
     )
 }

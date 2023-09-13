@@ -43,20 +43,33 @@ export const Select: FC<SelectProps> = ({ options, value, onChange, style, isTg 
         }
     }, [ options, value, hasMadeSelection ])
 
-    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
+    const [ styles, setStyles ] = useState({})
 
-    const telegramText: CSSProperties = useTextTelegram(isTg)
+    useEffect(() => {
+        if (isTg) {
+            setStyles({
+                backgroundColor: 'var(--tg-theme-link-color)',
+                important: 'true'
+            })
+        } else {
+            setStyles({})
+        }
+    }, [ isTg ])
 
-    const styleSelect = { ...telegramBG2, ...telegramText }
+    // const telegramBG2: CSSProperties = useBg2Telegram(isTg)
+
+    // const telegramText: CSSProperties = useTextTelegram(isTg)
+
+    const styleSelect = { ...styles }
 
     return (
-        <div className={s.customSelect} style={style}>
-            <div className={s.customSelectActive} onClick={handleToggle} style={styleSelect}>
+        <div className={s.customSelect} style={styleSelect}>
+            <div className={s.customSelectActive} onClick={handleToggle}>
                 {value || options[0]?.label}
                 <img src={CHEVRON_DOWN} className={`${s.customSelectChevron} ${isOpen ? s.chevronRotate : s.chevronNoRotate}`} alt="chevron-down" />
             </div>
             {isOpen && (
-                <ul className={s.selectList} style={styleSelect}>
+                <ul className={s.selectList}>
                     {filteredOptions.map(option => (
                         <li
                             key={option.value}

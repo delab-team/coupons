@@ -10,14 +10,14 @@ import { useTextTelegram } from '../../hooks/useTextTelegram'
 // import SCAN_VIEWFINDER from '../../assets/images/main-actions/scan_viewfinder.svg'
 // import SETTINGS from '../../assets/images/main-actions/settings.svg'
 
-import { MenuSvgSelector } from '../../assets/icons/menu-svg-selector'
+import { SvgSelector } from '../../assets/icons/svg-selector'
 
 import { ROUTES } from '../../utils/router'
 
 import s from './main-actions.module.scss'
 
 interface MainActionsProps {
-    isTg: boolean
+    isTg: boolean;
 }
 
 const mobileMenu = [
@@ -101,7 +101,7 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
                     {mobileMenu.map(el => (
                         <Link to={el.path} key={`mobile-el-${el.id}`} style={telegramText}>
                             <button className={s.menuMobileButton}>
-                                <MenuSvgSelector id={el.icon} isTg={isTg} />
+                                <SvgSelector id={el.icon} isTg={isTg} />
                             </button>
                         </Link>
                     ))}
@@ -111,9 +111,12 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
                     {pcMenu.map(el => (
                         <Link to={el.path} key={`pc-el-${el.id}`}>
                             <button
-                                className={`${s.menuPcButton} ${activeLink === el.path ? s.activeLink : ''}`}
-                                onClick={() => setActiveLink(el.path)}>
-                                <MenuSvgSelector id={el.icon} isTg={isTg} />
+                                className={`${s.menuPcButton} ${
+                                    activeLink === el.path ? s.activeLink : ''
+                                }`}
+                                onClick={() => setActiveLink(el.path)}
+                            >
+                                <SvgSelector id={el.icon} isTg={isTg} />
                                 <span style={telegramText}>{el.content}</span>
                             </button>
                         </Link>
