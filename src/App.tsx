@@ -39,7 +39,7 @@ export const App = (): JSX.Element => {
 
     const [ isTg, setIsTg ] = useState<boolean>(false)
 
-    console.log('0002')
+    console.log('0003')
 
     const [ tonClient, setTonClient ] = useState<TonClient>(
         new TonClient({
@@ -126,7 +126,7 @@ export const App = (): JSX.Element => {
                         />
                     </Route>
                 </Route>
-                <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+                <Route path={ROUTES.LOGIN} element={<LoginPage isTg={isTg} />} />
                 <Route path="*" element={<Navigate to='/' replace />} />
             </Routes>
             <ToastContainer

@@ -64,12 +64,12 @@ export const Select: FC<SelectProps> = ({ options, value, onChange, style, isTg 
 
     return (
         <div className={s.customSelect} style={styleSelect}>
-            <div className={s.customSelectActive} onClick={handleToggle}>
+            <div className={s.customSelectActive} onClick={handleToggle} style={styleSelect}>
                 {value || options[0]?.label}
                 <img src={CHEVRON_DOWN} className={`${s.customSelectChevron} ${isOpen ? s.chevronRotate : s.chevronNoRotate}`} alt="chevron-down" />
             </div>
             {isOpen && (
-                <ul className={s.selectList}>
+                <ul className={s.selectList} style={styleSelect}>
                     {filteredOptions.map(option => (
                         <li
                             key={option.value}

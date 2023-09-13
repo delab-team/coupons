@@ -351,7 +351,7 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                             </div>
                             I agree to the terms
                         </label>
-                        <div className={`${s.alert} ${s.multicheckAlert}`} style={telegramText}>
+                        <div className={`${s.alert} ${s.multicheckAlert}`}>
                             Once you create a coupon, you won't be able to remove it without the specified password.
                         </div>
                     </div>
