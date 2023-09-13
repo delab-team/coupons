@@ -29,7 +29,7 @@ interface ButtonProps
     /**
      * isTg
      */
-    isTg: boolean;
+    isTg?: boolean;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -39,6 +39,7 @@ export const Button: FC<ButtonProps> = ({
     endIcon,
     onClick,
     isTg,
+    style,
     ...props
 }) => {
     const className = clsx(
@@ -50,26 +51,29 @@ export const Button: FC<ButtonProps> = ({
         { blackSmallButton: variant === 'blackS-button' }
     )
 
-    const [ style, setStyle ] = useState({})
+    const [ tgStyle, setTgStyle ] = useState({})
 
     useEffect(() => {
         if (isTg) {
-            setStyle({
+            setTgStyle({
                 backgroundColor: 'var(--tg-theme-button-color)',
                 color: 'var(--tg-theme-button-text-color)',
+                border: 0,
                 important: 'true'
             })
         } else {
-            setStyle({})
+            setTgStyle({})
         }
     }, [ isTg ])
 
-    const telegramText: CSSProperties = useTextTelegram(isTg)
+    // const telegramText: CSSProperties = useTextTelegram(isTg)
 
     // const styleButton = { ...button_color, ...telegramText }
 
+    const styleBtn = { ...style, ...tgStyle }
+
     return (
-        <button className={className} onClick={onClick} type="button" {...props} style={style}>
+        <button className={className} onClick={onClick} type="button" {...props} style={styleBtn}>
             {!!startIcon && <img src={startIcon} alt="" />}
             {children}
             {!!endIcon && <img src={endIcon} alt="" />}

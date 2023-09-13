@@ -20,6 +20,7 @@ import TokenPriceHook from '../../hooks/token-price-hook'
 import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
 import { useBgTelegram } from '../../hooks/useBgTelegram'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
+import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
 import DOWNLOAD from '../../assets/images/checks/download.svg'
 import DONE from '../../assets/images/checks/done.svg'
@@ -156,8 +157,8 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
     }
 
     const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
     const telegramText: CSSProperties = useTextTelegram(isTg)
-
 
     return (
         <div className={s.multicheckBody}>
@@ -171,7 +172,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                 variant="small-button"
                                 startIcon={CANCEL}
                                 onClick={handleCancelButtonClick}
-                                isTg={isTg}
+                                style={telegramBG2}
                             />
                         </div>
                         <div className={`${s.multicheckInfo}`} style={telegramBG}>

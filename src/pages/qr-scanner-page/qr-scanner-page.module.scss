@@ -25,17 +25,38 @@
   &Camera {
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 20px;
+    @media (max-height: 600px) {
+      height: 96%;
+      width: 92%;
+    }
+    @media (max-height: 570px) {
+      height: 97%;
+      width: 85%;
+    }
+    @media (max-height: 550px) {
+      height: 97%;
+      width: 75%;
+    }
   }
   > img {
     position: absolute;
     top: 0;
-    width: 100%;
     height: 100%;
+    width: 307px;
     left: 0;
     right: 0;
     bottom: 0;
+    @media (max-height: 600px) {
+      height: 372px;
+    }
+    @media (max-height: 570px) {
+      height: 340px;
+    }
+    @media (max-height: 550px) {
+      height: 310px;
+    }
   }
 }
 

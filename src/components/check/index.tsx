@@ -11,6 +11,7 @@ import TokenPriceHook from '../../hooks/token-price-hook'
 import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
 import { useBgTelegram } from '../../hooks/useBgTelegram'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
+import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
 import { Button } from '../ui/button'
 
@@ -160,6 +161,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
     }
 
     const telegramBG: CSSProperties = useBgTelegram(isTg)
+    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
     const telegramText: CSSProperties = useTextTelegram(isTg)
 
     return (
@@ -174,6 +176,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                 variant="small-button"
                                 startIcon={CANCEL}
                                 onClick={handleCancelButtonClick}
+                                style={telegramBG2}
                                 isTg={isTg}
                             />
                         </div>
