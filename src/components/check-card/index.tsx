@@ -104,7 +104,7 @@ export const CheckCard: FC<CheckCardProps> = ({
                             #{index}
                         </span>
                     </p>
-                    <p className={s.checkSum}>
+                    <p className={s.checkSum} style={{ color: isTg ? 'white' : '' }}>
                         Sum: {fixAmount(bal)} TON (
                         <TokenPriceHook tokenAmount={Number(fixAmount(bal))} />)
                     </p>
