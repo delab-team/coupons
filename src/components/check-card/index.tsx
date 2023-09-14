@@ -5,7 +5,6 @@ import { FC, useEffect, useState, CSSProperties } from 'react'
 import { CouponDataType } from '../../pages/your-checks-page'
 
 import CHECK_IMG from '../../assets/images/checks/checklist.svg'
-// import CHEVRON_RIGHT from '../../assets/images/checks/chevron_right.svg'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
@@ -37,9 +36,6 @@ export const CheckCard: FC<CheckCardProps> = ({
     const [ bal, setBal ] = useState<string>('0')
 
     const [ inter, setInter ] = useState<any>(undefined)
-
-    // const telegramBG2: CSSProperties = useBg2Telegram(isTg)
-    // const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const [ style, setStyle ] = useState({})
 

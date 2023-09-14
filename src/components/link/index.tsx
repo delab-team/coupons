@@ -2,8 +2,6 @@ import { FC, CSSProperties, useState, useEffect } from 'react'
 
 import { useTextTelegram } from '../../hooks/useTextTelegram'
 
-import { SvgSelector } from '../../assets/icons/svg-selector'
-
 import LinkIcon from '../../assets/images/settings/arrow-link.svg'
 
 import s from './settings-link.module.scss'

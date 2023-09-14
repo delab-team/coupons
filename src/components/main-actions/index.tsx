@@ -6,10 +6,6 @@ import { useMediaQuery } from '../../hooks/use-media-query'
 import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
 
-// import WRITE_OUTLINE from '../../assets/images/main-actions/write_outline.svg'
-// import SCAN_VIEWFINDER from '../../assets/images/main-actions/scan_viewfinder.svg'
-// import SETTINGS from '../../assets/images/main-actions/settings.svg'
-
 import { SvgSelector } from '../../assets/icons/svg-selector'
 
 import { ROUTES } from '../../utils/router'
@@ -26,11 +22,6 @@ const mobileMenu = [
         path: ROUTES.YOUR_CHECKS,
         icon: 'checks'
     },
-    // {
-    //     id: 12357,
-    //     path: ROUTES.ACTIVATE,
-    //     icon: 'activate'
-    // },
     {
         id: 15677,
         path: ROUTES.QR_SCANNER,
@@ -50,12 +41,6 @@ const pcMenu = [
         icon: 'checks',
         content: 'Checks'
     },
-    // {
-    //     id: 12357,
-    //     path: ROUTES.ACTIVATE,
-    //     icon: 'activate',
-    //     content: 'Activate'
-    // },
     {
         id: 17155,
         path: ROUTES.QR_SCANNER,
@@ -94,6 +79,8 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
         }
     }, [ isTg ])
 
+    const tgStylePc = isTg ? { ...telegramText, color: '#fff' } : {}
+
     return (
         <>
             {isMobile ? (
@@ -101,7 +88,7 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
                     {mobileMenu.map(el => (
                         <Link to={el.path} key={`mobile-el-${el.id}`} style={telegramText}>
                             <button className={s.menuMobileButton}>
-                                <SvgSelector id={el.icon} />
+                                <SvgSelector id={el.icon} isTg={isTg} />
                             </button>
                         </Link>
                     ))}
@@ -112,12 +99,12 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
                         <Link to={el.path} key={`pc-el-${el.id}`}>
                             <button
                                 className={`${s.menuPcButton} ${
-                                    activeLink === el.path ? s.activeLink : ''
+                                    activeLink === el.path && !isTg ? s.activeLink : ''
                                 }`}
                                 onClick={() => setActiveLink(el.path)}
                             >
-                                <SvgSelector id={el.icon} />
-                                <span style={telegramText}>{el.content}</span>
+                                <SvgSelector id={el.icon} isTg={isTg} />
+                                <span style={tgStylePc}>{el.content}</span>
                             </button>
                         </Link>
                     ))}

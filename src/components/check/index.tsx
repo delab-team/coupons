@@ -204,7 +204,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                             <div className={s.item}>
                                 <div className={s.title} style={telegramText}>Address:</div>
                                 <div
-                                    className={s.description}
+                                    className={s.descriptionAddress}
                                     onClick={handleCopyAddress}
                                     style={telegramText}
                                 >
@@ -225,7 +225,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                 </div>
                             </div>
                             <div className={s.itemAction}>
-                                <div className={s.titleDownload}>Download:</div>
+                                <div className={s.titleDownload} style={telegramText}>Download:</div>
                                 <div>
                                     <button className={s.itemDownload} onClick={generateQRCodeAndDownload} style={styleBtn}>
                                     Download
