@@ -6,7 +6,6 @@ import * as path from 'path'
 import 'webpack-dev-server'
 
 const { IgnorePlugin } = require('webpack');
-
 const config: Configuration = {
     mode: 'none',
     entry: { app: path.join(__dirname, 'src', 'index.tsx') },
