@@ -8,9 +8,7 @@ import { Link } from '../../components/link'
 
 import { ROUTES } from '../../utils/router'
 
-import { useMediaQuery } from '../../hooks/use-media-query'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
-import { useBgTelegram } from '../../hooks/useBgTelegram'
 import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
 import QR from '../../assets/images/qr/qr.svg'
@@ -27,12 +25,7 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress, isT
     const videoRef = useRef<HTMLVideoElement | null>(null)
     const [ qrResult, setQRResult ] = useState<string>('')
 
-    // const [ address, setAddress ] = useState<string>('')
-
     const telegramText: CSSProperties = useTextTelegram(isTg)
-    const telegramBG: CSSProperties = useBgTelegram(isTg)
-
-    const isMobile = useMediaQuery(768)
 
     const navigate = useNavigate()
 
@@ -100,8 +93,7 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress, isT
         if (address) {
             try {
                 const addr = Address.parse(address)
-
-                navigate(ROUTES.ACTIVATE)
+                navigate(`${ROUTES.ACTIVATE}?a=${addr}`)
             } catch (err) {
                 console.error(err)
             }
@@ -128,6 +120,7 @@ export const QrScannerPage: FC<QrScannerPageProps> = ({ address, setAddress, isT
                     type="text"
                     value={address}
                     onChange={e => setAddress(e.target.value)}
+                    placeholder="Search by address coupon"
                     className={s.formInput}
                     style={inputStyles}
                 />

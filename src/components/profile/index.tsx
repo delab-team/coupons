@@ -1,6 +1,6 @@
 import { FC, useState, useRef, useEffect, CSSProperties } from 'react'
 import { DeLabAddress } from '@delab-team/connect'
-import { useTonAddress, useTonWallet } from '@tonconnect/ui-react'
+import { useTonAddress } from '@tonconnect/ui-react'
 
 import { fixAmount } from '../../utils/fix-amount'
 import { smlAddr } from '../../utils/sml-addr'
@@ -17,14 +17,13 @@ interface ProfileProps {
     isTg: boolean;
 }
 
-export const Profile: FC<ProfileProps> = ({ balance, address, isTg }) => {
+export const Profile: FC<ProfileProps> = ({ balance, isTg }) => {
     const [ openStats, setOpenStats ] = useState<boolean>(false)
     const containerRef = useRef<HTMLDivElement>(null)
 
     const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const rawAddress = useTonAddress(false)
-    const wallet = useTonWallet()
 
     const handleOpen = () => {
         setOpenStats(prev => !prev)

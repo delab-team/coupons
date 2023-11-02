@@ -10,7 +10,6 @@ import { MainTitle } from '../../components/main-title'
 import { fixAmount } from '../../utils/fix-amount'
 import { ROUTES } from '../../utils/router'
 
-import { useAuth } from '../../hooks/useAuth'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
 import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
@@ -26,7 +25,7 @@ interface YourChecksPageProps {
     isTg: boolean;
 }
 
-export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress, isTestnet, isTg }) => {
+export const Activate: FC<YourChecksPageProps> = ({ address, setAddress, isTestnet, isTg }) => {
     const [ psw, setPsw ] = useState<string>('')
     const [ pswError, setPswError ] = useState<string>('')
 
@@ -37,7 +36,6 @@ export const Activate: FC<YourChecksPageProps> = ({ address, balance, setAddress
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
     const navigate = useNavigate()
-    const auth = useAuth()
     const location = useLocation()
 
     const [ checkType, setCheckType ] = useState<'Personal' | 'Multicheck' | ''>('')

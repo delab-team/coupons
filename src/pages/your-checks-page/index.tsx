@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable import/no-cycle */
 import { FC, useEffect, useState, CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'

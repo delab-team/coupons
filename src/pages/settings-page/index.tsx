@@ -8,7 +8,6 @@ import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 import TelegramLogo from '../../assets/images/settings/telegram-logo.png'
 import GithubLogo from '../../assets/images/settings/github-logo.png'
-// import LogOut from '../../assets/images/settings/log-out.svg'
 
 import s from './settings-page.module.scss'
 
@@ -19,7 +18,7 @@ interface SettingsPageProps {
     isTg: boolean;
 }
 
-export const SettingsPage: FC<SettingsPageProps> = ({ isTestnet, isConnected,  balance, isTg }) => {
+export const SettingsPage: FC<SettingsPageProps> = ({ isTestnet, isTg }) => {
     const telegramText: CSSProperties = useTextTelegram(isTg)
 
     return (

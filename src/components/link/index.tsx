@@ -1,6 +1,4 @@
-import { FC, CSSProperties, useState, useEffect } from 'react'
-
-import { useTextTelegram } from '../../hooks/useTextTelegram'
+import { FC, useState, useEffect } from 'react'
 
 import LinkIcon from '../../assets/images/settings/arrow-link.svg'
 
@@ -15,8 +13,6 @@ interface LinkProps {
 }
 
 export const Link: FC<LinkProps> = ({ icon, iconAlt, text, href, isTg }) => {
-    // const telegramText: CSSProperties = useTextTelegram(isTg)
-
     const [ style, setStyle ] = useState({})
 
     useEffect(() => {

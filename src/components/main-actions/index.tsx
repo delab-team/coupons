@@ -3,7 +3,6 @@ import { FC, useState, CSSProperties, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useMediaQuery } from '../../hooks/use-media-query'
-import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
 
 import { SvgSelector } from '../../assets/icons/svg-selector'
@@ -60,7 +59,6 @@ export const MainActions: FC<MainActionsProps> = ({ isTg }) => {
 
     const path = window.location.pathname
 
-    const telegramBG: CSSProperties = useBg2Telegram(isTg)
     const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const [ activeLink, setActiveLink ] = useState<string>(path)

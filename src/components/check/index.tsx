@@ -11,7 +11,7 @@ import TokenPriceHook from '../../hooks/token-price-hook'
 import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
 import { useBgTelegram } from '../../hooks/useBgTelegram'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
-import { useBg2Telegram } from '../../hooks/useBg2Telegram'
+import { useText2Telegram } from '../../hooks/useText2Telegram'
 
 import { Button } from '../ui/button'
 
@@ -20,11 +20,10 @@ import { Coupon } from '../../logic/coupon'
 import { fixAmount } from '../../utils/fix-amount'
 import { smlAddr } from '../../utils/sml-addr'
 
-import DOWNLOAD from '../../assets/images/checks/download.svg'
 import DONE from '../../assets/images/checks/done.svg'
-import SHARE from '../../assets/images/checks/share_outline.svg'
-import DELETE from '../../assets/images/checks/delete.svg'
 import CANCEL from '../../assets/images/checks/cancel.svg'
+
+import { SvgSelector } from '../../assets/icons/svg-selector'
 
 import s from './check.module.scss'
 
@@ -175,8 +174,9 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
     }, [ isTg ])
 
     const telegramBG: CSSProperties = useBgTelegram(isTg)
-    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
     const telegramText: CSSProperties = useTextTelegram(isTg)
+
+    const telegramText2: CSSProperties = useText2Telegram(isTg)
 
     return (
         <div className={s.checkBody}>
@@ -228,15 +228,15 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                 <div className={s.titleDownload} style={telegramText}>Download:</div>
                                 <div>
                                     <button className={s.itemDownload} onClick={generateQRCodeAndDownload} style={styleBtn}>
-                                    Download
-                                        <img src={DOWNLOAD} alt="Download" />
+                                        Download
+                                        <SvgSelector id="download" isTg={isTg} />
                                     </button>
                                 </div>
                             </div>
                             <div className={s.checkActions}>
                                 <Button
                                     variant="action-button"
-                                    startIcon={SHARE}
+                                    startIcon={<SvgSelector id="share_outline" isTg={isTg} />}
                                     onClick={handleShareAddress}
                                     style={styleBtn}
                                     isTg={isTg}
@@ -245,7 +245,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
                                 </Button>
                                 <Button
                                     variant="action-button"
-                                    startIcon={DELETE}
+                                    startIcon={<SvgSelector id="delete" isTg={isTg} />}
                                     onClick={handleDeleteAndRedirect}
                                     style={styleBtn}
                                     isTg={isTg}

@@ -1,8 +1,5 @@
-import { ButtonHTMLAttributes, FC, CSSProperties, useState, useEffect } from 'react'
+import { ButtonHTMLAttributes, FC, useState, useEffect } from 'react'
 import clsx from 'clsx'
-
-import { useBgTelegram } from '../../../hooks/useBgTelegram'
-import { useTextTelegram } from '../../../hooks/useTextTelegram'
 
 import './button.scss'
 
@@ -17,11 +14,11 @@ interface ButtonProps
     /**
    * start Icon
    */
-    startIcon?: string;
+    startIcon?: string | React.ReactNode;
     /**
    * end Icon
    */
-    endIcon?: string;
+    endIcon?: string | React.ReactNode;
     /**
    * variant button
    */
@@ -66,17 +63,13 @@ export const Button: FC<ButtonProps> = ({
         }
     }, [ isTg ])
 
-    // const telegramText: CSSProperties = useTextTelegram(isTg)
-
-    // const styleButton = { ...button_color, ...telegramText }
-
     const styleBtn = { ...style, ...tgStyle }
 
     return (
         <button className={className} onClick={onClick} type="button" {...props} style={styleBtn}>
-            {!!startIcon && <img src={startIcon} alt="" />}
+            {startIcon && typeof startIcon === 'string' ? <img src={startIcon} alt="icon" /> : startIcon}
             {children}
-            {!!endIcon && <img src={endIcon} alt="" />}
+            {!!endIcon && typeof endIcon === 'string' ? <img src={endIcon} alt="icon" /> : endIcon}
         </button>
     )
 }

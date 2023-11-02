@@ -1,14 +1,10 @@
 /* eslint-disable no-nested-ternary */
-import { FC, useEffect, useState, CSSProperties } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 // eslint-disable-next-line import/no-cycle
 import { CouponDataType } from '../../pages/your-checks-page'
 
-import CHECK_IMG from '../../assets/images/checks/checklist.svg'
-
 import TokenPriceHook from '../../hooks/token-price-hook'
-import { useTextTelegram } from '../../hooks/useTextTelegram'
-import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
 import { Coupon } from '../../logic/coupon'
 
@@ -90,7 +86,7 @@ export const CheckCard: FC<CheckCardProps> = ({
                         {notifications}
                     </div>
                 )} */}
-                    <img src={CHECK_IMG} alt="check image" />
+                    <SvgSelector id="checklist" isTg={isTg} />
                 </div>
 
                 <div className={s.checkInfo}>

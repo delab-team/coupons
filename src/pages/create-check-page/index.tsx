@@ -7,13 +7,11 @@ import { FaCheck } from 'react-icons/fa'
 import { MainTitle } from '../../components/main-title'
 import { Select } from '../../components/ui/select'
 import { Button } from '../../components/ui/button'
-// import { Profile } from '../../components/profile'
 
 import TokenPriceHook from '../../hooks/token-price-hook'
 import { useTonAddress } from '../../hooks/useTonAdress'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
-import { useBgTelegram } from '../../hooks/useBgTelegram'
-import { useBg2Telegram } from '../../hooks/useBg2Telegram' 
+import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
 import { fixAmount } from '../../utils/fix-amount'
 
@@ -58,7 +56,6 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
     const telegramText: CSSProperties = useTextTelegram(isTg)
-    const telegramBG: CSSProperties = useBgTelegram(isTg)
     const telegramBG2: CSSProperties = useBg2Telegram(isTg)
 
     const rawAddress = useTonAddress(false)
@@ -225,7 +222,6 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
         <section>
             <div className={s.headerForm}>
                 <MainTitle title="Create check" isTg={isTg} />
-                {/* <Profile address={address} balance={balance} /> */}
                 <TonConnectButton />
             </div>
             <form onSubmit={onSubmit} className={s.form}>
@@ -297,6 +293,10 @@ export const CreateCheckPage: FC<CreateCheckPageProps> = ({ balance, isTestnet, 
                             className={s.formInput}
                             style={telegramBG2}
                         />
+                        <div className={s.formSubtext} style={telegramText}>
+                            Sum: {parseFloat((parseFloat(values.amountActivation) * parseFloat(values.oneActivation)).toFixed(2))} TON {' '}
+                            (<TokenPriceHook tokenAmount= {parseFloat((parseFloat(values.amountActivation) * parseFloat(values.oneActivation)).toFixed(2))} />)
+                        </div>
                         {errors.amountActivation && (
                             <div className={s.error}>{errors.amountActivation}</div>
                         )}

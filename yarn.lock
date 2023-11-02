@@ -2078,16 +2078,7 @@
     "@tonconnect/isomorphic-fetch" "^0.0.2"
     "@tonconnect/protocol" "^2.2.5"
 
-"@tonconnect/sdk@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@tonconnect/sdk/-/sdk-2.1.4.tgz#88221dcfedd2c18258229433c95ddec4379dc89d"
-  integrity sha512-DAzzKt6/TdSeRqfYNWiBDp94djsWOKwQP0aLCrzopzfVYmq8GPova/wlgFUBKnQiK/S99IHFaw5XoyIz2yTrzQ==
-  dependencies:
-    "@tonconnect/isomorphic-eventsource" "^0.0.1"
-    "@tonconnect/isomorphic-fetch" "^0.0.2"
-    "@tonconnect/protocol" "^2.2.5"
-
-"@tonconnect/sdk@^2.2.0":
+"@tonconnect/sdk@^2.1.4", "@tonconnect/sdk@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@tonconnect/sdk/-/sdk-2.2.0.tgz#8b0432102a4634ed3a1d2de1f44e1e03e4059591"
   integrity sha512-8plnAXzaLhapUnt47ZqAOQSIQ8NHSvgTSR74QVJdPWqg8128smgGM4cDYewKdBfTD6Lup0odT1WMMrJu+rE4NQ==
@@ -11892,10 +11883,17 @@ toidentifier@1.0.1:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
-ton-core@>=0.49.0, ton-core@^0.49.1:
+ton-core@>=0.49.0:
   version "0.49.1"
   resolved "https://registry.yarnpkg.com/ton-core/-/ton-core-0.49.1.tgz#f00b6db841cc212866697adc0ba55a1a0849af5b"
   integrity sha512-qPQdGPGxCYUuF/ZzfaGU4pftbIU6fxkWCzehB2Ipf5yqo5BabZibLAXEQScgFKgjYDLXcMzptt/6DWQo5/LH+w==
+  dependencies:
+    symbol.inspect "1.0.1"
+
+ton-core@^0.52.0:
+  version "0.52.0"
+  resolved "https://registry.yarnpkg.com/ton-core/-/ton-core-0.52.0.tgz#1af32e2fb3a9ea9aa6423d0578bce2a2985c2323"
+  integrity sha512-9X6HZsO87i78tk5LBW+OKxtpSZU9L8GznMwhzrmNIySj+oFCq1/fi7yJhLVb7KMvzcInLZc2Kmm7H3pzQnCBiw==
   dependencies:
     symbol.inspect "1.0.1"
 

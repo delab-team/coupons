@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
 /* eslint-disable import/no-cycle */
@@ -20,13 +21,10 @@ import TokenPriceHook from '../../hooks/token-price-hook'
 import { useQRCodeDownloader } from '../../hooks/use-qr-code-downloader'
 import { useBgTelegram } from '../../hooks/useBgTelegram'
 import { useTextTelegram } from '../../hooks/useTextTelegram'
-import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
-import DOWNLOAD from '../../assets/images/checks/download.svg'
 import DONE from '../../assets/images/checks/done.svg'
-import SHARE from '../../assets/images/checks/share_outline.svg'
-import DELETE from '../../assets/images/checks/delete.svg'
 import CANCEL from '../../assets/images/checks/cancel.svg'
+import { SvgSelector } from '../../assets/icons/svg-selector'
 
 import s from './multichecks.module.scss'
 
@@ -157,7 +155,6 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
     }
 
     const telegramBG: CSSProperties = useBgTelegram(isTg)
-    const telegramBG2: CSSProperties = useBg2Telegram(isTg)
     const telegramText: CSSProperties = useTextTelegram(isTg)
 
     const [ styleBtn, setStyleBtn ] = useState({})
@@ -241,14 +238,14 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                 <div>
                                     <button className={s.itemDownload} onClick={generateQRCodeAndDownload} style={styleBtn}>
                                         Download
-                                        <img src={DOWNLOAD} alt="Download" />
+                                        <SvgSelector id="download" isTg={isTg} />
                                     </button>
                                 </div>
                             </div>
                             <div className={s.multicheckActions}>
                                 <Button
                                     variant="action-button"
-                                    startIcon={SHARE}
+                                    startIcon={<SvgSelector id="share_outline" isTg={isTg} />}
                                     onClick={handleShareAddress}
                                     style={styleBtn}
                                     isTg={isTg}
@@ -257,7 +254,7 @@ export const Multichecks: FC<MultichecksProps> = ({ selectedCheckCard, setSelect
                                 </Button>
                                 <Button
                                     variant="action-button"
-                                    startIcon={DELETE}
+                                    startIcon={<SvgSelector id="delete" isTg={isTg} />}
                                     onClick={handleRemove}
                                     style={styleBtn}
                                     isTg={isTg}
