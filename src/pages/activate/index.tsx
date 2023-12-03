@@ -14,6 +14,7 @@ import { useTextTelegram } from '../../hooks/useTextTelegram'
 import { useBg2Telegram } from '../../hooks/useBg2Telegram'
 
 import { Coupon } from '../../logic/coupon'
+import { StorageWallet } from '../../logic/storage'
 
 import s from './activate-page.module.scss'
 
@@ -41,6 +42,7 @@ export const Activate: FC<YourChecksPageProps> = ({ address, setAddress, isTestn
     const [ checkType, setCheckType ] = useState<'Personal' | 'Multicheck' | ''>('')
     const [ usage, setUsage ] = useState<number>(0)
 
+    const storageWallet = new StorageWallet()
     const coupon = new Coupon(tonConnectUI, isTestnet)
 
     async function activateCoupon () {
@@ -51,6 +53,8 @@ export const Activate: FC<YourChecksPageProps> = ({ address, setAddress, isTestn
         const ch = new Coupon(tonConnectUI, isTestnet)
 
         try {
+            const ownCoupon = await storageWallet.getByAddress(address)
+
             let tx
 
             if (checkType === 'Personal') {
@@ -61,6 +65,9 @@ export const Activate: FC<YourChecksPageProps> = ({ address, setAddress, isTestn
 
             if (tx) {
                 toast.success('Sent for password verification')
+                if (ownCoupon) {
+                    storageWallet.del(ownCoupon.id)
+                }
                 navigate(ROUTES.YOUR_CHECKS)
             } else {
                 toast.error('Incorrect password')

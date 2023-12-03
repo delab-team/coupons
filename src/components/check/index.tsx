@@ -42,6 +42,7 @@ export const Check: FC<CheckProps> = ({ selectedCheckCard, setSelectedCheckCard,
     const [ info, setInfo ] = useState<CouponDataType | null>(null)
 
     const storageWallet = new StorageWallet()
+
     useEffect(() => {
         const getCheckData = () => {
             try {

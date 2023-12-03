@@ -61,6 +61,17 @@ export class StorageWallet {
         }
     }
 
+    public getByAddress (address: string): any | null {
+        try {
+            const dataArray = this.getAllCoupons()
+            const result = dataArray.find(item => item.address === address)
+            return result || null
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
     public del (key: string): boolean {
         try {
             this._data.removeItem(this.getFullKey(key))
