@@ -38,7 +38,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ isTestnet, isTg }) => {
                 <Link href="https://github.com/delab-team" icon={GithubLogo} iconAlt="Github Logo" text="Github" isTg={isTg} />
             </div>
 
-            <div className={s.settingsVersion} style={telegramText}>v. 1.2</div>
+            <div className={s.settingsVersion} style={telegramText}>v. 1.3</div>
             <div className={s.settingsVersion} style={telegramText}>{isTestnet ? 'testnet' : 'mainnet'}</div>
         </section>
     )
